@@ -22,30 +22,46 @@ BPATH=../build/lib#.$(PYPLAT)-$(PYVER)
 PYTHON = PYTHONPATH=$(BPATH) python #-v
 
 TESTS = 
+TESTS += rasterfile_test
+TESTS += material_test
 TESTS += tx2glshipmodel_test
-TESTS += default_test
+TESTS += proftable_test
+TESTS += rasterfile_dtest
+TESTS += material_dtest
+TESTS += tx2glshipmodel_dtest
+TESTS += proftable_dtest
+TESTS += default_dtest
 
-PY = $(shell find ../src -name \*.py)
-SRC = $(shell find ../src -name \*.c)
+PY = $(shell /bin/find ../src -name \*.py)
+SRC = $(shell /bin/find ../src -name \*.c)
 
 all:
-	@echo 'PASS'
+	true
 
 test:	build $(TESTS)
 
 build:
 	cd .. ; make build
 
-default_test:	../data/TribonXML_3D/basic_ideal.xml	$(PY)
-	$(PYTHON) ../src/tx2glshipmodel/tx2glshipmodel.py
+default_test:	../data/TribonXML_3D/basic_ideal.xml	\
+		$(PY)	../app/tx2glshipmodel
+	$(MAKE) build
+	$(PYTHON) ../app/tx2glshipmodel
+	touch $@
 
 %_test:	%_test.py	$(PY)
+	$(MAKE) build
+	$(PYTHON) $<
+	touch $@
+
+%_dtest:	%.py	$(PY)
 	$(PYTHON) $<
 	touch $@
 
 clean:
 	rm -f $(TESTS) core
 
+vpath %.py $(shell /bin/find ../src -type d)
 
 # Local Variables: ***
 # compile-command:"make test" ***
