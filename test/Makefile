@@ -26,11 +26,9 @@ TESTS += rasterfile_test
 TESTS += material_test
 TESTS += tx2glshipmodel_test
 TESTS += proftable_test
-TESTS += rasterfile_dtest
-TESTS += material_dtest
-TESTS += tx2glshipmodel_dtest
-TESTS += proftable_dtest
-TESTS += default_dtest
+TESTS += coorsys_test
+TESTS += tx2glshipmodel_app_test
+TESTS += tx2dfile_app_test
 
 PY = $(shell /bin/find ../src -name \*.py)
 SRC = $(shell /bin/find ../src -name \*.c)
@@ -43,10 +41,16 @@ test:	build $(TESTS)
 build:
 	cd .. ; make build
 
-default_test:	../data/TribonXML_3D/basic_ideal.xml	\
+tx2glshipmodel_app_test:	../data/TribonXML_3D/basic_ideal.xml	\
 		$(PY)	../app/tx2glshipmodel
 	$(MAKE) build
-	$(PYTHON) ../app/tx2glshipmodel
+	$(PYTHON) ../app/tx2glshipmodel $<
+	touch $@
+
+tx2dfile_app_test:	../data/ToPATRAN/general_information.xml	\
+		$(PY)	../app/tx2dfile
+	$(MAKE) build
+	$(PYTHON) ../app/tx2dfile $<
 	touch $@
 
 %_test:	%_test.py	$(PY)
