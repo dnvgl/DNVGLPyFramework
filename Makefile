@@ -27,6 +27,9 @@ test: build
 %_dtest: build
 	cd test ; make $@
 
+%: build
+	cd test ; make $@
+
 build:
 	python setup.py build
 

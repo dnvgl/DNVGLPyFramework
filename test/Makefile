@@ -18,7 +18,9 @@ SHELL = /bin/sh
 PYPLAT=$(shell python -c "from distutils import util; print util.get_platform()")
 PYVER=$(shell python -c "import sys ; print sys.version[:3]")
 
-BPATH=../build/lib#.$(PYPLAT)-$(PYVER)
+#BPATH=../build/lib.$(PYPLAT)-$(PYVER)
+#BPATH=../build/lib
+BPATH=../src
 PYTHON = PYTHONPATH=$(BPATH) python #-v
 
 TESTS = 
@@ -33,6 +35,13 @@ TESTS += tx2dfile_app_test
 PY = $(shell /bin/find ../src -name \*.py)
 SRC = $(shell /bin/find ../src -name \*.c)
 
+AKER_DIR=//glf/Vol1/DATA/FBE/ERC/Projekte/Interfaces/Project/Beispieldaten/Aker
+
+AKER_2D_  = $(wildcard $(AKER_DIR)/*_2D.xml)
+AKER_3D_  = $(wildcard $(AKER_DIR)/*_3D.xml)
+AKER_2D = $(addprefix Aker/,$(patsubst %.xml,%.sg2,$(notdir $(AKER_2D_))))
+AKER_3D = $(addprefix Aker/,$(patsubst %.xml,%.glm,$(notdir $(AKER_3D_))))
+
 all:
 	true
 
@@ -44,13 +53,15 @@ build:
 tx2glshipmodel_app_test:	../data/TribonXML_3D/basic_ideal.xml	\
 		$(PY)	../app/tx2glshipmodel
 	$(MAKE) build
-	$(PYTHON) ../app/tx2glshipmodel $<
+	$(PYTHON) ../app/tx2glshipmodel $< tx2glshipmodel_app.glm
+	diff tx2glshipmodel_app.glm ref/tx2glshipmodel_app.glm
 	touch $@
 
 tx2dfile_app_test:	../data/ToPATRAN/general_information.xml	\
 		$(PY)	../app/tx2dfile
 	$(MAKE) build
-	$(PYTHON) ../app/tx2dfile $<
+	$(PYTHON) ../app/tx2dfile $< tx2dfile_app.sg2
+	diff tx2dfile_app.sg2 ref/tx2dfile_app.sg2
 	touch $@
 
 %_test:	%_test.py	$(PY)
@@ -65,7 +76,15 @@ tx2dfile_app_test:	../data/ToPATRAN/general_information.xml	\
 clean:
 	rm -f $(TESTS) core
 
+AKER_ALL:	$(AKER_3D)#	$(AKER_2D)
+
+Aker/%_3D.glm:	$(AKER_DIR)/%_3D.xml $(PY)
+	@[ -d ${@D} ] || mkdir ${@D}
+	$(PYTHON) ../app/tx2glshipmodel $< $@
+
+
 vpath %.py $(shell /bin/find ../src -type d)
+#vpath %.xml $(AKER_DIR)
 
 # Local Variables: ***
 # compile-command:"make test" ***
