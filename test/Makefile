@@ -23,14 +23,10 @@ PYVER=$(shell python -c "import sys ; print sys.version[:3]")
 BPATH=../src
 PYTHON = PYTHONPATH=$(BPATH) python #-v
 
-TESTS = 
-TESTS += rasterfile_test
-TESTS += material_test
-TESTS += tx2glshipmodel_test
-TESTS += proftable_test
-TESTS += coorsys_test
+TESTS = $(patsubst %.py,%,$(wildcard *_test.py))
 TESTS += tx2glshipmodel_app_test
 TESTS += tx2dfile_app_test
+#TESTS += tx2glshipmodel_big_test
 
 PY = $(shell /bin/find ../src -name \*.py)
 SRC = $(shell /bin/find ../src -name \*.c)
@@ -50,23 +46,30 @@ test:	build $(TESTS)
 build:
 	cd .. ; make build
 
-tx2glshipmodel_app_test:	../data/TribonXML_3D/basic_ideal.xml	\
+tx2glshipmodel_app_test:	../data/TribonXML_3D/basic_small.xml	\
 		$(PY)	../app/tx2glshipmodel
 	$(MAKE) build
-	$(PYTHON) ../app/tx2glshipmodel $< tx2glshipmodel_app.glm
-	diff tx2glshipmodel_app.glm ref/tx2glshipmodel_app.glm
+	$(PYTHON) ../app/tx2glshipmodel $< $(basename $(<F)).glm
+	diff $(basename $(<F)).glm ref/$(basename $(<F)).glm
+	touch $@
+
+tx2glshipmodel_big_test:	../data/TribonXML_3D/basic_ideal.xml	\
+		$(PY)	../app/tx2glshipmodel
+	$(MAKE) build
+	$(PYTHON) ../app/tx2glshipmodel $< $(basename $(<F)).glm
+	diff $(basename $(<F)).glm ref/$(basename $(<F)).glm
 	touch $@
 
 tx2dfile_app_test:	../data/ToPATRAN/general_information.xml	\
 		$(PY)	../app/tx2dfile
 	$(MAKE) build
-	$(PYTHON) ../app/tx2dfile $< tx2dfile_app.sg2
-	diff tx2dfile_app.sg2 ref/tx2dfile_app.sg2
+	$(PYTHON) ../app/tx2dfile $< $(basename $(<F)).sg2
+	diff $(basename $(<F)).sg2 ref/$(basename $(<F)).sg2
 	touch $@
 
 %_test:	%_test.py	$(PY)
 	$(MAKE) build
-	$(PYTHON) $<
+	$(PYTHON) $< -v
 	touch $@
 
 %_dtest:	%.py	$(PY)
