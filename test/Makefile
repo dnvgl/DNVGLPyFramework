@@ -28,8 +28,12 @@ TESTS += tx2glshipmodel_app_test
 TESTS += tx2dfile_app_test
 #TESTS += tx2glshipmodel_big_test
 
-PY = $(shell /bin/find ../src -name \*.py)
-SRC = $(shell /bin/find ../src -name \*.c)
+ifeq ("$GL_ARCH","")
+FINDDIR=/bin/
+endif
+
+PY = $(shell $(FINDDIR)find ../src -name \*.py)
+SRC = $(shell $(FINDDIR)find ../src -name \*.c)
 
 AKER_DIR=//glf/Vol1/DATA/FBE/ERC/Projekte/Interfaces/Project/Beispieldaten/Aker
 
@@ -86,7 +90,7 @@ Aker/%_3D.glm:	$(AKER_DIR)/%_3D.xml $(PY)
 	$(PYTHON) ../app/tx2glshipmodel $< $@
 
 
-vpath %.py $(shell /bin/find ../src -type d)
+vpath %.py $(shell $(FINDDIR)find ../src -type d)
 #vpath %.xml $(AKER_DIR)
 
 # Local Variables: ***
