@@ -39,8 +39,9 @@ AKER_DIR=//glf/Vol1/DATA/FBE/ERC/Projekte/Interfaces/Project/Beispieldaten/Aker
 
 AKER_2D_  = $(wildcard $(AKER_DIR)/*_2D.xml)
 AKER_3D_  = $(wildcard $(AKER_DIR)/*_3D.xml)
+AKER_3D_  = $(wildcard $(AKER_DIR)/3D/*.xml)
 AKER_2D = $(addprefix Aker/,$(patsubst %.xml,%.sg2,$(notdir $(AKER_2D_))))
-AKER_3D = $(addprefix Aker/,$(patsubst %.xml,%.glm,$(notdir $(AKER_3D_))))
+AKER_3D = $(addprefix Aker/,$(patsubst %.xml,%_3D.glm,$(notdir $(AKER_3D_))))
 
 all:
 	true
@@ -83,12 +84,15 @@ tx2dfile_app_test:	../data/ToPATRAN/general_information.xml	\
 clean:
 	rm -f $(TESTS) core
 
-AKER_ALL:	$(AKER_3D)#	$(AKER_2D)
+AKER_ALL:	$(AKER_3D) #	$(AKER_2D)
 
-Aker/%_3D.glm:	$(AKER_DIR)/%_3D.xml $(PY)
+Aker/%_3D.glm:	$(AKER_DIR)/3D/%.xml $(PY)
 	@[ -d ${@D} ] || mkdir ${@D}
 	$(PYTHON) ../app/tx2glshipmodel $< $@
 
+Aker/%_2D.sg2:	$(AKER_DIR)/%_2D.xml $(PY)
+	@[ -d ${@D} ] || mkdir ${@D}
+	$(PYTHON) ../app/tx2dfile $< $(basename $(<F)).sg2
 
 vpath %.py $(shell $(FINDDIR)find ../src -type d)
 #vpath %.xml $(AKER_DIR)
