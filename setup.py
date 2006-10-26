@@ -23,7 +23,7 @@ __date__         = "$Date$"
 __version__      = "$Revision$"[10:-1]
 __package_info__ = """ """
 
-from distutils.core import setup, Extension
+from distutils.core import setup
 
 setup(name='AIS',
       version='0.4',
