@@ -26,7 +26,7 @@ PYTHON = PYTHONPATH=$(BPATH) python #-v
 TESTS = $(patsubst %.py,%,$(wildcard *_test.py))
 TESTS += tx2glshipmodel_app_test
 TESTS += tx2dfile_app_test
-#TESTS += tx2glshipmodel_big_test
+TESTS += tx2glshipmodel_big_test
 
 ifeq ("$GL_ARCH","")
 FINDDIR=/bin/
@@ -35,16 +35,27 @@ endif
 PY = $(shell $(FINDDIR)find ../src -name \*.py)
 SRC = $(shell $(FINDDIR)find ../src -name \*.c)
 
+ifeq ("$GL_ARCH","")
 AKER_DIR=//glf/Vol1/DATA/FBE/ERC/Projekte/Interfaces/Project/Beispieldaten/Aker
+else
+AKER_DIR=/data/tmp/hoel/Aker
+endif
 
 AKER_2D_  = $(wildcard $(AKER_DIR)/*_2D.xml)
+AKER_2D_  = $(wildcard $(AKER_DIR)/2D/*.xml)
 AKER_3D_  = $(wildcard $(AKER_DIR)/*_3D.xml)
 AKER_3D_  = $(wildcard $(AKER_DIR)/3D/*.xml)
-AKER_2D = $(addprefix Aker/,$(patsubst %.xml,%.sg2,$(notdir $(AKER_2D_))))
+AKER_2D = $(addprefix Aker/,$(patsubst %.xml,%_2D.sg2,$(notdir $(AKER_2D_))))
 AKER_3D = $(addprefix Aker/,$(patsubst %.xml,%_3D.glm,$(notdir $(AKER_3D_))))
 
+DA2100  = DA2100/da2100_3201.glm
+DA2100 += DA2100/da2100_3321.glm
+DA2100 += DA2100/da2100_3204.glm
+DA2100 += DA2100/da2100_3389.glm
+DA2100 += DA2100/da2100_param.sg2
+
 all:
-	true
+	@true
 
 test:	build $(TESTS)
 
@@ -54,22 +65,22 @@ build:
 tx2glshipmodel_app_test:	../data/TribonXML_3D/basic_small.xml	\
 		$(PY)	../app/tx2glshipmodel
 	$(MAKE) build
-	$(PYTHON) ../app/tx2glshipmodel $< $(basename $(<F)).glm
-	diff $(basename $(<F)).glm ref/$(basename $(<F)).glm
+	$(PYTHON) ../app/tx2glshipmodel --validate $< $(basename $(<F)).glm
+	diff ref/$(basename $(<F)).glm $(basename $(<F)).glm
 	touch $@
 
 tx2glshipmodel_big_test:	../data/TribonXML_3D/basic_ideal.xml	\
 		$(PY)	../app/tx2glshipmodel
 	$(MAKE) build
-	$(PYTHON) ../app/tx2glshipmodel $< $(basename $(<F)).glm
-	diff $(basename $(<F)).glm ref/$(basename $(<F)).glm
+	$(PYTHON) ../app/tx2glshipmodel --validate $< $(basename $(<F)).glm
+	diff ref/$(basename $(<F)).glm $(basename $(<F)).glm
 	touch $@
 
 tx2dfile_app_test:	../data/ToPATRAN/general_information.xml	\
 		$(PY)	../app/tx2dfile
 	$(MAKE) build
-	$(PYTHON) ../app/tx2dfile $< $(basename $(<F)).sg2
-	diff $(basename $(<F)).sg2 ref/$(basename $(<F)).sg2
+	$(PYTHON) ../app/tx2dfile --validate $< --output $(basename $(<F)).sg2
+	diff ref/$(basename $(<F)).sg2 $(basename $(<F)).sg2
 	touch $@
 
 %_test:	%_test.py	$(PY)
@@ -84,17 +95,29 @@ tx2dfile_app_test:	../data/ToPATRAN/general_information.xml	\
 clean:
 	rm -f $(TESTS) core
 
-AKER_ALL:	$(AKER_3D) #	$(AKER_2D)
+AKER_ALL:	$(AKER_3D)	Aker/aker_rf.sg2
+
+DA2100_BUILD: $(DA2100)
+
+DA2100/%.glm:	../data/DA2100/%.xml $(PY)
+	@[ -d ${@D} ] || mkdir ${@D}
+	$(PYTHON) ../app/tx2glshipmodel --validate $< $@
+
+DA2100/%.sg2:	../data/DA2100/%.xml $(PY)
+	@[ -d ${@D} ] || mkdir ${@D}
+	$(PYTHON) ../app/tx2dfile --validate $< --output $@
 
 Aker/%_3D.glm:	$(AKER_DIR)/3D/%.xml $(PY)
 	@[ -d ${@D} ] || mkdir ${@D}
-	$(PYTHON) ../app/tx2glshipmodel $< $@
+	$(PYTHON) ../app/tx2glshipmodel --validate $< $@
 
-Aker/%_2D.sg2:	$(AKER_DIR)/%_2D.xml $(PY)
+Aker/aker_rf.sg2:	$(AKER_2D_) $(PY)
 	@[ -d ${@D} ] || mkdir ${@D}
-	$(PYTHON) ../app/tx2dfile $< $(basename $(<F)).sg2
+	$(PYTHON) ../app/tx2dfile --validate $(AKER_2D_) --output $@
 
 vpath %.py $(shell $(FINDDIR)find ../src -type d)
+vpath ../data/DA2100
+
 #vpath %.xml $(AKER_DIR)
 
 # Local Variables: ***
