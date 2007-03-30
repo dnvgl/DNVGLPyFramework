@@ -1,11 +1,11 @@
-# Copyright (C) 2006 by Germanischer Lloyd AG
+# Copyright (C) 2006, 2007 by Germanischer Lloyd AG
 
 # ======================================================================
 # Module    Makefile
 # Task      makefile for tests for tx2glshipmodel
 # ----------------------------------------------------------------------
 # Author    Berthold Höllmann <hoel@GL-Group.com>
-# Project   TX2GlShipModel
+# Project   tribonXML converters
 # ======================================================================
 
 # CVSID: $Id$
@@ -23,9 +23,11 @@ PYTHON = PYTHONPATH=$(BPATH) python #-v
 PYBASE = ../src
 UTESTS = $(subst /,.,$(subst $(PYBASE)/,,$(patsubst %.py,%_test,$(PY))))
 TESTS = $(UTESTS)
-# TESTS += tx2glshipmodel_app_test
-# TESTS += tx2dfile_app_test
-# TESTS += tx2glshipmodel_big_test
+TESTS += tx2glshipmodel_app_test
+TESTS += tx2dfile_app_test
+TESTS += tx2glshipmodel_big_test
+TESTS += write_pegasusxml_rtest
+TESTS += DA2100_test
 
 ifeq ("$GL_ARCH","")
 FINDDIR=/bin/
@@ -58,6 +60,8 @@ all:
 
 test:	py_dep build $(TESTS)
 
+test_all:	test	
+
 build:
 	cd .. ; make build
 
@@ -81,6 +85,10 @@ tx2dfile_app_test:	../data/ToPATRAN/general_information.xml	\
 
 %_test:	%_test.py
 	$(PYTHON) $< -v
+	touch $@
+
+%_rtest:	%.py	$(PY)	validate.py
+	$(PYTHON) $<
 	touch $@
 
 py_dep: gen_py_dep.py $(addsuffix .py,$(UTESTS))
@@ -110,6 +118,17 @@ Aker/%_3D.glm:	$(AKER_DIR)/3D/%.xml $(PY)
 Aker/aker_rf.sg2:	$(AKER_2D_) $(PY)
 	@[ -d ${@D} ] || mkdir ${@D}
 	$(PYTHON) ../app/tx2dfile --validate $(AKER_2D_) --output $@
+
+DA2100_test:	$(PY)				\
+		../data/DA2100/da2100_3201.xml	\
+		../data/DA2100/da2100_param.xml
+	$(PYTHON) ../app/tx2pegasus			\
+		--cfg=da2100.ini			\
+		../data/DA2100/da2100_3201.xml		\
+		--param=../data/DA2100/da2100_param.xml	\
+		--output=da2100.hcm
+	$(PYTHON) validate.py da2100.hcm
+	touch $@
 
 vpath %.py $(shell $(FINDDIR)find ../src -type d)
 vpath ../data/DA2100
