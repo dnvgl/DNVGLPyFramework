@@ -6,9 +6,6 @@
 # ----------------------------------------------------------------------
 # Author    Berthold Höllmann <hoel@GL-Group.com>
 # Project   TX2GlShipModel
-# ----------------------------------------------------------------------
-# Status    $State$
-# Date      $Date$
 # ======================================================================
 
 # CVSID: $Id$
@@ -35,7 +32,7 @@ build:
 
 .PHONY: build
 
-# Local Variables: ***
-# compile-command:"make test" ***
-# coding:utf-8 ***
-# End: ***
+# Local Variables:
+# compile-command:"make test"
+# coding:utf-8
+# End:
