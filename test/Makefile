@@ -117,7 +117,7 @@ vpath ../data/DA2100
 
 #vpath %.xml $(AKER_DIR)
 
-# Local Variables: ***
-# compile-command:"make test" ***
-# coding:utf-8 ***
-# End: ***
+# Local Variables:
+# compile-command:"make test"
+# coding:utf-8
+# End:

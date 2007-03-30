@@ -18,6 +18,21 @@ __version__   = "$Revision$"[10:-1]
 __docformat__ = "restructuredtext en"
 
 from distutils.core import setup
+import distutils.sysconfig
+import glob
+import os.path
+import sys
+
+tribonXSD = glob.glob(os.path.join("src", "tribon", "xsd", "*.xsd"))
+pegasusXSD = glob.glob(os.path.join("src", "tribon", "pegasus", "xsd", "*.xsd"))
+if sys.platform[:6]=='win32':
+    data_files = [(os.path.join("tribon", "xsd"), tribonXSD),
+                  (os.path.join("tribon", "pegasus", "xsd"), pegasusXSD)]
+else:
+    data_files = [(os.path.join(distutils.sysconfig.get_python_lib(),
+                                "tribon", "xsd"), tribonXSD),
+                  (os.path.join(distutils.sysconfig.get_python_lib(),
+                                "tribon", "pegasus", "xsd"), pegasusXSD)]
 
 setup(name='TX2GlShipModel',
       version='0.1',
@@ -25,8 +40,13 @@ setup(name='TX2GlShipModel',
       author='Berthold Höllmann, Germanischer Lloyd AG',
       author_email='berthold.hoellmann@gl-group.com',
       url='http://www.gl-group.com',
-      packages=['tx2glshipmodel'],
-      package_dir = {'': 'src'},
+      packages=['tribon',
+                'tribon.glshipmodel',
+                'tribon.pegasus',
+                'tribon.poseidon',
+                'tribon.xml'],
+      package_dir={'': 'src'},
+      data_files=data_files,
       )
 
 # Local Variables:
