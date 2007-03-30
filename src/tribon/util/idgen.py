@@ -11,7 +11,7 @@ exclude from furter usage.
 :project: tx2pegasus
 :copyright: Copyright © 2007 by Germanischer Lloyd
 """
-__doc__ = __doc__ % ("$Author: hoel $"[9:-1].strip())
+__doc__ = __doc__ % ("$Author$"[9:-1].strip())
 
 #  CVSID: $Id$
 __date__         = "$Date$"
