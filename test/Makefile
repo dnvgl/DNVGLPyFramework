@@ -1,8 +1,7 @@
 # Copyright (C) 2006, 2007 by Germanischer Lloyd AG
 
 # ======================================================================
-# Module    Makefile
-# Task      makefile for tests for tx2glshipmodel
+# Task      makefile for tests for tribonXML converters
 # ----------------------------------------------------------------------
 # Author    Berthold Höllmann <hoel@GL-Group.com>
 # Project   tribonXML converters
@@ -23,11 +22,12 @@ PYTHON = PYTHONPATH=$(BPATH) python #-v
 PYBASE = ../src
 UTESTS = $(subst /,.,$(subst $(PYBASE)/,,$(patsubst %.py,%_test,$(PY))))
 TESTS = $(UTESTS)
-TESTS += tx2glshipmodel_app_test
-TESTS += tx2dfile_app_test
-TESTS += tx2glshipmodel_big_test
 TESTS += write_pegasusxml_rtest
 TESTS += DA2100_test
+
+BIG_TESTS += tx2glshipmodel_app_test
+BIG_TESTS += tx2dfile_app_test
+BIG_TESTS += tx2glshipmodel_big_test
 
 ifeq ("$GL_ARCH","")
 FINDDIR=/bin/
@@ -60,7 +60,7 @@ all:
 
 test:	py_dep build $(TESTS)
 
-test_all:	test	
+test_all:	test	$(BIG_TESTS)
 
 build:
 	cd .. ; make build
@@ -96,9 +96,6 @@ py_dep: gen_py_dep.py $(addsuffix .py,$(UTESTS))
 
 include py_dep
 
-clean:
-	rm -f $(TESTS) core
-
 AKER_ALL:	$(AKER_3D)	Aker/aker_rf.sg2
 
 DA2100_BUILD: $(DA2100)
@@ -129,6 +126,10 @@ DA2100_test:	$(PY)				\
 		--output=da2100.hcm
 	$(PYTHON) validate.py da2100.hcm
 	touch $@
+
+clean:
+	rm -f $(TESTS) $(BIG_TESTS) core
+	rm -f general_information.sg2 *.glm *.hcm
 
 vpath %.py $(shell $(FINDDIR)find ../src -type d)
 vpath ../data/DA2100

@@ -14,8 +14,9 @@ exclude from furter usage.
 __doc__ = __doc__ % ("$Author$"[9:-1].strip())
 
 #  CVSID: $Id$
-__date__         = "$Date$"
+__date__         = u"$Date$"
 __version__      = "$Revision$"[10:-1]
+__docformat__ = "restructuredtext en"
 
 class IDGen(object):
     """
@@ -51,19 +52,7 @@ class IDGen(object):
     def exclude(self, val):
         self._excludes.append(val)
 
-def _test():
-    """
-    run doctests
-    """
-    import doctest
-    (failed, tests) = doctest.testmod()
-    if failed != 0:
-        raise SystemExit(10)
-
-if __name__=='__main__':
-    _test()
-
 # Local Variables:
 # mode:python
-# compile-command:"cd ../../text ; make test"
+# compile-command:"make -C ../../../text test"
 # End:

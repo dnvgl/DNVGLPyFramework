@@ -8,11 +8,12 @@ Utilities for TribonXML convertors
 :author: `last modified by <%s@GL-Group.com>`__
 :newfield project: Project
 :project: tribonXML converters
-:copyright: Copyright (C) 2007 by Germanischer Lloyd AG"""
+:copyright: Copyright (C) 2007 by Germanischer Lloyd AG
+"""
 __doc__ = __doc__ % ("$Author$"[9:-1].strip())
 
 #  CVSID: $Id$
-__date__      = "$Date$"
+__date__      = u"$Date$"
 __version__   = "$Revision$"[10:-1]
 __docformat__ = "restructuredtext en"
 
