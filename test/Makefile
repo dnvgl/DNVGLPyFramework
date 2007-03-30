@@ -20,10 +20,12 @@ PYVER=$(shell python -c "import sys ; print sys.version[:3]")
 BPATH=../src
 PYTHON = PYTHONPATH=$(BPATH) python #-v
 
-TESTS = $(patsubst %.py,%,$(wildcard *_test.py))
-TESTS += tx2glshipmodel_app_test
-TESTS += tx2dfile_app_test
-TESTS += tx2glshipmodel_big_test
+PYBASE = ../src
+UTESTS = $(subst /,.,$(subst $(PYBASE)/,,$(patsubst %.py,%_test,$(PY))))
+TESTS = $(UTESTS)
+# TESTS += tx2glshipmodel_app_test
+# TESTS += tx2dfile_app_test
+# TESTS += tx2glshipmodel_big_test
 
 ifeq ("$GL_ARCH","")
 FINDDIR=/bin/
@@ -38,10 +40,10 @@ else
 AKER_DIR=/data/tmp/hoel/Aker
 endif
 
-AKER_2D_  = $(wildcard $(AKER_DIR)/*_2D.xml)
-AKER_2D_  = $(wildcard $(AKER_DIR)/2D/*.xml)
-AKER_3D_  = $(wildcard $(AKER_DIR)/*_3D.xml)
-AKER_3D_  = $(wildcard $(AKER_DIR)/3D/*.xml)
+AKER_2D_ = $(wildcard $(AKER_DIR)/*_2D.xml)
+AKER_2D_ = $(wildcard $(AKER_DIR)/2D/*.xml)
+AKER_3D_ = $(wildcard $(AKER_DIR)/*_3D.xml)
+AKER_3D_ = $(wildcard $(AKER_DIR)/3D/*.xml)
 AKER_2D = $(addprefix Aker/,$(patsubst %.xml,%_2D.sg2,$(notdir $(AKER_2D_))))
 AKER_3D = $(addprefix Aker/,$(patsubst %.xml,%_3D.glm,$(notdir $(AKER_3D_))))
 
@@ -54,40 +56,37 @@ DA2100 += DA2100/da2100_param.sg2
 all:
 	@true
 
-test:	build $(TESTS)
+test:	py_dep build $(TESTS)
 
 build:
 	cd .. ; make build
 
 tx2glshipmodel_app_test:	../data/TribonXML_3D/basic_small.xml	\
 		$(PY)	../app/tx2glshipmodel
-	$(MAKE) build
 	$(PYTHON) ../app/tx2glshipmodel --validate $< $(basename $(<F)).glm
 	diff ref/$(basename $(<F)).glm $(basename $(<F)).glm
 	touch $@
 
 tx2glshipmodel_big_test:	../data/TribonXML_3D/basic_ideal.xml	\
 		$(PY)	../app/tx2glshipmodel
-	$(MAKE) build
 	$(PYTHON) ../app/tx2glshipmodel --validate $< $(basename $(<F)).glm
 	diff ref/$(basename $(<F)).glm $(basename $(<F)).glm
 	touch $@
 
 tx2dfile_app_test:	../data/ToPATRAN/general_information.xml	\
 		$(PY)	../app/tx2dfile
-	$(MAKE) build
 	$(PYTHON) ../app/tx2dfile --validate $< --output $(basename $(<F)).sg2
 	diff ref/$(basename $(<F)).sg2 $(basename $(<F)).sg2
 	touch $@
 
-%_test:	%_test.py	$(PY)
-	$(MAKE) build
+%_test:	%_test.py
 	$(PYTHON) $< -v
 	touch $@
 
-%_dtest:	%.py	$(PY)
-	$(PYTHON) $<
-	touch $@
+py_dep: gen_py_dep.py $(addsuffix .py,$(UTESTS))
+	$(PYTHON) $^ $(PYBASE) > $@
+
+include py_dep
 
 clean:
 	rm -f $(TESTS) core
