@@ -1,11 +1,10 @@
 # Copyright (C) 2006 by Germanischer Lloyd AG
 
 # ======================================================================
-# Module    Makefile
-# Task      makefile for tx2glshipmodel
+# Task      makefile for tribonXML converters
 # ----------------------------------------------------------------------
 # Author    Berthold Höllmann <hoel@GL-Group.com>
-# Project   TX2GlShipModel
+# Project   tribonXML converters
 # ======================================================================
 
 # CVSID: $Id$
@@ -16,16 +15,16 @@ all:	build
 	@echo "nothing to do"
 
 test: build
-	cd test ; make test
+	make -C test  test
+
+doc:
+	$(MAKE) -C doc doc
 
 %_test: build
-	cd test ; make $@
-
-%_dtest: build
-	cd test ; make $@
+	make -C test $@
 
 %: build
-	cd test ; make $@
+	make -C test $@
 
 build:
 	python setup.py build
