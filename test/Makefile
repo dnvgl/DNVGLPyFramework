@@ -123,18 +123,16 @@ DA2100_test:	$(PY)				\
 		--cfg=da2100.ini			\
 		../data/DA2100/da2100_3201.xml		\
 		--param=../data/DA2100/da2100_param.xml	\
-		--output=da2100.hcm
-	$(PYTHON) validate.py da2100.hcm
+		--output=da2100.hcf
+	$(PYTHON) validate.py da2100.hcf
 	touch $@
 
 clean:
 	rm -f $(TESTS) $(BIG_TESTS) core
-	rm -f general_information.sg2 *.glm *.hcm
+	rm -f general_information.sg2 *.glm *.hcf
 
 vpath %.py $(shell $(FINDDIR)find ../src -type d)
 vpath ../data/DA2100
-
-#vpath %.xml $(AKER_DIR)
 
 # Local Variables:
 # compile-command:"make test"
