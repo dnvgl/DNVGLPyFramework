@@ -17,6 +17,10 @@ __date__      = u"$Date$"
 __version__   = "$Revision$"[10:-1]
 __docformat__ = "restructuredtext en"
 
+from idgen import IDGen
+
+__all__ = locals().keys()
+
 # Local Variables:
 # mode:python
 # compile-command:"make -C ../../../test test"

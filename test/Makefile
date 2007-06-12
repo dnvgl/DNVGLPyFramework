@@ -24,6 +24,7 @@ UTESTS = $(subst /,.,$(subst $(PYBASE)/,,$(patsubst %.py,%_test,$(PY))))
 TESTS = $(UTESTS)
 TESTS += write_pegasusxml_rtest
 TESTS += DA2100_test
+TESTS += DA2100_ANSYS_test
 
 BIG_TESTS += tx2glshipmodel_app_test
 BIG_TESTS += tx2dfile_app_test
@@ -42,18 +43,25 @@ else
 AKER_DIR=/data/tmp/hoel/Aker
 endif
 
-AKER_2D_ = $(wildcard $(AKER_DIR)/*_2D.xml)
+#AKER_2D_ = $(wildcard $(AKER_DIR)/*_2D.xml)
 AKER_2D_ = $(wildcard $(AKER_DIR)/2D/*.xml)
-AKER_3D_ = $(wildcard $(AKER_DIR)/*_3D.xml)
+#AKER_3D_ = $(wildcard $(AKER_DIR)/*_3D.xml)
 AKER_3D_ = $(wildcard $(AKER_DIR)/3D/*.xml)
 AKER_2D = $(addprefix Aker/,$(patsubst %.xml,%_2D.sg2,$(notdir $(AKER_2D_))))
 AKER_3D = $(addprefix Aker/,$(patsubst %.xml,%_3D.glm,$(notdir $(AKER_3D_))))
+AKER_3D_ANSYS = $(addprefix Aker/,$(patsubst %.xml,%_3D.mac,$(notdir $(AKER_3D_))))
 
 DA2100  = DA2100/da2100_3201.glm
 DA2100 += DA2100/da2100_3321.glm
 DA2100 += DA2100/da2100_3204.glm
 DA2100 += DA2100/da2100_3389.glm
 DA2100 += DA2100/da2100_param.sg2
+
+SMK_SEC12_GLM  = SMK_sec12/lm012-idealisation.glm
+SMK_SEC12_GLM += SMK_sec12/lm012.glm
+
+SMK_SEC12_MAC  = SMK_sec12/lm012-idealisation.mac
+SMK_SEC12_MAC += SMK_sec12/lm012.mac
 
 all:
 	@true
@@ -96,7 +104,7 @@ py_dep: gen_py_dep.py $(addsuffix .py,$(UTESTS))
 
 include py_dep
 
-AKER_ALL:	$(AKER_3D)	Aker/aker_rf.sg2
+AKER_ALL:	$(AKER_3D)	Aker/aker_rf.sg2	$(AKER_3D_ANSYS)
 
 DA2100_BUILD: $(DA2100)
 
@@ -112,9 +120,25 @@ Aker/%_3D.glm:	$(AKER_DIR)/3D/%.xml $(PY)
 	@[ -d ${@D} ] || mkdir ${@D}
 	$(PYTHON) ../app/tx2glshipmodel --validate $< $@
 
+Aker/%_3D.mac:	$(AKER_DIR)/3D/%.xml $(PY)
+	@[ -d ${@D} ] || mkdir ${@D}
+	$(PYTHON) ../app/tx2ansys $< --output=$@
+
 Aker/aker_rf.sg2:	$(AKER_2D_) $(PY)
 	@[ -d ${@D} ] || mkdir ${@D}
 	$(PYTHON) ../app/tx2dfile --validate $(AKER_2D_) --output $@
+
+SMK_glm:	$(SMK_SEC12_GLM)
+
+SMK_mac:	$(SMK_SEC12_MAC)
+
+SMK_sec12/%.glm:	../data/SMK_sec12/%.xml
+	@[ -d ${@D} ] || mkdir ${@D}
+	$(PYTHON) ../app/tx2glshipmodel --validate $< $@
+
+SMK_sec12/%.mac:	../data/SMK_sec12/%.xml
+	@[ -d ${@D} ] || mkdir ${@D}
+	$(PYTHON) ../app/tx2ansys $< --output $@
 
 DA2100_test:	$(PY)				\
 		../data/DA2100/da2100_3201.xml	\
@@ -127,9 +151,18 @@ DA2100_test:	$(PY)				\
 	$(PYTHON) validate.py da2100.hcf
 	touch $@
 
+DA2100_ANSYS_test:	$(PY)			\
+		../data/DA2100/da2100_3201.xml
+	$(PYTHON) ../app/tx2ansys			\
+		../data/DA2100/da2100_3201.xml		\
+		--output=da2100.mac
+	touch $@
+
+
 clean:
 	rm -f $(TESTS) $(BIG_TESTS) core
 	rm -f general_information.sg2 *.glm *.hcf
+	find .. -name \*.pyc | xargs rm
 
 vpath %.py $(shell $(FINDDIR)find ../src -type d)
 vpath ../data/DA2100
