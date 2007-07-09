@@ -51,6 +51,21 @@ AKER_2D = $(addprefix Aker/,$(patsubst %.xml,%_2D.sg2,$(notdir $(AKER_2D_))))
 AKER_3D = $(addprefix Aker/,$(patsubst %.xml,%_3D.glm,$(notdir $(AKER_3D_))))
 AKER_3D_ANSYS = $(addprefix Aker/,$(patsubst %.xml,%_3D.mac,$(notdir $(AKER_3D_))))
 
+PEGASUS_TEST  = Aker/YI9999.hcf
+PEGASUS_TEST += spt78_3D.hcf
+PEGASUS_TEST += spt82_3D.hcf
+PEGASUS_TEST += spt70_3D.hcf
+PEGASUS_TEST += spt74_3D.hcf
+PEGASUS_TEST += Z_7000_3D.hcf
+PEGASUS_TEST += z_9100_3D.hcf
+PEGASUS_TEST += DA2100/da2100_3201.hcf
+PEGASUS_TEST += DA2100/da2100_3321.hcf
+PEGASUS_TEST += DA2100/da2100_3204.hcf
+PEGASUS_TEST += DA2100/da2100_3389.hcf
+PEGASUS_TEST += lm012.hcf
+PEGASUS_TEST += basic_ideal.hcf
+PEGASUS_TEST += basic_small.hcf
+
 DA2100  = DA2100/da2100_3201.glm
 DA2100 += DA2100/da2100_3321.glm
 DA2100 += DA2100/da2100_3204.glm
@@ -69,6 +84,8 @@ all:
 test:	py_dep build $(TESTS)
 
 test_all:	test	$(BIG_TESTS)
+
+test_pegasus: $(PEGASUS_TEST)
 
 build:
 	cd .. ; make build
@@ -151,6 +168,15 @@ DA2100_test:	$(PY)				\
 	$(PYTHON) validate.py da2100.hcf
 	touch $@
 
+%.ini:
+	echo "not valid" > $@
+
+Aker/%.hcf DA2100/%.hcf %.hcf:	%.xml	%.ini	$(PY)
+	$(PYTHON) ../app/tx2pegasus --cfg=$*.ini $<	\
+		--output=$@
+	$(PYTHON) validate.py $@
+	touch $@
+
 DA2100_ANSYS_test:	$(PY)			\
 		../data/DA2100/da2100_3201.xml
 	$(PYTHON) ../app/tx2ansys			\
@@ -164,8 +190,8 @@ clean:
 	rm -f general_information.sg2 *.glm *.hcf
 	find .. -name \*.pyc | xargs rm
 
-vpath %.py $(shell $(FINDDIR)find ../src -type d)
-vpath ../data/DA2100
+vpath %.py $(shell $(FINDDIR)find ../src -type d|grep -v .svn)
+vpath %.xml ../data/DA2100 ../data/TribonXML_3D ../data/SMK_sec12 $(AKER_DIR)/ $(AKER_DIR)/3D/
 
 # Local Variables:
 # compile-command:"make test"
