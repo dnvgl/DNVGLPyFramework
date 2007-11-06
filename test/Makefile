@@ -25,6 +25,7 @@ TESTS = $(UTESTS)
 TESTS += write_pegasusxml_rtest
 TESTS += DA2100_test
 TESTS += DA2100_ANSYS_test
+TESTS += Horn_20071006_test
 
 BIG_TESTS += tx2glshipmodel_app_test
 BIG_TESTS += tx2dfile_app_test
@@ -77,6 +78,27 @@ SMK_SEC12_GLM += SMK_sec12/lm012.glm
 
 SMK_SEC12_MAC  = SMK_sec12/lm012-idealisation.mac
 SMK_SEC12_MAC += SMK_sec12/lm012.mac
+
+HORN_20071006_MAC += Horn_20071006/li027-28-29.mac
+HORN_20071006_MAC += Horn_20071006/li027.mac
+HORN_20071006_MAC += Horn_20071006/li028.mac
+HORN_20071006_MAC += Horn_20071006/li029.mac
+HORN_20071006_MAC += Horn_20071006/li042.mac
+HORN_20071006_MAC += Horn_20071006/li043.mac
+
+li027-28-29_mac_addargs = 
+li027_mac_addargs = --min-k=2200
+li028_mac_addargs = --min-k=3100
+li029_mac_addargs = --min-k=3700
+li042_mac_addargs = --min-k=4500
+li043_mac_addargs = --min-k=4900
+
+HORN_20071006_GLM += Horn_20071006/li027-28-29.glm
+HORN_20071006_GLM += Horn_20071006/li027.glm
+HORN_20071006_GLM += Horn_20071006/li028.glm
+HORN_20071006_GLM += Horn_20071006/li029.glm
+HORN_20071006_GLM += Horn_20071006/li042.glm
+HORN_20071006_GLM += Horn_20071006/li043.glm
 
 all:
 	@true
@@ -184,6 +206,17 @@ DA2100_ANSYS_test:	$(PY)			\
 		--output=da2100.mac
 	touch $@
 
+Horn_20071006/%.mac:	%.xml	$(PY)
+	@[ -d ${@D} ] || mkdir ${@D}
+	$(PYTHON) ../app/tx2ansys $< --output $@ $($*_mac_addargs)
+
+Horn_20071006/%.glm:	%.xml $(PY)
+	@[ -d ${@D} ] || mkdir ${@D}
+	$(PYTHON) ../app/tx2glshipmodel --validate $< $@
+
+
+Horn_20071006_test:	$(PY)	$(HORN_20071006_MAC)	$(HORN_20071006_GLM)
+	touch $@
 
 clean:
 	rm -f $(TESTS) $(BIG_TESTS) core
@@ -191,7 +224,12 @@ clean:
 	find .. -name \*.pyc | xargs rm
 
 vpath %.py $(shell $(FINDDIR)find ../src -type d|grep -v .svn)
-vpath %.xml ../data/DA2100 ../data/TribonXML_3D ../data/SMK_sec12 $(AKER_DIR)/ $(AKER_DIR)/3D/
+vpath %.xml ../data/DA2100
+vpath %.xml ../data/Horn_20071006/
+vpath %.xml ../data/TribonXML_3D
+vpath %.xml ../data/SMK_sec12
+vpath %.xml $(AKER_DIR)/
+vpath %.xml $(AKER_DIR)/3D/
 
 # Local Variables:
 # compile-command:"make test"

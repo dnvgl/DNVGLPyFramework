@@ -33,6 +33,12 @@ class IDGen(object):
     >>> id = IDGen(10)
     >>> id()
     10
+    >>> id.set(2)
+    >>> id()
+    2
+    >>> id.exclude(range(10)
+    >>> id()
+    10
     """
     def __init__(self, start=None):
         self._excludes = []
@@ -49,10 +55,13 @@ class IDGen(object):
             yield self._ID
             self._ID += 1
 
+    def set(self, val):
+        self._ID = val
+
     def exclude(self, val):
         self._excludes.append(val)
 
 # Local Variables:
 # mode:python
-# compile-command:"make -C ../../../text test"
+# compile-command:"make -C ../../../test test"
 # End:
