@@ -102,6 +102,8 @@ HORN_20071106_GLM += Horn_20071106/li043.glm
 
 TRIBON_20080516  = Tribon-20080516/ED1_3D.glm
 TRIBON_20080516 += Tribon-20080516/ED1_3D.hcf
+TRIBON_20080516 += Tribon-20080516/ED1_3D_2.glm
+TRIBON_20080516 += Tribon-20080516/ED1_3D_2.hcf
 
 all:
 	@true
@@ -223,10 +225,6 @@ Horn_20071106/%.glm Tribon-20080516/%.glm:	%.xml $(PY)
 
 Horn_20071106_test:	$(PY)	$(HORN_20071106_MAC)	$(HORN_20071106_GLM)
 	touch $@
-
-# Tribon-20080516/ED1_3D.glm:	%.xml $(PY)
-# 	@[ -d ${@D} ] || mkdir ${@D}
-# 	$(PYTHON) ../app/tx2glshipmodel --validate $< $@
 
 TRIBON_20080516_test: $(TRIBON_20080516)
 	touch $@
