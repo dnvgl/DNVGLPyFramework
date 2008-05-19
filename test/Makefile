@@ -100,6 +100,9 @@ HORN_20071106_GLM += Horn_20071106/li029.glm
 HORN_20071106_GLM += Horn_20071106/li042.glm
 HORN_20071106_GLM += Horn_20071106/li043.glm
 
+TRIBON_20080516  = Tribon-20080516/ED1_3D.glm
+TRIBON_20080516 += Tribon-20080516/ED1_3D.hcf
+
 all:
 	@true
 
@@ -193,7 +196,7 @@ DA2100_test:	$(PY)				\
 %.ini:
 	echo "not valid" > $@
 
-Aker/%.hcf DA2100/%.hcf %.hcf:	%.xml	%.ini	$(PY)
+Aker/%.hcf DA2100/%.hcf Tribon-20080516/%.hcf %.hcf:	%.xml	%.ini	$(PY)
 	$(PYTHON) ../app/tx2pegasus --cfg=$*.ini $<	\
 		--output=$@
 	$(PYTHON) validate.py $@
@@ -210,7 +213,7 @@ Horn_20071106/%.mac:	%.xml	$(PY)
 	@[ -d ${@D} ] || mkdir ${@D}
 	$(PYTHON) ../app/tx2ansys $< --output $@ $($*_mac_addargs)
 
-Horn_20071106/%.glm:	%.xml $(PY)
+Horn_20071106/%.glm Tribon-20080516/%.glm:	%.xml $(PY)
 	@[ -d ${@D} ] || mkdir ${@D}
 	$(PYTHON) ../app/tx2glshipmodel --validate $< $@
 
@@ -219,6 +222,13 @@ Horn_20071106/%.glm:	%.xml $(PY)
 	$(PYTHON) ../app/tx2glshipmodel --validate $< $@
 
 Horn_20071106_test:	$(PY)	$(HORN_20071106_MAC)	$(HORN_20071106_GLM)
+	touch $@
+
+# Tribon-20080516/ED1_3D.glm:	%.xml $(PY)
+# 	@[ -d ${@D} ] || mkdir ${@D}
+# 	$(PYTHON) ../app/tx2glshipmodel --validate $< $@
+
+TRIBON_20080516_test: $(TRIBON_20080516)
 	touch $@
 
 clean:
@@ -234,6 +244,7 @@ vpath %.xml ../data/SMK_sec12
 vpath %.xml $(AKER_DIR)/
 vpath %.xml $(AKER_DIR)/3D/
 vpath %.xml ../data/SMK
+vpath %.xml ../data/Tribon-20080516
 
 # Local Variables:
 # compile-command:"make test"
