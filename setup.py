@@ -35,7 +35,7 @@ else:
                                 "tribon", "pegasus", "xsd"), pegasusXSD)]
 
 setup(name='TX2GlShipModel',
-      version='0.1',
+      version='0.2',
       description='convert Tribon XML export files to GLShipmodel import files',
       author='Berthold Höllmann, Germanischer Lloyd AG',
       author_email='berthold.hoellmann@gl-group.com',

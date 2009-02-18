@@ -243,6 +243,7 @@ vpath %.xml $(AKER_DIR)/
 vpath %.xml $(AKER_DIR)/3D/
 vpath %.xml ../data/SMK
 vpath %.xml ../data/Tribon-20080516
+vpath %.xml ../data
 
 # Local Variables:
 # compile-command:"make test"

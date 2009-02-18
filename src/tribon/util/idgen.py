@@ -2,16 +2,14 @@
 # -*- coding: utf-8 -*-
 
 u"""
-generate unique ids. Allow for registering additional ids that are
+Generate unique ids. Allow for registering additional ids that are
 exclude from furter usage.
 
 :author: `Berthold Höllmann <berthold.hoellmann@GL-Group.com>`__
-:author: `last modified by <%s@GL-Group.com>`__
 :newfield project: Project
 :project: tx2pegasus
 :copyright: Copyright © 2007 by Germanischer Lloyd
 """
-__doc__ = __doc__ % ("$Author$"[9:-1].strip())
 
 #  CVSID: $Id$
 __date__         = u"$Date$"
@@ -20,26 +18,26 @@ __docformat__ = "restructuredtext en"
 
 class IDGen(object):
     """
-    >>> id = IDGen()
-    >>> id()
-    0
-    >>> id()
-    1
-    >>> id()
-    2
-    >>> id.exclude(3)
-    >>> id()
-    4
-    >>> id = IDGen(10)
-    >>> id()
-    10
-    >>> id.set(2)
-    >>> id()
-    2
-    >>> id.exclude(range(10)
-    >>> id()
-    10
-    """
+>>> id = IDGen()
+>>> id()
+0
+>>> id()
+1
+>>> id()
+2
+>>> id.exclude(3)
+>>> id()
+4
+>>> id = IDGen(10)
+>>> id()
+10
+>>> id.set(2)
+>>> id()
+2
+>>> id.exclude(range(10)
+>>> id()
+10
+"""
     def __init__(self, start=None):
         self._excludes = []
         self._ID = start or 0
