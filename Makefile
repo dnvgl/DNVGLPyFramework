@@ -18,7 +18,7 @@ test: build
 	make -C test  test
 
 doc:
-	$(MAKE) -C doc doc
+	$(MAKE) -C doc html
 
 %_test: build
 	make -C test $@
