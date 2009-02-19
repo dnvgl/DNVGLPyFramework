@@ -40,10 +40,8 @@ help:
 
 api:
 	[ -d _build/html/api ] || mkdir -p _build/html/api
-	PYTHONPATH=../src python -c "from epydoc.cli import cli ; cli()" --config tribon.ini -v --inheritance included --docformat restructuredtext --parse-only -v --html --no-frames
-
+	PYTHONPATH=../src python -c "from epydoc.cli import cli ; cli()" --config tribon.ini -v --inheritance included --docformat restructuredtext -v --html --no-frames  --output=_build/html/api
 	chmod -R a+r tribon_doc
-	#scp -r tribon_doc/* $(DOC_HOST):$(DOC_DIR)
 
 clean:
 	-rm -rf _build/*
@@ -60,6 +58,10 @@ pickle:
 	@echo
 	@echo "Build finished; now you can process the pickle files."
 
+install:
+	scp -r _build/html/* $(DOC_HOST):$(DOC_DIR)
+
+
 web: pickle
 
 json:
@@ -75,13 +77,21 @@ htmlhelp:
 	@echo "Build finished; now you can run HTML Help Workshop with the" \
 	      ".hhp project file in _build/htmlhelp."
 
-latex:
+latex:	api-latex
 	mkdir -p _build/latex _build/doctrees
 	$(SPHINXBUILD) -b latex $(ALLSPHINXOPTS) _build/latex
 	@echo
 	@echo "Build finished; the LaTeX files are in _build/latex."
 	@echo "Run \`make all-pdf' or \`make all-ps' in that directory to" \
 	      "run these through (pdf)latex."
+
+api-latex:
+	[ -d _build/html/api ] || mkdir -p _build/html/api
+	PYTHONPATH=../src python -c "from epydoc.cli import cli ; cli()" --config tribon.ini -v --inheritance included --docformat restructuredtext -v --latex --output=_build/latex/api
+	chmod -R a+r tribon_doc
+
+pdf:	latex
+	make -C _build/latex all-pdf
 
 changes:
 	mkdir -p _build/changes _build/doctrees
