@@ -38,11 +38,7 @@ endif
 PY = $(shell $(FINDDIR)find ../src -name \*.py)
 SRC = $(shell $(FINDDIR)find ../src -name \*.c)
 
-ifeq ("$GL_ARCH","")
-AKER_DIR=//glf/Vol1/DATA/FBE/ERC/Projekte/Interfaces/Project/Beispieldaten/Aker
-else
-AKER_DIR=/data/tmp/hoel/Aker
-endif
+AKER_DIR=../data/Aker
 
 #AKER_2D_ = $(wildcard $(AKER_DIR)/*_2D.xml)
 AKER_2D_ = $(wildcard $(AKER_DIR)/2D/*.xml)
