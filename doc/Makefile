@@ -107,6 +107,6 @@ linkcheck:
 	      "or in _build/linkcheck/output.txt."
 
 # Local Variables:
-# compile-command:"make"
+# compile-command:"make html"
 # coding:utf-8
 # End:
