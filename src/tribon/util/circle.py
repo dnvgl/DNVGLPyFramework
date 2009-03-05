@@ -91,7 +91,7 @@ If not yet done, calculate radius and centre using the `__calc` method.
     def point(self, u):
         """
 Calculate a point on the circle circumference given by the parametric
-variable `u`. Meaningful values for u come from the interval [0..1[,
+variable `u`. Meaningful values for u come from the interval [0..2pi[,
 whereas each value for `u` returns a point on the circumference.
 
 :Parameters:
@@ -106,8 +106,7 @@ whereas each value for `u` returns a point on the circumference.
 >>> print c.point(0)
 [ 0.  1.]
 """
-        phi = 2 * np.pi * u
-        return (np.array((np.sin(phi), np.cos(phi)))*self.radius)+self.centre
+        return (np.array((np.sin(u), np.cos(u)))*self.radius)+self.centre
 
     def u(self, point):
         """
@@ -139,7 +138,7 @@ True
                 norm[np.nonzero(norm < -1.)] = -1.
         n = np.array(
             [ f(v)
-              for f, v in zip((np.arcsin, np.arccos), norm) ]) / 2. / np.pi
+              for f, v in zip((np.arcsin, np.arccos), norm) ])
         if (x-xm) >= 0:
             if (y-ym)/r >= 0:
                 return n[0]
@@ -147,9 +146,9 @@ True
                 return n[1]
         else:
             if (y-ym)/r >= 0:
-                return n[0]+1.
+                return n[0]+2.*np.pi
             else:
-                return 1.-n[1]
+                return 2.*np.pi-n[1]
 
 
 # Local Variables:

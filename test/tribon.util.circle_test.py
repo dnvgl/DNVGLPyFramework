@@ -56,7 +56,7 @@ class Circle3nTest(unittest.TestCase):
 
     def testU(self):
         num = 1000.
-        U = np.arange(num)/num
+        U = (np.arange(num)/num)*2.*np.pi
         for c in (self.c1, self.c2, self.c3, self.c4):
             for point in c.point1, c.point2, c.point3:
                 self.failUnless(np.allclose(point, c.point(c.u(point))))
