@@ -30,6 +30,7 @@ build:
 	python setup.py build
 
 .PHONY: build
+.PHONY:	doc
 
 # Local Variables:
 # compile-command:"make test"

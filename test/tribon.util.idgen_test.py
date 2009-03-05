@@ -17,6 +17,7 @@ __date__      = "$Date$"
 __version__   = "$Revision$"[10:-1]
 __docformat__ = "restructuredtext en"
 
+import doctest
 import unittest
 
 from tribon.util.idgen import IDGen
@@ -49,6 +50,18 @@ class Test(unittest.TestCase):
         self.assert_(self.B1() == 5)
 
 if __name__ == '__main__':
+
+    doctest.set_unittest_reportflags(doctest.REPORT_CDIFF)
+
+    suite = unittest.TestSuite()
+    from tribon.util import idgen
+    suite.addTest(doctest.DocTestSuite(idgen))
+
+    runner = unittest.TextTestRunner()
+    runres = runner.run(suite)
+    if runres.errors or runres.failures:
+        raise Exception("failed test occured")
+
     unittest.main()
 
 # Local Variables:

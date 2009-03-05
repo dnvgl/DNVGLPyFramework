@@ -16,6 +16,8 @@ __date__         = u"$Date$"
 __version__      = "$Revision$"[10:-1]
 __docformat__ = "restructuredtext en"
 
+import operator
+
 class IDGen(object):
     """
 >>> id = IDGen()
@@ -34,7 +36,7 @@ class IDGen(object):
 >>> id.set(2)
 >>> id()
 2
->>> id.exclude(range(10)
+>>> id.exclude(range(10))
 >>> id()
 10
 """
@@ -42,22 +44,31 @@ class IDGen(object):
         self._excludes = []
         self._ID = start or 0
         self._counter = self.__counter()
+        self.__set = False
 
     def __call__(self):
         return self._counter.next()
 
+    def __retval(self):
+        while self._ID in self._excludes:
+            self._ID += 1
+        return self._ID
+
     def __counter(self):
         while 1:
-            while self._ID in self._excludes:
+            yield self.__retval()
+            if not self.__set:
                 self._ID += 1
-            yield self._ID
-            self._ID += 1
 
     def set(self, val):
         self._ID = val
+        self.__set = True
 
     def exclude(self, val):
-        self._excludes.append(val)
+        if operator.isSequenceType(val):
+            self._excludes.extend(val)
+        else:
+            self._excludes.append(val)
 
 # Local Variables:
 # mode:python
