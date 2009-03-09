@@ -108,7 +108,7 @@ whereas each value for `u` returns a point on the circumference.
 """
         return (np.array((np.sin(u), np.cos(u)))*self.radius)+self.centre
 
-    def u(self, point):
+    def phi(self, point):
         """
 Reverse lookup for parametric coordinate belonging to a given point.
 
@@ -122,7 +122,7 @@ Reverse lookup for parametric coordinate belonging to a given point.
 
 
 >>> c = Circle3n((-1, 0), (0, 1), (1, 0))
->>> np.allclose((0, 1), c.point(c.u((0, 1))))
+>>> np.allclose((0, 1), c.point(c.phi((0, 1))))
 True
 """
         x, y = np.asarray(point, dtype=np.dtype(float))

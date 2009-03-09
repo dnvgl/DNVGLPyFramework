@@ -54,13 +54,13 @@ class Circle3nTest(unittest.TestCase):
                     [((c.point(u)-c.centre)**2).sum()
                      for u in np.arange(float(num))/53.], c.radius**2) )
 
-    def testU(self):
+    def testPhi(self):
         num = 1000.
-        U = (np.arange(num)/num)*2.*np.pi
+        phis = (np.arange(num)/num)*2.*np.pi
         for c in (self.c1, self.c2, self.c3, self.c4):
             for point in c.point1, c.point2, c.point3:
-                self.failUnless(np.allclose(point, c.point(c.u(point))))
-                self.failUnless(np.allclose([ c.u(c.point(u)) for u in U ], U))
+                self.failUnless(np.allclose(point, c.point(c.phi(point))))
+                self.failUnless(np.allclose([ c.phi(c.point(phi)) for phi in phis ], phis))
 
 if __name__ == '__main__':
 
