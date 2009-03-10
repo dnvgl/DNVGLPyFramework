@@ -58,7 +58,7 @@ class Circle3nTest(unittest.TestCase):
         num = 1000.
         phis = (np.arange(num)/num)*2.*np.pi
         for c in (self.c1, self.c2, self.c3, self.c4):
-            for point in c.point1, c.point2, c.point3:
+            for point in c.pnt1, c.pnt2, c.pnt3:
                 self.failUnless(np.allclose(point, c.point(c.phi(point))))
                 self.failUnless(np.allclose([ c.phi(c.point(phi)) for phi in phis ], phis))
 
