@@ -72,5 +72,5 @@ class IDGen(object):
 
 # Local Variables:
 # mode:python
-# compile-command:"make -C ../../../test test"
+# compile-command:"make -C ../../../ test"
 # End:
