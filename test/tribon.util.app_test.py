@@ -4,22 +4,22 @@
 from __future__ import absolute_import
 
 u"""
-tests for tribon.util module
+Unit tests for tx2pegasus.util.app
 
-:author: `Berthold Höllmann <hoel@GL-Group.com>`__
+:author: `Berthold Höllmann <berthold.hoellmann@gl-group.com>`__
 :newfield project: Project
 :project: tribonXML converters
-:copyright: Copyright (C) 2007 by Germanischer Lloyd AG"""
+:copyright: Copyright (C) 2009 by Germanischer Lloyd AG"""
 
-#  CVSID: $Id$
-__date__      = "$Date$"
+#  ID: $Id$
+__date__      = u"$Date$"[5:-1]
 __version__   = "$Revision$"[10:-1]
 __docformat__ = "restructuredtext en"
 
 import doctest
 import unittest
 
-from tribon import util
+from tribon.util.app import Application
 
 class Test(unittest.TestCase):
 
@@ -31,7 +31,8 @@ if __name__ == '__main__':
     doctest.set_unittest_reportflags(doctest.REPORT_CDIFF)
 
     suite = unittest.TestSuite()
-    #suite.addTest(doctest.DocTestSuite(util))
+    from tribon.util import idgen
+    suite.addTest(doctest.DocTestSuite(idgen))
 
     runner = unittest.TextTestRunner()
     runres = runner.run(suite)
@@ -42,5 +43,6 @@ if __name__ == '__main__':
 
 # Local Variables:
 # mode:python
+# mode:flyspell
 # compile-command:"make test"
 # End:

@@ -1,6 +1,8 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import absolute_import
+
 u"""
 Application framework for Tribon converters
 
@@ -56,7 +58,7 @@ from all parts of the program.
                                        usage=self._usage,
                                        version=self._version,
                                        description = self._description)
-        self.options, self.args = parser.parse_args()
+        Application.options, Application.args = parser.parse_args()
 
         if (len(self.args) != 1 or
             (self._maxArgs and len(self.args) > self._maxArgs)):

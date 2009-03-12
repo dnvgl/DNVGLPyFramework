@@ -1,6 +1,8 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import absolute_import
+
 u"""
 Utilities for TribonXML convertors
 
@@ -15,7 +17,7 @@ __date__      = u"$Date$"
 __version__   = "$Revision$"[10:-1]
 __docformat__ = "restructuredtext en"
 
-from idgen import IDGen
+from .idgen import IDGen
 
 __all__ = locals().keys()
 

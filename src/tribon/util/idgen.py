@@ -1,6 +1,8 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import absolute_import
+
 u"""
 Generate unique ids. Allow for registering additional ids that are
 exclude from furter usage.
