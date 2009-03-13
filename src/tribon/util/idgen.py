@@ -1,8 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 u"""
 Generate unique ids. Allow for registering additional ids that are
 exclude from furter usage.
@@ -12,6 +10,8 @@ exclude from furter usage.
 :project: tx2pegasus
 :copyright: Copyright © 2007 by Germanischer Lloyd
 """
+
+from __future__ import absolute_import
 
 #  CVSID: $Id$
 __date__         = u"$Date$"
@@ -52,21 +52,37 @@ class IDGen(object):
         return self._counter.next()
 
     def __retval(self):
+        """
+Search for next value to return by `__counter`.
+"""
         while self._ID in self._excludes:
             self._ID += 1
         return self._ID
 
     def __counter(self):
+        """
+Generator function to return the next usable ID value.
+"""
         while 1:
             yield self.__retval()
             if not self.__set:
                 self._ID += 1
 
     def set(self, val):
+        """
+Set the next value to be returned.
+"""
         self._ID = val
         self.__set = True
 
     def exclude(self, val):
+        """
+Add a list of values `val` to be excluded from this generator.
+
+:Parameters:
+  val
+    List of values to be excluded from returning.
+"""
         if operator.isSequenceType(val):
             self._excludes.extend(val)
         else:

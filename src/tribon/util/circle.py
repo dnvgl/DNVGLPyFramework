@@ -1,8 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 u"""
 Circle calculations
 
@@ -10,6 +8,8 @@ Circle calculations
 :newfield project: Project
 :project: Tribon XML converter
 :copyright: Copyright (C) 2009 by Germanischer Lloyd AG"""
+
+from __future__ import absolute_import
 
 #  ID: $Id$
 __date__      = u"$Date$"[5:-1]
@@ -91,25 +91,26 @@ If not yet done, calculate radius and centre using the `__calc` method.
     centre = property(get_centre,
                       doc="Centre position belonging to given circle.")
 
-    def point(self, phi):
+    def point(self, phiVal):
         """
 Calculate a point on the circle circumference given by the parametric
-variable `phi`. Meaningful values for `phi` come from the interval [0..2pi[,
-whereas each value for `phi` returns a point on the circumference.
+variable `phiVal`. Meaningful values for `phiVal` come from the interval [0..2pi[,
+whereas each value for `phiVal` returns a point on the circumference.
 
 :Parameters:
-  phi : `float`
+  phiVal : `float`
     Parametric coordinate on the circumference.
 
 :Returns:
   (float, float)
-    Cartesian coordinates of point belonging to ``phi`` on circumference.
+    Cartesian coordinates of point belonging to ``phiVal`` on circumference.
 
 >>> c = Circle3n((-1, 0), (0, 1), (1, 0))
 >>> print c.point(0)
 [ 0.  1.]
 """
-        return (np.array((np.sin(phi), np.cos(phi)))*self.radius)+self.centre
+        return (np.array((np.sin(phiVal), np.cos(phiVal)))*
+                self.radius)+self.centre
 
     def phi(self, point):
         """
@@ -156,14 +157,15 @@ True
 
 if __name__ == "__main__":
     from matplotlib import pylab
-    cColl = ((Circle3n((-1, 0), ( 0   ,  1   ), ( 1, 0)), 'bo'),
-             (Circle3n(( 0, 0), ( 1   ,  1   ), ( 2, 0)), 'gv'),
-             (Circle3n(( 0, 1), ( 1   ,  2   ), ( 2, 1)), 'r^'),
-             (Circle3n((-2, 4), ( 1   , -3   ), ( 5, 7)), 'c<'),
-             (Circle3n(( 6, 8), ( 2   , -2   ), (-1, 5)), 'm>'),
-             (Circle3n(( 4, 6), ( 4.58, -3.74), (-3, 3)), 'yD'))
-    for (c, m) in cColl:
-        data = np.array([ c.point(phi) for phi in np.arange(0, 2*np.pi+.01, .01) ])
+    C_COLL = ((Circle3n((-1, 0), ( 0   ,  1   ), ( 1, 0)), 'bo'),
+              (Circle3n(( 0, 0), ( 1   ,  1   ), ( 2, 0)), 'gv'),
+              (Circle3n(( 0, 1), ( 1   ,  2   ), ( 2, 1)), 'r^'),
+              (Circle3n((-2, 4), ( 1   , -3   ), ( 5, 7)), 'c<'),
+              (Circle3n(( 6, 8), ( 2   , -2   ), (-1, 5)), 'm>'),
+              (Circle3n(( 4, 6), ( 4.58, -3.74), (-3, 3)), 'yD'))
+    for (c, m) in C_COLL:
+        data = np.array([ c.point(phi)
+                          for phi in np.arange(0, 2*np.pi+.01, .01) ])
         pylab.plot([c.pnt1[0]], [c.pnt1[1]], m, [c.pnt2[0]], [c.pnt2[1]], m,
                    [c.pnt3[0]], [c.pnt3[1]], m,
                    data[:,0], data[:,1], "%c-" % m[0] )

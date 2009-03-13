@@ -1,8 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 u"""
 Utilities for TribonXML convertors
 
@@ -11,6 +9,8 @@ Utilities for TribonXML convertors
 :project: tribonXML converters
 :copyright: Copyright (C) 2007 by Germanischer Lloyd AG
 """
+
+from __future__ import absolute_import
 
 #  CVSID: $Id$
 __date__      = u"$Date$"

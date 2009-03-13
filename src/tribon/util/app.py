@@ -1,8 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 u"""
 Application framework for Tribon converters
 
@@ -10,6 +8,8 @@ Application framework for Tribon converters
 :newfield project: Project
 :project: tribonXML converters
 :copyright: Copyright (C) 2009 by Germanischer Lloyd AG"""
+
+from __future__ import absolute_import
 
 #  ID: $Id$
 __date__      = u"$Date$"[5:-1]
@@ -53,12 +53,18 @@ from all parts of the program.
     _minArgs = 1
     _maxArgs = None
 
-    def __init__(self):
-        parser = optparse.OptionParser(option_list=self._optionList,
+    def __init__(self, args=None):
+        optionList = (self._optionList or []) + [
+            optparse.make_option(
+                '', '--factor', action='store', default=1./1000.,
+                metavar="FACTOR", type="float",
+                help = """Factor for length units. DEFAULT: [%default]""")
+            ]
+        parser = optparse.OptionParser(option_list=optionList,
                                        usage=self._usage,
                                        version=self._version,
                                        description = self._description)
-        Application.options, Application.args = parser.parse_args()
+        Application.options, Application.args = parser.parse_args(args)
 
         if (len(self.args) != 1 or
             (self._maxArgs and len(self.args) > self._maxArgs)):
@@ -72,3 +78,4 @@ from all parts of the program.
 # mode:flyspell
 # compile-command:"make -C ../../../ test"
 # End:
+
