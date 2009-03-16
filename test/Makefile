@@ -135,7 +135,7 @@ tx2dfile_app_test:	../data/ToPATRAN/general_information.xml	\
 	$(PYTHON) $< -v
 	touch $@
 
-%_rtest:	%.py	$(PY)	validate.py
+%_rtest:	%.py	$(PY)	validate_hcm.py
 	$(PYTHON) $<
 	touch $@
 
@@ -188,7 +188,7 @@ DA2100_test:	$(PY)				\
 		../data/DA2100/da2100_3201.xml		\
 		--param=../data/DA2100/da2100_param.xml	\
 		--output=da2100.hcf
-	$(PYTHON) validate.py da2100.hcf
+	$(PYTHON) validate_hcm.py da2100.hcf
 	touch $@
 
 %.ini:
@@ -197,7 +197,7 @@ DA2100_test:	$(PY)				\
 Aker/%.hcf DA2100/%.hcf Tribon-20080516/%.hcf %.hcf:	%.xml	%.ini	$(PY)
 	$(PYTHON) ../app/tx2pegasus --cfg=$*.ini $<	\
 		--output=$@
-	$(PYTHON) validate.py $@
+	$(PYTHON) validate_hcm.py $@
 	touch $@
 
 DA2100_ANSYS_test:	$(PY)			\
