@@ -104,7 +104,7 @@ TRIBON_20080516 += Tribon-20080516/ED1_3D_2.hcf
 all:
 	@true
 
-test:	py_dep build $(TESTS)
+test:	py_dep build $(TESTS)	$(PEGASUS_TEST)	$(HORN_20071106_MAC)
 
 test_all:	test	$(BIG_TESTS)
 
@@ -228,7 +228,7 @@ TRIBON_20080516_test: $(TRIBON_20080516)
 clean:
 	rm -f $(TESTS) $(BIG_TESTS) core
 	rm -f general_information.sg2 *.glm *.hcf
-	find .. -name \*.pyc | xargs rm
+	-find .. -name \*.pyc | xargs rm
 
 vpath %.py $(shell $(FINDDIR)find ../src -type d|grep -v .svn)
 vpath %.xml ../data/DA2100

@@ -1,7 +1,7 @@
-.. 
+..
   Task   : Documentation of tribon XML converter tools
   Project: tribonXML_convert
-  
+
 .. ID: $Id$
 
 ===============================================
@@ -26,6 +26,8 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   tx2pegasus
+
 :api:`tribon`
 
 
@@ -38,7 +40,7 @@ Indices and tables
 
 
 
-.. 
+..
   Local Variables:
   mode:rst
   mode:flyspell
