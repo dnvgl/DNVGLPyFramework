@@ -32,7 +32,7 @@ from all parts of the program.
   args
     args part from `optparse.OptionParser.parse_args`
   _optionList
-    option list for creating `OptionParser' instance
+    option list for creating `OptionParser` instance
   _usage
     usage information
   _version
