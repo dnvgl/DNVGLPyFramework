@@ -104,7 +104,7 @@ TRIBON_20080516 += Tribon-20080516/ED1_3D_2.hcf
 all:
 	@true
 
-test:	py_dep build $(TESTS)	$(PEGASUS_TEST)	$(HORN_20071106_MAC)
+test:	py_dep build $(TESTS)	$(DA2100)	$(PEGASUS_TEST)	$(HORN_20071106_MAC)
 
 test_all:	test	$(BIG_TESTS)
 
@@ -195,6 +195,7 @@ DA2100_test:	$(PY)				\
 	echo "not valid" > $@
 
 Aker/%.hcf DA2100/%.hcf Tribon-20080516/%.hcf %.hcf:	%.xml	%.ini	$(PY)
+	@[ -d ${@D} ] || mkdir ${@D}
 	$(PYTHON) ../app/tx2pegasus --cfg=$*.ini $<	\
 		--output=$@
 	$(PYTHON) validate_hcm.py $@
@@ -229,10 +230,11 @@ clean:
 	rm -f $(TESTS) $(BIG_TESTS) core
 	rm -f general_information.sg2 *.glm *.hcf
 	-find .. -name \*.pyc | xargs rm
+	svn propget svn:ignore|xargs rm -rf
 
 vpath %.py $(shell $(FINDDIR)find ../src -type d|grep -v .svn)
 vpath %.xml ../data/DA2100
-vpath %.xml ../data/Horn_20071106
+vpath %.xml ../data/Horn_20071006
 vpath %.xml ../data/TribonXML_3D
 vpath %.xml ../data/SMK_sec12
 vpath %.xml $(AKER_DIR)/
