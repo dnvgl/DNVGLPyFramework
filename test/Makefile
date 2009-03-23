@@ -36,13 +36,10 @@ FINDDIR=/bin/
 endif
 
 PY = $(shell $(FINDDIR)find ../src -name \*.py)
-SRC = $(shell $(FINDDIR)find ../src -name \*.c)
 
 AKER_DIR=../data/Aker
 
-#AKER_2D_ = $(wildcard $(AKER_DIR)/*_2D.xml)
 AKER_2D_ = $(wildcard $(AKER_DIR)/2D/*.xml)
-#AKER_3D_ = $(wildcard $(AKER_DIR)/*_3D.xml)
 AKER_3D_ = $(wildcard $(AKER_DIR)/3D/*.xml)
 AKER_2D = $(addprefix Aker/,$(patsubst %.xml,%_2D.sg2,$(notdir $(AKER_2D_))))
 AKER_3D = $(addprefix Aker/,$(patsubst %.xml,%_3D.glm,$(notdir $(AKER_3D_))))
@@ -104,7 +101,7 @@ TRIBON_20080516 += Tribon-20080516/ED1_3D_2.hcf
 all:
 	@true
 
-test:	py_dep build	$(PEGASUS_TEST)	$(TESTS)	$(DA2100)	$(HORN_20071106_MAC)
+test:	py_dep build	$(TESTS)	$(PEGASUS_TEST)	$(DA2100)	$(HORN_20071106_MAC)
 
 test_all:	test	$(BIG_TESTS)
 
