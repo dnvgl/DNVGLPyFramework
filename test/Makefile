@@ -22,6 +22,7 @@ PYTHON = PYTHONPATH=$(BPATH) python #-v
 PYBASE = ../src
 UTESTS = $(subst /,.,$(subst $(PYBASE)/,,$(patsubst %.py,%_test,$(PY))))
 TESTS = $(UTESTS)
+TESTS += $(PEGASUS_TEST)
 TESTS += write_pegasusxml_rtest
 TESTS += DA2100_test
 TESTS += DA2100_ANSYS_test
