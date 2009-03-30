@@ -5,12 +5,10 @@
 Setup and install for TX2GlShipModel,
 
 :author: `Berthold Höllmann <hoel@GL-Group.com>`__
-:author: `last modified by <%s@GL-Group.com>`__
 :newfield project: Project
 :project: TX2GlShipModel
 :copyright: Copyright (C) 2007 by Germanischer Lloyd AG
 """
-__doc__ = __doc__ % ("$Author$"[9:-1].strip())
 
 #  CVSID: $Id$
 __date__      = "$Date$"
@@ -25,7 +23,7 @@ import sys
 
 tribonXSD = glob.glob(os.path.join("src", "tribon", "xsd", "*.xsd"))
 pegasusXSD = glob.glob(os.path.join("src", "tribon", "pegasus", "xsd", "*.xsd"))
-if sys.platform[:6]=='win32':
+if sys.platform[:6] == 'win32':
     data_files = [(os.path.join("tribon", "xsd"), tribonXSD),
                   (os.path.join("tribon", "pegasus", "xsd"), pegasusXSD)]
 else:
@@ -46,6 +44,9 @@ setup(name='TX2GlShipModel',
           'tribon.ansys',
           'tribon.glshipmodel',
           'tribon.pegasus',
+          'tribon.pegasus.hullcondition',
+          'tribon.pegasus.hullcondition.shipdata',
+          'tribon.pegasus.hullcondition.hullstructure',
           'tribon.poseidon',
           'tribon.util',
           'tribon.xml',
@@ -56,6 +57,7 @@ setup(name='TX2GlShipModel',
           'tribon.xml.ship.block.planepanel.plategroup',
           'tribon.xml.ship.block.planepanel.stiffenergroup',
           'tribon.xml.ship.material',
+          'tribon.xml.ship.barsection',
           ],
       package_dir={'': 'src'},
       data_files=data_files,

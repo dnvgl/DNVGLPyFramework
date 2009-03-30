@@ -22,74 +22,97 @@ import numpy.linalg as la
 class Circle3n(object):
     """
 Class to manage circle information for circles build from 3 nodes on
-the circumference.
+the circumference in 3D space.
 """
-
     def __init__(self, pnt1, pnt2, pnt3):
         """
 >>> c = Circle3n((-1, 0), (0, 1), (1, 0))
 >>> print c.radius, c.centre
-1.0 [-0. -0.]
+1.0 [-0.  0.]
 """
-        self.pnt1 = np.array(pnt1, dtype=np.dtype("float"))
-        self.pnt2 = np.array(pnt2, dtype=np.dtype("float"))
-        self.pnt3 = np.array(pnt3, dtype=np.dtype("float"))
+        self.__pnt1 = np.zeros(3, dtype=np.dtype("float"))
+        self.__pnt2 = np.zeros(3, dtype=np.dtype("float"))
+        self.__pnt3 = np.zeros(3, dtype=np.dtype("float"))
+
+        self.__dimens = len(pnt1)
+        self.__pnt1[:self.__dimens] = pnt1
+        self.__pnt2[:self.__dimens] = pnt2
+        self.__pnt3[:self.__dimens] = pnt3
         self.__radius = None
         self.__centre = None
+        self.__s = None
+        self.__t = None
 
-    def __calc(self):
+    @property
+    def pnt1(self):
+        return self.__pnt1[:self.__dimens]
+
+    @property
+    def pnt2(self):
+        return self.__pnt2[:self.__dimens]
+
+    @property
+    def pnt3(self):
+        return self.__pnt3[:self.__dimens]
+
+    @property
+    def centre(self):
         """
-Calculate circle properties centre and radius from three points on the
-circle circumference.
-
-After solving the linear system of equations:
-
-  - A + B(-x1) + C(-y1) = -(x1² + y1²)
-  - A + B(-x2) + C(-y2) = -(x2² + y2²)
-  - A + B(-x3) + C(-y3) = -(x3² + y3²)
-
-centre and radius are calculated from:
-
-  xm = B/2, ym = C/2, und r² = xm² + ym² - A
-
-Derivation and formula taken from
-<http://www.arndt-bruenner.de/mathe/scripts/kreis3p.htm>
-"""
-        a = np.ones((3, 3))
-        a[0, 1:] = -self.pnt1
-        a[1, 1:] = -self.pnt2
-        a[2, 1:] = -self.pnt3
-        b = np.array((-(self.pnt1**2).sum(),
-                      -(self.pnt2**2).sum(),
-                      -(self.pnt3**2).sum()))
-        x = la.solve(a, b)
-        self.__centre = x[1:]/2
-        self.__radius = np.sqrt((self.__centre**2).sum() - x[0])
-
-    def get_radius(self):
-        """
-Return radius of current circle.
-
-If not yet done, calculate radius and centre using the `__calc` method.
-"""
-        if self.__radius is None:
-            self.__calc()
-        return self.__radius
-
-    radius = property(get_radius, doc="Radius belonging to circle.")
-
-    def get_centre(self):
-        """
-Return centre of current circle.
+Centre position belonging to given circle.
 
 If not yet done, calculate radius and centre using the `__calc` method.
 """
         if self.__centre is None:
             self.__calc()
-        return self.__centre
+        return self.__centre[:self.__dimens]
 
-    centre = property(get_centre,
-                      doc="Centre position belonging to given circle.")
+    @property
+    def radius(self):
+        if self.__radius is None:
+            self.__calc()
+        return self.__radius
+
+    @property
+    def s(self):
+        if self.__s is None:
+            self.__calc()
+        return self.__s
+
+    @property
+    def t(self):
+        if self.__t is None:
+            self.__calc()
+        return self.__t
+
+    def __calc(self):
+
+        x_A, y_A, z_A = self.__pnt1
+        x_B, y_B, z_B = self.__pnt2
+        x_C, y_C, z_C = self.__pnt3
+
+        a_1 = (y_B*z_C+y_A*(z_B-z_C)-y_C*z_B-(y_B-y_C)*z_A)
+        b_1 = -(x_B*z_C+x_A*(z_B-z_C)-x_C*z_B-(x_B-x_C)*z_A)
+        c_1 = +(x_B*y_C+x_A*(y_B-y_C)-x_C*y_B-(x_B-x_C)*y_A)
+        d_1 = -x_A*(y_B*z_C-y_C*z_B)+y_A*(x_B*z_C-x_C*z_B)-(x_B*y_C-x_C*y_B)*z_A
+
+        D = (self.__pnt1 + self.__pnt2)/2.
+        n_2 = self._normalize(self.__pnt2 - self.__pnt1)
+        d_2 = -(D * n_2).sum()
+
+        E = (self.__pnt2 + self.__pnt3)/2.
+        n_3 = self._normalize(self.__pnt3 - self.__pnt2)
+        d_3 = -(E * n_3).sum()
+
+        A = np.zeros((3, 3), dtype=np.dtype('float'))
+        A[0, :] = (-a_1, -b_1, -c_1)
+        A[1, :] = -n_2
+        A[2, :] = -n_3
+        b = np.array((d_1, d_2, d_3))
+
+        self.__centre = la.solve(A, b.T)
+        self.__s = self.__pnt1 - self.__centre
+        self.__radius = np.sqrt(((self.__s)**2).sum())
+        self.__t = self._normalize(np.cross(self.__s, (-a_1, -b_1, -c_1)))*self.__radius
 
     def point(self, phiVal):
         """
@@ -107,17 +130,20 @@ whereas each value for `phiVal` returns a point on the circumference.
 
 >>> c = Circle3n((-1, 0), (0, 1), (1, 0))
 >>> print c.point(0)
-[ 0.  1.]
+[-1.  0.]
 """
-        return (np.array((np.sin(phiVal), np.cos(phiVal)))*
-                self.radius)+self.centre
+        return (np.cos(phiVal)*self.s + np.sin(phiVal)*self.t)[:self.__dimens] + self.centre
+
+    @staticmethod
+    def _normalize(vec):
+        return vec/np.sqrt((vec**2).sum())
 
     def phi(self, point):
         """
 Reverse lookup for parametric coordinate belonging to a given point.
 
 :Parameters:
-  point : (float, float)
+  point : (float, float, [float])
     Point on circumference.
 
 :Returns:
@@ -125,35 +151,15 @@ Reverse lookup for parametric coordinate belonging to a given point.
     Parametric coordinate belonging to ``point``
 
 
->>> c = Circle3n((-1, 0), (0, 1), (1, 0))
->>> np.allclose((0, 1), c.point(c.phi((0, 1))))
+> >> c = Circle3n((-1, 0), (0, 1), (1, 0))
+> >> np.allclose((0, 1), c.point(c.phi((0, 1))))
 True
 """
-        x, y = np.asarray(point, dtype=np.dtype(float))
-        rad = self.radius
-        xm, ym = self.centre
-        norm = (point-self.centre)/rad
-        if np.sometrue(norm > 1.) or np.sometrue(norm < -1.):
-            if (np.sometrue(norm > 1.) and
-                np.allclose(norm[np.nonzero(norm > 1.)], 1.)):
-                norm[np.nonzero(norm > 1.)] = 1.
-            if (np.sometrue(norm < -1.) and
-                np.allclose(norm[np.nonzero(norm < -1.)], -1.)):
-                norm[np.nonzero(norm < -1.)] = -1.
-        n = np.array(
-            [ f(v)
-              for f, v in zip((np.arcsin, np.arccos), norm) ])
-        if (x-xm) >= 0:
-            if (y-ym)/rad >= 0:
-                return n[0]
-            else:
-                return n[1]
+        norm = self._normalize((point-self.centre[:self.__dimens]))
+        if np.dot(self._normalize(self.t[:self.__dimens]), norm) >= -1e-8:
+            return np.arccos(max(-1., min(1., np.dot(self._normalize(self.s[:self.__dimens]), norm))))
         else:
-            if (y-ym)/rad >= 0:
-                return n[0]+2.*np.pi
-            else:
-                return 2.*np.pi-n[1]
-
+            return 2*np.pi - np.arccos(max(-1., min(1., np.dot(self._normalize(self.s[:self.__dimens]), norm))))
 
 if __name__ == "__main__":
     from matplotlib import pylab
