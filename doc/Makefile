@@ -41,7 +41,7 @@ help:
 api:
 	[ -d _build/html/api ] || mkdir -p _build/html/api
 	PYTHONPATH=../src python -c "from epydoc.cli import cli ; cli()" --config tribon.ini -v --inheritance included --docformat restructuredtext -v --html --no-frames  --output=_build/html/api
-	chmod -R a+r tribon_doc
+	chmod -R a+r _build/html/api
 
 clean:
 	-rm -rf _build/*
