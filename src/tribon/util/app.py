@@ -52,6 +52,7 @@ from all parts of the program.
     _description = None
     _minArgs = 1
     _maxArgs = None
+    _numargs = 1
 
     def __init__(self, args=None):
         optionList = (self._optionList or []) + [
@@ -66,8 +67,9 @@ from all parts of the program.
                                        description = self._description)
         Application.options, Application.args = parser.parse_args(args)
 
-        if (len(self.args) != 1 or
+        if (len(self.args) < self._numargs or
             (self._maxArgs and len(self.args) > self._maxArgs)):
+            print "self.args: ", self.args
             parser.error("incorrect number of arguments")
 
     def __call__(self):

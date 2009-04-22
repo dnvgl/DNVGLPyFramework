@@ -21,16 +21,6 @@ PYTHON = PYTHONPATH=$(BPATH) python #-v
 
 PYBASE = ../src
 UTESTS = $(subst /,.,$(subst $(PYBASE)/,,$(patsubst %.py,%_test,$(PY))))
-TESTS = $(UTESTS)
-TESTS += $(PEGASUS_TEST)
-TESTS += write_pegasusxml_rtest
-TESTS += DA2100_test
-TESTS += DA2100_ANSYS_test
-TESTS += Horn_20071106_test
-
-BIG_TESTS += tx2glshipmodel_app_test
-BIG_TESTS += tx2dfile_app_test
-BIG_TESTS += tx2glshipmodel_big_test
 
 ifeq ("$GL_ARCH","")
 FINDDIR=/bin/
@@ -46,39 +36,58 @@ AKER_2D = $(addprefix Aker/,$(patsubst %.xml,%_2D.sg2,$(notdir $(AKER_2D_))))
 AKER_3D = $(addprefix Aker/,$(patsubst %.xml,%_3D.glm,$(notdir $(AKER_3D_))))
 AKER_3D_ANSYS = $(addprefix Aker/,$(patsubst %.xml,%_3D.mac,$(notdir $(AKER_3D_))))
 
-PEGASUS_TEST  = Aker/YI9999.hcf
-PEGASUS_TEST += spt78_3D.hcf
-PEGASUS_TEST += spt82_3D.hcf
-PEGASUS_TEST += spt70_3D.hcf
-PEGASUS_TEST += spt74_3D.hcf
-PEGASUS_TEST += Z_7000_3D.hcf
-PEGASUS_TEST += z_9100_3D.hcf
-PEGASUS_TEST += DA2100/da2100_3201.hcf
-PEGASUS_TEST += DA2100/da2100_3321.hcf
-PEGASUS_TEST += DA2100/da2100_3204.hcf
-PEGASUS_TEST += DA2100/da2100_3389.hcf
-PEGASUS_TEST += lm012.hcf
-PEGASUS_TEST += basic_ideal.hcf
-PEGASUS_TEST += basic_small.hcf
+HCM_TESTS  = write_pegasusxml_rtest
+HCM_TESTS += basic_small_stiff.hcf
+HCM_TESTS += Aker/YI9999.hcf
+HCM_TESTS += spt78_3D.hcf
+HCM_TESTS += spt82_3D.hcf
+HCM_TESTS += spt70_3D.hcf
+HCM_TESTS += spt74_3D.hcf
+HCM_TESTS += Z_7000_3D.hcf
+HCM_TESTS += z_9100_3D.hcf
+HCM_TESTS += DA2100/da2100_3201.hcf
+HCM_TESTS += DA2100/da2100_3321.hcf
+HCM_TESTS += DA2100/da2100_3204.hcf
+HCM_TESTS += DA2100/da2100_3389.hcf
+HCM_TESTS += lm012.hcf
+HCM_TESTS += basic_ideal.hcf
+HCM_TESTS += basic_small.hcf
+HCM_TESTS += Tribon-20080516/ED1_3D.hcf
+HCM_TESTS += Tribon-20080516/ED1_3D_2.hcf
+HCM_TESTS += conro_1000.hcf
+HCM_TESTS += conro_2000.hcf
+HCM_TESTS += conro_3000.hcf
+HCM_TESTS += conro_4000.hcf
+HCM_TESTS += conro_5000.hcf
+HCM_TESTS += conro_6000.hcf
+HCM_TESTS += conro.hcf
 
-DA2100  = DA2100/da2100_3201.glm
-DA2100 += DA2100/da2100_3321.glm
-DA2100 += DA2100/da2100_3204.glm
-DA2100 += DA2100/da2100_3389.glm
-DA2100 += DA2100/da2100_param.sg2
 
-SMK_SEC12_GLM  = SMK_sec12/lm012-idealisation.glm
-SMK_SEC12_GLM += SMK_sec12/lm012.glm
+GLM_TESTS  = DA2100/da2100_3201.glm
+GLM_TESTS += DA2100/da2100_3321.glm
+GLM_TESTS += DA2100/da2100_3204.glm
+GLM_TESTS += DA2100/da2100_3389.glm
+GLM_TESTS += DA2100/da2100_param.sg2
+GLM_TESTS += Horn_20071106/li027-28-29.glm
+GLM_TESTS += Horn_20071106/li027.glm
+GLM_TESTS += Horn_20071106/li028.glm
+GLM_TESTS += Horn_20071106/li029.glm
+GLM_TESTS += Horn_20071106/li042.glm
+GLM_TESTS += Horn_20071106/li043.glm
+GLM_TESTS += Tribon-20080516/ED1_3D.glm
+GLM_TESTS += Tribon-20080516/ED1_3D_2.glm
+GLM_TESTS += SMK_sec12/lm012-idealisation.glm
+GLM_TESTS += SMK_sec12/lm012.glm
 
-SMK_SEC12_MAC  = SMK_sec12/lm012-idealisation.mac
-SMK_SEC12_MAC += SMK_sec12/lm012.mac
 
-HORN_20071106_MAC += Horn_20071106/li027-28-29.mac
-HORN_20071106_MAC += Horn_20071106/li027.mac
-HORN_20071106_MAC += Horn_20071106/li028.mac
-HORN_20071106_MAC += Horn_20071106/li029.mac
-HORN_20071106_MAC += Horn_20071106/li042.mac
-HORN_20071106_MAC += Horn_20071106/li043.mac
+MAC_TESTS  = SMK_sec12/lm012-idealisation.mac
+MAC_TESTS += SMK_sec12/lm012.mac
+MAC_TESTS += Horn_20071106/li027-28-29.mac
+MAC_TESTS += Horn_20071106/li027.mac
+MAC_TESTS += Horn_20071106/li028.mac
+MAC_TESTS += Horn_20071106/li029.mac
+MAC_TESTS += Horn_20071106/li042.mac
+MAC_TESTS += Horn_20071106/li043.mac
 
 li027-28-29_mac_addargs = 
 li027_mac_addargs = --min-k=2200
@@ -87,22 +96,25 @@ li029_mac_addargs = --min-k=3700
 li042_mac_addargs = --min-k=4500
 li043_mac_addargs = --min-k=4900
 
-HORN_20071106_GLM += Horn_20071106/li027-28-29.glm
-HORN_20071106_GLM += Horn_20071106/li027.glm
-HORN_20071106_GLM += Horn_20071106/li028.glm
-HORN_20071106_GLM += Horn_20071106/li029.glm
-HORN_20071106_GLM += Horn_20071106/li042.glm
-HORN_20071106_GLM += Horn_20071106/li043.glm
+BIG_TESTS += tx2glshipmodel_app_test
+BIG_TESTS += tx2dfile_app_test
+BIG_TESTS += tx2glshipmodel_big_test
 
-TRIBON_20080516  = Tribon-20080516/ED1_3D.glm
-TRIBON_20080516 += Tribon-20080516/ED1_3D.hcf
-TRIBON_20080516 += Tribon-20080516/ED1_3D_2.glm
-TRIBON_20080516 += Tribon-20080516/ED1_3D_2.hcf
+TESTS  = $(UTESTS)
+TESTS += $(GLM_TESTS)
+TESTS += $(HCM_TESTS)
+TESTS += $(MAC_TESTS)
+TESTS += $(BIG_TESTS)
+
+# TESTS += DA2100_test
+# TESTS += $(PEGASUS_TEST)
+# TESTS += DA2100_ANSYS_test
+# TESTS += Horn_20071106_test
 
 all:
 	@true
 
-test:	py_dep build	$(TESTS)	$(PEGASUS_TEST)	$(DA2100)	$(HORN_20071106_MAC)
+test:	py_dep build	$(TESTS)
 
 test_all:	test	$(BIG_TESTS)
 
@@ -166,10 +178,6 @@ Aker/aker_rf.sg2:	$(AKER_2D_) $(PY)
 	@[ -d ${@D} ] || mkdir ${@D}
 	$(PYTHON) ../app/tx2dfile --validate $(AKER_2D_) --output $@
 
-SMK_glm:	$(SMK_SEC12_GLM)
-
-SMK_mac:	$(SMK_SEC12_MAC)
-
 SMK_sec12/%.glm:	../data/SMK_sec12/%.xml
 	@[ -d ${@D} ] || mkdir ${@D}
 	$(PYTHON) ../app/tx2glshipmodel --validate $< $@
@@ -199,6 +207,17 @@ Aker/%.hcf DA2100/%.hcf Tribon-20080516/%.hcf %.hcf:	%.xml	%.ini	$(PY)
 	$(PYTHON) validate_hcm.py $@
 	touch $@
 
+conro.hcf conro_det.hcf:: $(PY) conro.ini
+conro.hcf:: conro_1000.xml conro_2000.xml conro_3000.xml conro_4000.xml conro_5000.xml conro_6000.xml
+	$(PYTHON) ../app/tx2pegasus --cfg=conro.ini $^	\
+		--output=$@
+	$(PYTHON) validate_hcm.py $@
+
+conro_det.hcf:: conro_1000.xml conro_2000.xml conro_3000.xml conro_4000.xml conro_5000.xml conro_6000.xml
+	$(PYTHON) ../app/tx2pegasus --cfg=conro.ini $^	\
+		--detailed-contour --output=$@
+	$(PYTHON) validate_hcm.py $@
+
 DA2100_ANSYS_test:	$(PY)			\
 		../data/DA2100/da2100_3201.xml
 	$(PYTHON) ../app/tx2ansys			\
@@ -217,9 +236,6 @@ Horn_20071106/%.glm Tribon-20080516/%.glm:	%.xml $(PY)
 %.glm:	%.xml $(PY)
 	@[ -d ${@D} ] || mkdir ${@D}
 	$(PYTHON) ../app/tx2glshipmodel --validate $< $@
-
-Horn_20071106_test:	$(PY)	$(HORN_20071106_MAC)	$(HORN_20071106_GLM)
-	touch $@
 
 TRIBON_20080516_test: $(TRIBON_20080516)
 	touch $@
@@ -240,6 +256,7 @@ vpath %.xml $(AKER_DIR)/3D/
 vpath %.xml ../data/SMK
 vpath %.xml ../data/Tribon-20080516
 vpath %.xml ../data
+vpath %.xml ../data/Neptun
 
 # Local Variables:
 # compile-command:"make test"
