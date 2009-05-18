@@ -63,7 +63,8 @@ HCM_TESTS += conro_6000.hcf
 HCM_TESTS += conro.hcf
 
 
-GLM_TESTS  = DA2100/da2100_3201.glm
+GLM_TESTS  = tx2glshipmodel_app_test
+GLM_TESTS += DA2100/da2100_3201.glm
 GLM_TESTS += DA2100/da2100_3321.glm
 GLM_TESTS += DA2100/da2100_3204.glm
 GLM_TESTS += DA2100/da2100_3389.glm
@@ -96,15 +97,14 @@ li029_mac_addargs = --min-k=3700
 li042_mac_addargs = --min-k=4500
 li043_mac_addargs = --min-k=4900
 
-BIG_TESTS += tx2glshipmodel_app_test
 BIG_TESTS += tx2dfile_app_test
 BIG_TESTS += tx2glshipmodel_big_test
 
 TESTS  = $(UTESTS)
 TESTS += $(GLM_TESTS)
-TESTS += $(HCM_TESTS)
-TESTS += $(MAC_TESTS)
 TESTS += $(BIG_TESTS)
+#TESTS += $(HCM_TESTS)
+#TESTS += $(MAC_TESTS)
 
 # TESTS += DA2100_test
 # TESTS += $(PEGASUS_TEST)
