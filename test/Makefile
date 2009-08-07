@@ -186,6 +186,20 @@ SMK_sec12/%.mac:	../data/SMK_sec12/%.xml
 	@[ -d ${@D} ] || mkdir ${@D}
 	$(PYTHON) ../app/tx2ansys $< --output $@
 
+20090706/%.hcf:	../data/20090706/%.xml	%.ini	$(PY)
+	@[ -d ${@D} ] || mkdir ${@D}
+	$(PYTHON) ../app/tx2pegasus --cfg=$*.ini $<	\
+		--output=$@
+	$(PYTHON) validate_hcm.py $@
+	touch $@
+
+MP.hcf: $(PY) MP.ini MP.xml 										\
+		MP-1.xml MP-2.xml MP-3.xml  MP-5.xml MP-6.xml MP-7.xml MP-41.xml MP-42.xml MP-44.xml
+	$(PYTHON) ../app/tx2pegasus --cfg=MP.ini 							\
+		MP-1.xml MP-2.xml MP-3.xml  MP-5.xml MP-6.xml MP-7.xml MP-41.xml MP-42.xml MP-44.xml	\
+		--output=$@
+	$(PYTHON) validate_hcm.py $@
+
 DA2100_test:	$(PY)				\
 		../data/DA2100/da2100_3201.xml	\
 		../data/DA2100/da2100_param.xml
@@ -257,6 +271,7 @@ vpath %.xml ../data/SMK
 vpath %.xml ../data/Tribon-20080516
 vpath %.xml ../data
 vpath %.xml ../data/Neptun
+vpath %.xml ../data/Neptun-MP-20090708
 
 # Local Variables:
 # compile-command:"make test"
