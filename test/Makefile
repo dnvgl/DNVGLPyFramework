@@ -103,12 +103,12 @@ BIG_TESTS += tx2glshipmodel_big_test
 TESTS  = $(UTESTS)
 TESTS += $(GLM_TESTS)
 TESTS += $(BIG_TESTS)
-#TESTS += $(HCM_TESTS)
-#TESTS += $(MAC_TESTS)
+TESTS += $(HCM_TESTS)
+TESTS += $(MAC_TESTS)
 
-# TESTS += DA2100_test
-# TESTS += $(PEGASUS_TEST)
-# TESTS += DA2100_ANSYS_test
+TESTS += DA2100_test
+TESTS += $(PEGASUS_TEST)
+TESTS += DA2100_ANSYS_test
 # TESTS += Horn_20071106_test
 
 all:
@@ -126,7 +126,7 @@ build:
 tx2glshipmodel_app_test:	../data/TribonXML_3D/basic_small.xml	\
 		$(PY)	../app/tx2glshipmodel
 	$(PYTHON) ../app/tx2glshipmodel --validate $< $(basename $(<F)).glm
-	diff ref/$(basename $(<F)).glm $(basename $(<F)).glm
+	diff $(basename $(<F)).glm ref/$(basename $(<F)).glm
 	touch $@
 
 tx2glshipmodel_big_test:	../data/TribonXML_3D/basic_ideal.xml	\
@@ -188,25 +188,18 @@ SMK_sec12/%.mac:	../data/SMK_sec12/%.xml
 
 20090706/%.hcf:	../data/20090706/%.xml	%.ini	$(PY)
 	@[ -d ${@D} ] || mkdir ${@D}
-	$(PYTHON) ../app/tx2pegasus --cfg=$*.ini $<	\
-		--output=$@
+	$(PYTHON) ../app/tx2pegasus --cfg=$*.ini $< --output=$@
 	$(PYTHON) validate_hcm.py $@
 	touch $@
 
-MP.hcf: $(PY) MP.ini MP.xml 										\
-		MP-1.xml MP-2.xml MP-3.xml  MP-5.xml MP-6.xml MP-7.xml MP-41.xml MP-42.xml MP-44.xml
-	$(PYTHON) ../app/tx2pegasus --cfg=MP.ini 							\
-		MP-1.xml MP-2.xml MP-3.xml  MP-5.xml MP-6.xml MP-7.xml MP-41.xml MP-42.xml MP-44.xml	\
-		--output=$@
+MP.hcf: $(PY) MP.ini MP.xml						\
+		MP-1.xml MP-2.xml MP-3.xml  MP-5.xml MP-6.xml MP-7.xml	\
+		MP-41.xml MP-42.xml MP-44.xml
+	$(PYTHON) ../app/tx2pegasus --cfg=MP.ini $(filter %.xml,$^) --output=$@
 	$(PYTHON) validate_hcm.py $@
 
-DA2100_test:	$(PY)				\
-		../data/DA2100/da2100_3201.xml	\
-		../data/DA2100/da2100_param.xml
-	$(PYTHON) ../app/tx2pegasus			\
-		--cfg=da2100.ini			\
-		../data/DA2100/da2100_3201.xml		\
-		--param=../data/DA2100/da2100_param.xml	\
+DA2100_test:	$(PY) da2100_3201.xml da2100_param.xml
+	$(PYTHON) ../app/tx2pegasus --cfg=da2100.ini $(filter %.xml,$^) 	\
 		--output=da2100.hcf
 	$(PYTHON) validate_hcm.py da2100.hcf
 	touch $@
@@ -221,22 +214,22 @@ Aker/%.hcf DA2100/%.hcf Tribon-20080516/%.hcf %.hcf:	%.xml	%.ini	$(PY)
 	$(PYTHON) validate_hcm.py $@
 	touch $@
 
-conro.hcf conro_det.hcf:: $(PY) conro.ini
-conro.hcf:: conro_1000.xml conro_2000.xml conro_3000.xml conro_4000.xml conro_5000.xml conro_6000.xml
-	$(PYTHON) ../app/tx2pegasus --cfg=conro.ini $^	\
+conro.hcf:: $(PY) conro.ini 							\
+		conro_1000.xml conro_2000.xml conro_3000.xml conro_4000.xml 	\
+		conro_5000.xml conro_6000.xml
+	$(PYTHON) ../app/tx2pegasus --cfg=conro.ini $(filter %.xml,$^) 	\
 		--output=$@
 	$(PYTHON) validate_hcm.py $@
 
-conro_det.hcf:: conro_1000.xml conro_2000.xml conro_3000.xml conro_4000.xml conro_5000.xml conro_6000.xml
-	$(PYTHON) ../app/tx2pegasus --cfg=conro.ini $^	\
+conro_det.hcf:: $(PY) conro.ini							\
+		conro_1000.xml conro_2000.xml conro_3000.xml conro_4000.xml	\
+		conro_5000.xml conro_6000.xml
+	$(PYTHON) ../app/tx2pegasus --cfg=conro.ini $(filter %.xml,$^)	\
 		--detailed-contour --output=$@
 	$(PYTHON) validate_hcm.py $@
 
-DA2100_ANSYS_test:	$(PY)			\
-		../data/DA2100/da2100_3201.xml
-	$(PYTHON) ../app/tx2ansys			\
-		../data/DA2100/da2100_3201.xml		\
-		--output=da2100.mac
+DA2100_ANSYS_test:	$(PY) da2100_3201.xml
+	$(PYTHON) ../app/tx2ansys $(filter %.xml,$^) --output=da2100.mac
 	touch $@
 
 Horn_20071106/%.mac:	%.xml	$(PY)
