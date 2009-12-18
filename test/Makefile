@@ -204,9 +204,9 @@ DA2100_test:	$(PY) da2100_3201.xml da2100_param.xml
 	$(PYTHON) validate_hcm.py da2100.hcf
 	touch $@
 
-test_Yangfan:	$(PY) ca301.xml ca320.xml
+test_Yangfan:	$(PY) Yangfan_test.ini ca301.xml ca320.xml
 	$(PYTHON) ../app/tx2pegasus --cfg=Yangfan_test.ini $(filter %.xml,$^) 	\
-		--output=Yangfan_test.hcf
+		--detailed-contour --output=Yangfan_test.hcf
 	$(PYTHON) validate_hcm.py Yangfan_test.hcf
 	touch $@
 
