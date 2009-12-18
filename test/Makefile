@@ -204,6 +204,12 @@ DA2100_test:	$(PY) da2100_3201.xml da2100_param.xml
 	$(PYTHON) validate_hcm.py da2100.hcf
 	touch $@
 
+test_Yangfan:	$(PY) ca301.xml ca320.xml
+	$(PYTHON) ../app/tx2pegasus --cfg=Yangfan_test.ini $(filter %.xml,$^) 	\
+		--output=Yangfan_test.hcf
+	$(PYTHON) validate_hcm.py Yangfan_test.hcf
+	touch $@
+
 %.ini:
 	echo "not valid" > $@
 
@@ -265,6 +271,7 @@ vpath %.xml ../data/Tribon-20080516
 vpath %.xml ../data
 vpath %.xml ../data/Neptun
 vpath %.xml ../data/Neptun-MP-20090708
+vpath %.xml ../data/Yangfan
 
 # Local Variables:
 # compile-command:"make test"
