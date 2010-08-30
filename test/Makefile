@@ -126,19 +126,19 @@ build:
 tx2glshipmodel_app_test:	../data/TribonXML_3D/basic_small.xml	\
 		$(PY)	../app/tx2glshipmodel
 	$(PYTHON) ../app/tx2glshipmodel --validate $< $(basename $(<F)).glm
-	diff $(basename $(<F)).glm ref/$(basename $(<F)).glm
+	numdiff $(basename $(<F)).glm ref/$(basename $(<F)).glm
 	touch $@
 
 tx2glshipmodel_big_test:	../data/TribonXML_3D/basic_ideal.xml	\
 		$(PY)	../app/tx2glshipmodel
 	$(PYTHON) ../app/tx2glshipmodel --validate $< $(basename $(<F)).glm
-	diff ref/$(basename $(<F)).glm $(basename $(<F)).glm
+	numdiff ref/$(basename $(<F)).glm $(basename $(<F)).glm
 	touch $@
 
 tx2dfile_app_test:	../data/ToPATRAN/general_information.xml	\
 		$(PY)	../app/tx2dfile
 	$(PYTHON) ../app/tx2dfile --validate $< --output $(basename $(<F)).sg2
-	diff ref/$(basename $(<F)).sg2 $(basename $(<F)).sg2
+	numdiff ref/$(basename $(<F)).sg2 $(basename $(<F)).sg2
 	touch $@
 
 %_test:	%_test.py
@@ -258,6 +258,9 @@ clean:
 	rm -f general_information.sg2 *.glm *.hcf
 	-find .. -name \*.pyc | xargs rm
 	svn propget svn:ignore|xargs rm -rf
+
+%_test.py:	__generic_test_.py
+	[ -f $@ ] || ln -s $< $@
 
 vpath %.py $(shell $(FINDDIR)find ../src -type d|grep -v .svn)
 vpath %.xml ../data/DA2100
