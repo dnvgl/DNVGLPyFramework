@@ -72,7 +72,7 @@ class Circle3nTest(unittest.TestCase):
         for c in (self.c1, self.c2, self.c3, self.c4, self.c5, self.c6, self.c7, self.c8):
             for point in c.pnt1, c.pnt2, c.pnt3:
                 self.failUnless(np.allclose(point, c.point(c.phi(point))))
-                self.failUnless(np.allclose([ c.phi(c.point(phi)) for phi in phis ], phis, atol=2e-8),
+                self.failUnless(np.allclose([ c.phi(c.point(phi)) for phi in phis ], phis, atol=2.2e-8),
                                 max(phis-[ c.phi(c.point(phi)) for phi in phis ]))
 
 if __name__ == '__main__':
