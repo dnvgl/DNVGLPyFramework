@@ -20,7 +20,7 @@ import itertools
 
 from ..stenzel.tbplanev1 import Plane as tbPlane
 
-class FakeKcsUtil(object):
+class _FakeKcsUtil(object):
     """Fake kcs_util for Plane implementation by Karsten Stenzel.
 """
 
@@ -31,7 +31,6 @@ class FakeKcsUtil(object):
           for ft in frmtbl.positions ]
         self.frmtbl = [ a + (b,) for a, b in self.frmtbl ]
 
-        print self.frmtbl
     def coord_to_pos(self, dummy, coor):
         """Calculate frame position from coordinate.
 """
@@ -56,7 +55,7 @@ def injectFrameTable(frmtbl):
 """
     from ..stenzel import tbplanev1
     tbplanev1.hasTribon = True
-    tbplanev1.kcs_util = FakeKcsUtil(frmtbl)
+    tbplanev1.kcs_util = _FakeKcsUtil(frmtbl)
 
 class Plane(tbPlane):
 
@@ -69,5 +68,5 @@ class Plane(tbPlane):
 # mode:python
 # mode:flyspell
 # pylint-options: "--output-format=parseable --import-graph=planecheck_import.png --init-hook=\"import sys;sys.path.append('..')\" "
-# compile-command:"make -C ../../../ tribon.util.planecheck_test"
+# compile-command:"make -C ../../../ test"
 # End:
