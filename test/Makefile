@@ -192,10 +192,56 @@ SMK_sec12/%.mac:	../data/SMK_sec12/%.xml
 	$(PYTHON) validate_hcm.py $@
 	touch $@
 
-MP.hcf: $(PY) MP.ini MP.xml						\
+MP.hcf MP.hcz: $(PY) MP.ini MP.xml						\
 		MP-1.xml MP-2.xml MP-3.xml  MP-5.xml MP-6.xml MP-7.xml	\
 		MP-41.xml MP-42.xml MP-44.xml
 	$(PYTHON) ../app/tx2pegasus --cfg=MP.ini $(filter %.xml,$^) --output=$@
+	$(PYTHON) validate_hcm.py $@
+
+JW = ../data/H2102_Hull_Model_For_Hull_Lifecycle/
+John_Wulff.hcz: $(PY) John_Wulff.ini 			\
+		$(JW)101,102,111.xml			\
+		$(JW)201.xml				\
+		$(JW)221.xml				\
+		$(JW)222.xml				\
+		$(JW)231,232.xml			\
+		$(JW)241,242,242C.xml			\
+		$(JW)301-305.xml			\
+		$(JW)306-310.xml			\
+		$(JW)311-315.xml			\
+		$(JW)316-320.xml			\
+		$(JW)321-326.xml			\
+		$(JW)331.xml				\
+		$(JW)332.xml				\
+		$(JW)333.xml				\
+		$(JW)334.xml				\
+		$(JW)335.xml				\
+		$(JW)336,337.xml			\
+		$(JW)401,402.xml			\
+		$(JW)403.xml				\
+		$(JW)404,405.xml			\
+		$(JW)406-410.xml			\
+		$(JW)411-413.xml			\
+		$(JW)501C.xml				\
+		$(JW)501.xml				\
+		$(JW)502.xml				\
+		$(JW)503-505.xml			\
+		$(JW)506-510.xml			\
+		$(JW)511-513,513C.xml			\
+		$(JW)601,602.xml			\
+		$(JW)603.xml				\
+		$(JW)604.xml				\
+		$(JW)605,606.xml			\
+		$(JW)611.xml				\
+		$(JW)612.xml				\
+		$(JW)613-616.xml			\
+		$(JW)617.xml				\
+		$(JW)701-706.xml			\
+		$(JW)801,811,821,831,832,841.xml	\
+		$(JW)888.xml
+#				\
+#		$(JW)CoordinateTable.xml
+	$(PYTHON) ../app/tx2pegasus --cfg=John_Wulff.ini $(filter %.xml,$^) --output=$@
 	$(PYTHON) validate_hcm.py $@
 
 DA2100_test:	$(PY) da2100_3201.xml da2100_param.xml
