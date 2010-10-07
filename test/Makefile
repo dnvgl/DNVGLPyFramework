@@ -38,29 +38,29 @@ AKER_3D_ANSYS = $(addprefix Aker/,$(patsubst %.xml,%_3D.mac,$(notdir $(AKER_3D_)
 
 HCM_TESTS  = write_pegasusxml_rtest
 HCM_TESTS += basic_small_stiff.hcf
-HCM_TESTS += Aker/YI9999.hcf
-HCM_TESTS += spt78_3D.hcf
-HCM_TESTS += spt82_3D.hcf
-HCM_TESTS += spt70_3D.hcf
-HCM_TESTS += spt74_3D.hcf
-HCM_TESTS += Z_7000_3D.hcf
-HCM_TESTS += z_9100_3D.hcf
-HCM_TESTS += DA2100/da2100_3201.hcf
-HCM_TESTS += DA2100/da2100_3321.hcf
-HCM_TESTS += DA2100/da2100_3204.hcf
-HCM_TESTS += DA2100/da2100_3389.hcf
-HCM_TESTS += lm012.hcf
-HCM_TESTS += basic_ideal.hcf
-HCM_TESTS += basic_small.hcf
-HCM_TESTS += Tribon-20080516/ED1_3D.hcf
-HCM_TESTS += Tribon-20080516/ED1_3D_2.hcf
-HCM_TESTS += conro_1000.hcf
-HCM_TESTS += conro_2000.hcf
-HCM_TESTS += conro_3000.hcf
-HCM_TESTS += conro_4000.hcf
-HCM_TESTS += conro_5000.hcf
-HCM_TESTS += conro_6000.hcf
-HCM_TESTS += conro.hcf
+HCM_TESTS += Aker/YI9999.hcz
+HCM_TESTS += spt78_3D.hcz
+HCM_TESTS += spt82_3D.hcz
+HCM_TESTS += spt70_3D.hcz
+HCM_TESTS += spt74_3D.hcz
+HCM_TESTS += Z_7000_3D.hcz
+HCM_TESTS += z_9100_3D.hcz
+HCM_TESTS += DA2100/da2100_3201.hcz
+HCM_TESTS += DA2100/da2100_3321.hcz
+HCM_TESTS += DA2100/da2100_3204.hcz
+HCM_TESTS += DA2100/da2100_3389.hcz
+HCM_TESTS += lm012.hcz
+HCM_TESTS += basic_ideal.hcz
+HCM_TESTS += basic_small.hcz
+HCM_TESTS += Tribon-20080516/ED1_3D.hcz
+HCM_TESTS += Tribon-20080516/ED1_3D_2.hcz
+HCM_TESTS += conro_1000.hcz
+HCM_TESTS += conro_2000.hcz
+HCM_TESTS += conro_3000.hcz
+HCM_TESTS += conro_4000.hcz
+HCM_TESTS += conro_5000.hcz
+HCM_TESTS += conro_6000.hcz
+HCM_TESTS += conro.hcz
 
 
 GLM_TESTS  = tx2glshipmodel_app_test
@@ -101,8 +101,8 @@ BIG_TESTS += tx2dfile_app_test
 BIG_TESTS += tx2glshipmodel_big_test
 
 TESTS  = $(UTESTS)
-TESTS += $(GLM_TESTS)
-TESTS += $(BIG_TESTS)
+#TESTS += $(GLM_TESTS)
+#TESTS += $(BIG_TESTS)
 TESTS += $(HCM_TESTS)
 TESTS += $(MAC_TESTS)
 
@@ -186,7 +186,7 @@ SMK_sec12/%.mac:	../data/SMK_sec12/%.xml
 	@[ -d ${@D} ] || mkdir ${@D}
 	$(PYTHON) ../app/tx2ansys $< --output $@
 
-20090706/%.hcf:	../data/20090706/%.xml	%.ini	$(PY)
+20090706/%.hcz:	../data/20090706/%.xml	%.ini	$(PY)
 	@[ -d ${@D} ] || mkdir ${@D}
 	$(PYTHON) ../app/tx2pegasus --cfg=$*.ini $< --output=$@
 	$(PYTHON) validate_hcm.py $@
@@ -246,34 +246,34 @@ John_Wulff.hcz: $(PY) John_Wulff.ini 			\
 
 DA2100_test:	$(PY) da2100_3201.xml da2100_param.xml
 	$(PYTHON) ../app/tx2pegasus --cfg=da2100.ini $(filter %.xml,$^) 	\
-		--output=da2100.hcf
-	$(PYTHON) validate_hcm.py da2100.hcf
+		--output=da2100.hcz
+	$(PYTHON) validate_hcm.py da2100.hcz
 	touch $@
 
 test_Yangfan:	$(PY) Yangfan_test.ini ca301.xml ca320.xml
 	$(PYTHON) ../app/tx2pegasus --cfg=Yangfan_test.ini $(filter %.xml,$^) 	\
-		--detailed-contour --output=Yangfan_test.hcf
-	$(PYTHON) validate_hcm.py Yangfan_test.hcf
+		--detailed-contour --output=Yangfan_test.hcz
+	$(PYTHON) validate_hcm.py Yangfan_test.hcz
 	touch $@
 
 %.ini:
 	echo "not valid" > $@
 
-Aker/%.hcf DA2100/%.hcf Tribon-20080516/%.hcf %.hcf:	%.xml	%.ini	$(PY)
+Aker/%.hcz DA2100/%.hcz Tribon-20080516/%.hcz %.hcz %.hcf:	%.xml	%.ini	$(PY)
 	@[ -d ${@D} ] || mkdir ${@D}
 	$(PYTHON) ../app/tx2pegasus --cfg=$*.ini $<	\
 		--output=$@
 	$(PYTHON) validate_hcm.py $@
 	touch $@
 
-conro.hcf:: $(PY) conro.ini 							\
+conro.hcz:: $(PY) conro.ini 							\
 		conro_1000.xml conro_2000.xml conro_3000.xml conro_4000.xml 	\
 		conro_5000.xml conro_6000.xml
 	$(PYTHON) ../app/tx2pegasus --cfg=conro.ini $(filter %.xml,$^) 	\
 		--output=$@
 	$(PYTHON) validate_hcm.py $@
 
-conro_det.hcf:: $(PY) conro.ini							\
+conro_det.hcz:: $(PY) conro.ini							\
 		conro_1000.xml conro_2000.xml conro_3000.xml conro_4000.xml	\
 		conro_5000.xml conro_6000.xml
 	$(PYTHON) ../app/tx2pegasus --cfg=conro.ini $(filter %.xml,$^)	\
@@ -301,7 +301,7 @@ TRIBON_20080516_test: $(TRIBON_20080516)
 
 clean:
 	rm -f $(TESTS) $(BIG_TESTS) core
-	rm -f general_information.sg2 *.glm *.hcf
+	rm -f general_information.sg2 *.glm *.hcf *.hcz
 	-find .. -name \*.pyc | xargs rm
 	svn propget svn:ignore|xargs rm -rf
 

@@ -34,6 +34,7 @@ class _FakeKcsUtil(object):
     def coord_to_pos(self, dummy, coor):
         """Calculate frame position from coordinate.
 """
+        coor /= 1000.
         if coor < self.frmtbl[0][1]:
             return (True, None, None)
         lstfrm, lstpos, lstspc = self.frmtbl[0]
@@ -58,9 +59,12 @@ def injectFrameTable(frmtbl):
     tbplanev1.kcs_util = _FakeKcsUtil(frmtbl)
 
 class Plane(tbPlane):
-
-    def __init__(self, o, w):
-        args = list(o)+list(w)
+    """
+Thin wrapper for Karsten Stenzels Plane class to allow origin and
+normal vector to be lists instead of collection of values.
+"""
+    def __init__(self, origin, normal):
+        args = list(origin)+list(normal)
         super(Plane, self).__init__(*args)
 
 
