@@ -59,6 +59,7 @@ class PlanecheckTest(unittest.TestCase):
     def testInject(self):
         planecheck.injectFrameTable(FRMTBL)
         plane = planecheck.Plane((-11, 0, 0), (1, 0, 0))
+        print plane.get_plane_string()
         self.assert_(plane.get_plane_string()=="X=-11")
         plane = planecheck.Plane((1, 0, 0), (1, 0, 0))
         self.assert_(plane.get_plane_string()=="X=FR1")

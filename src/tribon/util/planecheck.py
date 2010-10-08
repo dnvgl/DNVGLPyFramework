@@ -34,7 +34,6 @@ class _FakeKcsUtil(object):
     def coord_to_pos(self, dummy, coor):
         """Calculate frame position from coordinate.
 """
-        coor /= 1000.
         if coor < self.frmtbl[0][1]:
             return (True, None, None)
         lstfrm, lstpos, lstspc = self.frmtbl[0]
