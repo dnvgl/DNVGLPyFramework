@@ -45,17 +45,3 @@ if __name__ == '__main__':
 # mode:python
 # compile-command:"make test"
 # End:
-
-
-# Local Variables:
-# mode:python
-# mode:flyspell
-# compile-command:"python setup.py build"
-# End:
-
-
-# Local Variables:
-# mode:python
-# mode:flyspell
-# compile-command:"python setup.py build"
-# End:
