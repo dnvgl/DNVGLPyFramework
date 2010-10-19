@@ -17,7 +17,8 @@ PYVER=$(shell python -c "import sys ; print sys.version[:3]")
 #BPATH=../build/lib.$(PYPLAT)-$(PYVER)
 #BPATH=../build/lib
 BPATH=../src
-PYTHON = PYTHONPATH=$(BPATH) python #-v
+GLGEOMETRY_DIR=/data/tmp/hoel/GLGeometry
+PYTHON = PYTHONPATH=$(BPATH):$(GLGEOMETRY_DIR)/src python #-v
 
 PYBASE = ../src
 UTESTS = $(subst /,.,$(subst $(PYBASE)/,,$(patsubst %.py,%_test,$(PY))))
