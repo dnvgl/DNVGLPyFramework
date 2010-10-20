@@ -20,14 +20,25 @@ test: build
 doc:
 	$(MAKE) -C doc html
 
-%_test: build
+%_test: 
 	make -C test $@
 
-%: build
+%: 
 	make -C test $@
 
 build:
 	python setup.py build
+
+IGN = $(shell [ -n "$$(svn propget svn:ignore .)" ] && echo "$$(svn propget svn:ignore .)")
+clean:
+	[ -n "$(IGN)" ] && rm -f $(IGN) || true
+	$(MAKE) -C test clean
+
+TAGS:
+	find src -name \*.py 
+	( set -e ;										\
+          find src -name \*.c -o -name \*.h -o -name \*.py -o -name \*.pyx -o -name \*.pxi 	\
+	  | xargs etags )
 
 .PHONY: build
 .PHONY:	doc

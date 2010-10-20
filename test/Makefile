@@ -14,11 +14,17 @@ SHELL = /bin/sh
 PYPLAT=$(shell python -c "from distutils import util; print util.get_platform()")
 PYVER=$(shell python -c "import sys ; print sys.version[:3]")
 
-#BPATH=../build/lib.$(PYPLAT)-$(PYVER)
-#BPATH=../build/lib
-BPATH=../src
+USE_COMPILED=1
+
+ifeq ($(USE_COMPILED),1)
+  export BASE_PATH=../src/tribon
+  BPATH=../build/lib:../build/lib.$(PYPLAT)-$(PYVER)
+else
+  BPATH=../src
+endif
 GLGEOMETRY_DIR=/data/tmp/hoel/GLGeometry
-PYTHON = PYTHONPATH=$(BPATH):$(GLGEOMETRY_DIR)/src python #-v
+GLGEOMETRY_PATH=$(GLGEOMETRY_DIR)/build/lib:$(GLGEOMETRY_DIR)/build/lib.$(PYPLAT)-$(PYVER)
+PYTHON = PYTHONPATH=$(BPATH):$(GLGEOMETRY_PATH) python #-v
 
 PYBASE = ../src
 UTESTS = $(subst /,.,$(subst $(PYBASE)/,,$(patsubst %.py,%_test,$(PY))))
@@ -27,7 +33,7 @@ ifeq ("$GL_ARCH","")
 FINDDIR=/bin/
 endif
 
-PY = $(shell $(FINDDIR)find ../src -name \*.py)
+PY = $(shell $(FINDDIR)find ../src -name \*.py -not -name .\#\* -and -not -name config.py )
 
 AKER_DIR=../data/Aker
 
@@ -122,7 +128,7 @@ test_all:	test	$(BIG_TESTS)
 test_pegasus: $(PEGASUS_TEST)
 
 build:
-	cd .. ; make build
+	make -C .. build
 
 tx2glshipmodel_app_test:	../data/TribonXML_3D/basic_small.xml	\
 		$(PY)	../app/tx2glshipmodel
@@ -258,7 +264,8 @@ clean:
 	rm -f $(TESTS) $(BIG_TESTS) core
 	rm -f general_information.sg2 *.glm *.hcf *.hcz
 	-find .. -name \*.pyc | xargs rm
-	svn propget svn:ignore|xargs rm -rf
+	svn propget svn:ignore | xargs rm -rf
+	-find . -type l -and -not -name .\#\* | xargs rm
 
 %_test.py:	__generic_test_.py
 	[ -f $@ ] || ln -s $< $@
