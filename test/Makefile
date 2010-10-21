@@ -14,7 +14,7 @@ SHELL = /bin/sh
 PYPLAT=$(shell python -c "from distutils import util; print util.get_platform()")
 PYVER=$(shell python -c "import sys ; print sys.version[:3]")
 
-USE_COMPILED=1
+USE_COMPILED=0
 
 ifeq ($(USE_COMPILED),1)
   export BASE_PATH=../src/tribon
@@ -27,13 +27,12 @@ GLGEOMETRY_PATH=$(GLGEOMETRY_DIR)/build/lib:$(GLGEOMETRY_DIR)/build/lib.$(PYPLAT
 PYTHON = PYTHONPATH=$(BPATH):$(GLGEOMETRY_PATH) python #-v
 
 PYBASE = ../src
+PY = $(shell $(FINDDIR)find $(PYBASE) -name \*.py -not -name .\#\* -and -not -name config.py )
 UTESTS = $(subst /,.,$(subst $(PYBASE)/,,$(patsubst %.py,%_test,$(PY))))
 
 ifeq ("$GL_ARCH","")
 FINDDIR=/bin/
 endif
-
-PY = $(shell $(FINDDIR)find ../src -name \*.py -not -name .\#\* -and -not -name config.py )
 
 AKER_DIR=../data/Aker
 
