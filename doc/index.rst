@@ -27,9 +27,8 @@ Contents:
    :maxdepth: 2
 
    tx2pegasus
-
-:api:`tribon`
-
+   memos/Pegasus_shortcomings
+   api
 
 Indices and tables
 ==================
