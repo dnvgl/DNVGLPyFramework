@@ -113,7 +113,6 @@ TESTS += $(HCM_TESTS)
 TESTS += $(MAC_TESTS)
 
 TESTS += DA2100_test
-TESTS += $(PEGASUS_TEST)
 TESTS += DA2100_ANSYS_test
 # TESTS += Horn_20071106_test
 
@@ -123,8 +122,6 @@ all:
 test:	py_dep build	$(TESTS)
 
 test_all:	test	$(BIG_TESTS)
-
-test_pegasus: $(PEGASUS_TEST)
 
 build:
 	make -C .. build
@@ -196,7 +193,6 @@ SMK_sec12/%.mac:	../data/SMK_sec12/%.xml
 	@[ -d ${@D} ] || mkdir ${@D}
 	$(PYTHON) ../app/tx2pegasus --cfg=$*.ini $< --output=$@
 	$(PYTHON) validate_hcm.py $@
-	touch $@
 
 MP.hcf MP.hcz: $(PY) MP.ini MP.xml						\
 		MP-1.xml MP-2.xml MP-3.xml  MP-5.xml MP-6.xml MP-7.xml	\
@@ -224,7 +220,6 @@ Aker/%.hcz DA2100/%.hcz Tribon-20080516/%.hcz %.hcz %.hcf:	%.xml	%.ini	$(PY)
 	$(PYTHON) ../app/tx2pegasus --cfg=$*.ini $<	\
 		--output=$@
 	$(PYTHON) validate_hcm.py $@
-	touch $@
 
 conro.hcz:: $(PY) conro.ini 							\
 		conro_1000.xml conro_2000.xml conro_3000.xml conro_4000.xml 	\
