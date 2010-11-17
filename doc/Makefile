@@ -153,6 +153,30 @@ epydoc_latex:
 	[ -d $(BUILDDIR)/latex/api ] || mkdir -p $(BUILDDIR)/html/api
 	epydoc -o $(BUILDDIR)/html/api --latex --verbose ../src/tribon
 
+xsd_doc:
+# Usage: xsddoc [-option] schema
+#              (to document a schema)
+# where options include:
+#     -o -out <folder>      Set the output folder
+#     -t -doctitle <title>  Set the documentation title
+#     -h -header <header>   Set the documentation header
+#     -f -footer <footer>   Set the documentation footer
+#     -b -bottom <bottom>   Set the documentation bottom
+#     -v -verbose           Output messages about what xsddoc is doing
+#     -q -quiet             Be quiet about what xsddoc is doing
+#     -s -hideSubTypes      hide sub types references
+#     -l -hideSubLocalUsage hide show local usage references
+#     -p -hideTypes         hide types in overview pages
+#     -g -hideGroups        hide groups in overview pages
+#     -a -hideAttributes    hide attributes in overview pages
+#     -css &lt;css-file>    provide external CSS file
+#     -xml                  output as XML instead of HTML
+#     -launch               Launch documentation after creation
+#     -cf                   Create output folder if not exists
+#     -version              Only output version of xsddoc
+#     -d -debug             Output debug messages
+#     -? -help              Print this help message
+	xsddoc -o Tribon_XSD -cf -t "Tribon XML"  ../../src/tribon/xsd/HullPanel.xsd
 
 # Local Variables:
 # mode:makefile
