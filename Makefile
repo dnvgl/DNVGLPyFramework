@@ -1,10 +1,10 @@
-# Copyright (C) 2006 by Germanischer Lloyd AG
+# Copyright (C) 2010 by Germanischer Lloyd SE
 
 # ======================================================================
-# Task      makefile for tribonXML converters
+# Task      makefile for GLPyFramework
 # ----------------------------------------------------------------------
 # Author    Berthold Höllmann <hoel@GL-Group.com>
-# Project   tribonXML converters
+# Project   GLPyFramework converters
 # ======================================================================
 
 # CVSID: $Id$

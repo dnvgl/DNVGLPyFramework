@@ -1,11 +1,11 @@
-# Copyright (C) 2007 by Germanischer Lloyd AG
+# Copyright (C) 2010 by Germanischer Lloyd SE
 
 # ======================================================================
-# Task      Generate documentation for Tribon XML tools.
+# Task      Generate documentation for GLPyFramework.
 #           Makefile for Sphinx documentation
 # ----------------------------------------------------------------------
 # Author    Berthold Höllmann <hoel@GL-Group.com>
-# Project   tribonXML converters
+# Project   GLPyFramwork
 # ======================================================================
 
 # CVSID: $Id$
@@ -13,7 +13,7 @@
 SHELL = /bin/sh
 
 DOC_HOST=www-intern
-DOC_DIR=/export/WWW-Intern/htdocs/pool/ho/software/info/tribonXML_convert
+DOC_DIR=/export/WWW-Intern/htdocs/pool/ho/software/info/GLPyFramwork
 
 # You can set these variables from the command line.
 SPHINXOPTS    =
@@ -26,7 +26,7 @@ PAPEROPT_a4     = -D latex_paper_size=a4
 PAPEROPT_letter = -D latex_paper_size=letter
 ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 
-export PYTHONPATH=../../GLGeometry/src
+export PYTHONPATH=../../GLGeometry/src:../../tribonXML_convert/src:
 
 .PHONY: help clean html dirhtml singlehtml pickle json htmlhelp qthelp devhelp epub latex latexpdf text man changes linkcheck doctest
 
@@ -147,36 +147,11 @@ doctest:
 
 epydoc_html:
 	[ -d $(BUILDDIR)/html/api ] || mkdir -p $(BUILDDIR)/html/api
-	epydoc -o $(BUILDDIR)/html/api --html --verbose ../src/tribon
+	epydoc -o $(BUILDDIR)/html/api --html --verbose ../src/glframework
 
 epydoc_latex:
 	[ -d $(BUILDDIR)/latex/api ] || mkdir -p $(BUILDDIR)/html/api
-	epydoc -o $(BUILDDIR)/html/api --latex --verbose ../src/tribon
-
-xsd_doc:
-# Usage: xsddoc [-option] schema
-#              (to document a schema)
-# where options include:
-#     -o -out <folder>      Set the output folder
-#     -t -doctitle <title>  Set the documentation title
-#     -h -header <header>   Set the documentation header
-#     -f -footer <footer>   Set the documentation footer
-#     -b -bottom <bottom>   Set the documentation bottom
-#     -v -verbose           Output messages about what xsddoc is doing
-#     -q -quiet             Be quiet about what xsddoc is doing
-#     -s -hideSubTypes      hide sub types references
-#     -l -hideSubLocalUsage hide show local usage references
-#     -p -hideTypes         hide types in overview pages
-#     -g -hideGroups        hide groups in overview pages
-#     -a -hideAttributes    hide attributes in overview pages
-#     -css &lt;css-file>    provide external CSS file
-#     -xml                  output as XML instead of HTML
-#     -launch               Launch documentation after creation
-#     -cf                   Create output folder if not exists
-#     -version              Only output version of xsddoc
-#     -d -debug             Output debug messages
-#     -? -help              Print this help message
-	xsddoc -o Tribon_XSD -cf -t "Tribon XML"  ../../src/tribon/xsd/HullPanel.xsd
+	epydoc -o $(BUILDDIR)/html/api --latex --verbose ../src/glframework
 
 # Local Variables:
 # mode:makefile

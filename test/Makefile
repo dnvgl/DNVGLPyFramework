@@ -1,10 +1,10 @@
-# Copyright (C) 2006, 2007 by Germanischer Lloyd AG
+# Copyright (C) 2010 by Germanischer Lloyd SE
 
 # ======================================================================
-# Task      makefile for tests for tribonXML converters
+# Task      makefile for tests for GLPyFramework library
 # ----------------------------------------------------------------------
 # Author    Berthold Höllmann <hoel@GL-Group.com>
-# Project   tribonXML converters
+# Project   GPPyFramwork
 # ======================================================================
 
 # CVSID: $Id$
@@ -24,7 +24,10 @@ else
 endif
 GLGEOMETRY_DIR=/data/tmp/hoel/GLGeometry
 GLGEOMETRY_PATH=$(GLGEOMETRY_DIR)/build/lib:$(GLGEOMETRY_DIR)/build/lib.$(PYPLAT)-$(PYVER)
-PYTHON = PYTHONPATH=$(BPATH):$(GLGEOMETRY_PATH) python #-v
+TRIBON_DIR=/data/tmp/hoel/tribonXML_convert
+TRIBON_PATH=$(TRIBON_DIR)/build/lib:$(TRIBON_DIR)/build/lib.$(PYPLAT)-$(PYVER)
+
+PYTHON = PYTHONPATH=$(BPATH):$(GLGEOMETRY_PATH):$(TRIBON_PATH) python #-v
 
 PYBASE = ../src
 PY = $(shell $(FINDDIR)find $(PYBASE) -name \*.py -not -name .\#\* -and -not -name config.py )
@@ -34,87 +37,8 @@ ifeq ("$GL_ARCH","")
 FINDDIR=/bin/
 endif
 
-AKER_DIR=../data/Aker
-
-AKER_2D_ = $(wildcard $(AKER_DIR)/2D/*.xml)
-AKER_3D_ = $(wildcard $(AKER_DIR)/3D/*.xml)
-AKER_2D = $(addprefix Aker/,$(patsubst %.xml,%_2D.sg2,$(notdir $(AKER_2D_))))
-AKER_3D = $(addprefix Aker/,$(patsubst %.xml,%_3D.glm,$(notdir $(AKER_3D_))))
-AKER_3D_ANSYS = $(addprefix Aker/,$(patsubst %.xml,%_3D.mac,$(notdir $(AKER_3D_))))
-
-HCM_TESTS  = write_pegasusxml_rtest
-HCM_TESTS += basic_small_stiff.hcf
-HCM_TESTS += Aker/YI9999.hcz
-HCM_TESTS += spt78_3D.hcz
-HCM_TESTS += spt82_3D.hcz
-HCM_TESTS += spt70_3D.hcz
-HCM_TESTS += spt74_3D.hcz
-HCM_TESTS += Z_7000_3D.hcz
-HCM_TESTS += z_9100_3D.hcz
-HCM_TESTS += DA2100/da2100_3201.hcz
-HCM_TESTS += DA2100/da2100_3321.hcz
-HCM_TESTS += DA2100/da2100_3204.hcz
-HCM_TESTS += DA2100/da2100_3389.hcz
-HCM_TESTS += lm012.hcz
-HCM_TESTS += basic_ideal.hcz
-HCM_TESTS += basic_small.hcz
-HCM_TESTS += Tribon-20080516/ED1_3D.hcz
-HCM_TESTS += Tribon-20080516/ED1_3D_2.hcz
-HCM_TESTS += conro_1000.hcz
-HCM_TESTS += conro_2000.hcz
-HCM_TESTS += conro_3000.hcz
-HCM_TESTS += conro_4000.hcz
-HCM_TESTS += conro_5000.hcz
-HCM_TESTS += conro_6000.hcz
-HCM_TESTS += conro.hcz
-
-
-GLM_TESTS  = tx2glshipmodel_app_test
-GLM_TESTS += DA2100/da2100_3201.glm
-GLM_TESTS += DA2100/da2100_3321.glm
-GLM_TESTS += DA2100/da2100_3204.glm
-GLM_TESTS += DA2100/da2100_3389.glm
-GLM_TESTS += DA2100/da2100_param.sg2
-GLM_TESTS += Horn_20071106/li027-28-29.glm
-GLM_TESTS += Horn_20071106/li027.glm
-GLM_TESTS += Horn_20071106/li028.glm
-GLM_TESTS += Horn_20071106/li029.glm
-GLM_TESTS += Horn_20071106/li042.glm
-GLM_TESTS += Horn_20071106/li043.glm
-GLM_TESTS += Tribon-20080516/ED1_3D.glm
-GLM_TESTS += Tribon-20080516/ED1_3D_2.glm
-GLM_TESTS += SMK_sec12/lm012-idealisation.glm
-GLM_TESTS += SMK_sec12/lm012.glm
-
-
-MAC_TESTS  = SMK_sec12/lm012-idealisation.mac
-MAC_TESTS += SMK_sec12/lm012.mac
-MAC_TESTS += Horn_20071106/li027-28-29.mac
-MAC_TESTS += Horn_20071106/li027.mac
-MAC_TESTS += Horn_20071106/li028.mac
-MAC_TESTS += Horn_20071106/li029.mac
-MAC_TESTS += Horn_20071106/li042.mac
-MAC_TESTS += Horn_20071106/li043.mac
-
-li027-28-29_mac_addargs = 
-li027_mac_addargs = --min-k=2200
-li028_mac_addargs = --min-k=3100
-li029_mac_addargs = --min-k=3700
-li042_mac_addargs = --min-k=4500
-li043_mac_addargs = --min-k=4900
-
-BIG_TESTS += tx2dfile_app_test
-BIG_TESTS += tx2glshipmodel_big_test
 
 TESTS  = $(UTESTS)
-#TESTS += $(GLM_TESTS)
-#TESTS += $(BIG_TESTS)
-TESTS += $(HCM_TESTS)
-TESTS += $(MAC_TESTS)
-
-TESTS += DA2100_test
-TESTS += DA2100_ANSYS_test
-# TESTS += Horn_20071106_test
 
 all:
 	@true
@@ -125,24 +49,6 @@ test_all:	test	$(BIG_TESTS)
 
 build:
 	make -C .. build
-
-tx2glshipmodel_app_test:	../data/TribonXML_3D/basic_small.xml	\
-		$(PY)	../app/tx2glshipmodel
-	$(PYTHON) ../app/tx2glshipmodel --validate $< $(basename $(<F)).glm
-	numdiff $(basename $(<F)).glm ref/$(basename $(<F)).glm
-	touch $@
-
-tx2glshipmodel_big_test:	../data/TribonXML_3D/basic_ideal.xml	\
-		$(PY)	../app/tx2glshipmodel
-	$(PYTHON) ../app/tx2glshipmodel --validate $< $(basename $(<F)).glm
-	numdiff ref/$(basename $(<F)).glm $(basename $(<F)).glm
-	touch $@
-
-tx2dfile_app_test:	../data/ToPATRAN/general_information.xml	\
-		$(PY)	../app/tx2dfile
-	$(PYTHON) ../app/tx2dfile --validate $< --output $(basename $(<F)).sg2
-	numdiff ref/$(basename $(<F)).sg2 $(basename $(<F)).sg2
-	touch $@
 
 %_test:	%_test.py
 	$(PYTHON) $< -v
@@ -157,103 +63,6 @@ py_dep: gen_py_dep.py $(addsuffix .py,$(UTESTS))
 
 include py_dep
 
-AKER_ALL:	$(AKER_3D)	Aker/aker_rf.sg2	$(AKER_3D_ANSYS)
-
-DA2100_BUILD: $(DA2100)
-
-DA2100/%.glm:	../data/DA2100/%.xml $(PY)
-	@[ -d ${@D} ] || mkdir ${@D}
-	$(PYTHON) ../app/tx2glshipmodel --validate $< $@
-
-DA2100/%.sg2:	../data/DA2100/%.xml $(PY)
-	@[ -d ${@D} ] || mkdir ${@D}
-	$(PYTHON) ../app/tx2dfile --validate $< --output $@
-
-Aker/%_3D.glm:	$(AKER_DIR)/3D/%.xml $(PY)
-	@[ -d ${@D} ] || mkdir ${@D}
-	$(PYTHON) ../app/tx2glshipmodel --validate $< $@
-
-Aker/%_3D.mac:	$(AKER_DIR)/3D/%.xml $(PY)
-	@[ -d ${@D} ] || mkdir ${@D}
-	$(PYTHON) ../app/tx2ansys $< --output=$@
-
-Aker/aker_rf.sg2:	$(AKER_2D_) $(PY)
-	@[ -d ${@D} ] || mkdir ${@D}
-	$(PYTHON) ../app/tx2dfile --validate $(AKER_2D_) --output $@
-
-SMK_sec12/%.glm:	../data/SMK_sec12/%.xml
-	@[ -d ${@D} ] || mkdir ${@D}
-	$(PYTHON) ../app/tx2glshipmodel --validate $< $@
-
-SMK_sec12/%.mac:	../data/SMK_sec12/%.xml
-	@[ -d ${@D} ] || mkdir ${@D}
-	$(PYTHON) ../app/tx2ansys $< --output $@
-
-20090706/%.hcz:	../data/20090706/%.xml	%.ini	$(PY)
-	@[ -d ${@D} ] || mkdir ${@D}
-	$(PYTHON) ../app/tx2pegasus --cfg=$*.ini $< --output=$@
-	$(PYTHON) validate_hcm.py $@
-
-MP.hcf MP.hcz: $(PY) MP.ini MP.xml						\
-		MP-1.xml MP-2.xml MP-3.xml  MP-5.xml MP-6.xml MP-7.xml	\
-		MP-41.xml MP-42.xml MP-44.xml
-	$(PYTHON) ../app/tx2pegasus --cfg=MP.ini $(filter %.xml,$^) --output=$@
-	$(PYTHON) validate_hcm.py $@
-
-DA2100_test:	$(PY) da2100_3201.xml da2100_param.xml
-	$(PYTHON) ../app/tx2pegasus --cfg=da2100.ini $(filter %.xml,$^) 	\
-		--output=da2100.hcz
-	$(PYTHON) validate_hcm.py da2100.hcz
-	touch $@
-
-test_Yangfan:	$(PY) Yangfan_test.ini ca301.xml ca320.xml
-	$(PYTHON) ../app/tx2pegasus --cfg=Yangfan_test.ini $(filter %.xml,$^) 	\
-		--detailed-contour --output=Yangfan_test.hcz
-	$(PYTHON) validate_hcm.py Yangfan_test.hcz
-	touch $@
-
-%.ini:
-	echo "not valid" > $@
-
-Aker/%.hcz DA2100/%.hcz Tribon-20080516/%.hcz %.hcz %.hcf:	%.xml	%.ini	$(PY)
-	@[ -d ${@D} ] || mkdir ${@D}
-	$(PYTHON) ../app/tx2pegasus --cfg=$*.ini $<	\
-		--output=$@
-	$(PYTHON) validate_hcm.py $@
-
-conro.hcz:: $(PY) conro.ini 							\
-		conro_1000.xml conro_2000.xml conro_3000.xml conro_4000.xml 	\
-		conro_5000.xml conro_6000.xml
-	$(PYTHON) ../app/tx2pegasus --cfg=conro.ini $(filter %.xml,$^) 	\
-		--output=$@
-	$(PYTHON) validate_hcm.py $@
-
-conro_det.hcz:: $(PY) conro.ini							\
-		conro_1000.xml conro_2000.xml conro_3000.xml conro_4000.xml	\
-		conro_5000.xml conro_6000.xml
-	$(PYTHON) ../app/tx2pegasus --cfg=conro.ini $(filter %.xml,$^)	\
-		--detailed-contour --output=$@
-	$(PYTHON) validate_hcm.py $@
-
-DA2100_ANSYS_test:	$(PY) da2100_3201.xml
-	$(PYTHON) ../app/tx2ansys $(filter %.xml,$^) --output=da2100.mac
-	touch $@
-
-Horn_20071106/%.mac:	%.xml	$(PY)
-	@[ -d ${@D} ] || mkdir ${@D}
-	$(PYTHON) ../app/tx2ansys $< --output $@ $($*_mac_addargs)
-
-Horn_20071106/%.glm Tribon-20080516/%.glm:	%.xml $(PY)
-	@[ -d ${@D} ] || mkdir ${@D}
-	$(PYTHON) ../app/tx2glshipmodel --validate $< $@
-
-%.glm:	%.xml $(PY)
-	@[ -d ${@D} ] || mkdir ${@D}
-	$(PYTHON) ../app/tx2glshipmodel --validate $< $@
-
-TRIBON_20080516_test: $(TRIBON_20080516)
-	touch $@
-
 clean:
 	rm -f $(TESTS) $(BIG_TESTS) core
 	rm -f general_information.sg2 *.glm *.hcf *.hcz
@@ -265,20 +74,11 @@ clean:
 	[ -f $@ ] || ln -s $< $@
 
 vpath %.py $(shell $(FINDDIR)find ../src -type d|grep -v .svn)
-vpath %.xml ../data/DA2100
-vpath %.xml ../data/Horn_20071006
-vpath %.xml ../data/TribonXML_3D
-vpath %.xml ../data/SMK_sec12
-vpath %.xml $(AKER_DIR)/
-vpath %.xml $(AKER_DIR)/3D/
-vpath %.xml ../data/SMK
-vpath %.xml ../data/Tribon-20080516
-vpath %.xml ../data
-vpath %.xml ../data/Neptun
-vpath %.xml ../data/Neptun-MP-20090708
-vpath %.xml ../data/Yangfan
 
 # Local Variables:
-# compile-command:"make test"
+# mode:makefile
+# mode:flyspell
+# ispell-local-dictionary:"en"
+# compile-command:"make"
 # coding:utf-8
 # End:

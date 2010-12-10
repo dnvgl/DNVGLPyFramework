@@ -2,12 +2,13 @@
 # -*- coding: utf-8 -*-
 
 u"""
-Application framework for Tribon converters
+A lightweight Application framwork
 
 :author: `Berthold Höllmann <berthold.hoellmann@gl-group.com>`__
 :newfield project: Project
-:project: tribonXML converters
-:copyright: Copyright (C) 2009 by Germanischer Lloyd AG"""
+:project: GLPyFramwork
+:copyright: Copyright (C) 2010 by Germanischer Lloyd SE
+"""
 
 from __future__ import absolute_import
 
@@ -22,9 +23,8 @@ class Application(object):
     """
 Base Class for Applications.
 
-This class is the base class for all applications from the GL
-TribonXML converter suite. It allows access to the program options
-from all parts of the program.
+This class is a base class applications. It allows access to the
+program options from all parts of the program.
 
 :CVariables:
   options
@@ -78,6 +78,6 @@ from all parts of the program.
 # Local Variables:
 # mode:python
 # mode:flyspell
-# compile-command:"make -C ../../../ test"
+# ispell-local-dictionary:"en"
+# compile-command:"make -C ../../ test"
 # End:
-

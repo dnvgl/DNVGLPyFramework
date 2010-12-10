@@ -1,6 +1,6 @@
 ..
-  Task   : API documentation for Tribon XML converters
-  Project: tribon XML converters
+  Task   : API documentation for GLPyFramework
+  Project: GLPyFramework
 
 .. ID: $Id$
 
@@ -15,7 +15,7 @@
 API Documentation
 =================
 
-The :api:`tribon` provides an API documentation generated from the
+The :api:`glframework` provides an API documentation generated from the
 source code.
 
 ..

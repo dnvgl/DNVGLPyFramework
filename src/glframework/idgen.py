@@ -7,8 +7,8 @@ exclude from furter usage.
 
 :author: `Berthold Höllmann <berthold.hoellmann@GL-Group.com>`__
 :newfield project: Project
-:project: tx2pegasus
-:copyright: Copyright © 2007 by Germanischer Lloyd
+:project: GLPyFramwork
+:copyright: Copyright © 2010 by Germanischer Lloyd SE
 """
 
 from __future__ import absolute_import
@@ -90,5 +90,7 @@ Add a list of values `val` to be excluded from this generator.
 
 # Local Variables:
 # mode:python
-# compile-command:"make -C ../../../ test"
+# mode:flyspell
+# ispell-local-dictionary:"en"
+# compile-command:"make -C ../../ test"
 # End:
