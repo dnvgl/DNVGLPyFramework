@@ -20,7 +20,7 @@ __docformat__ = "restructuredtext en"
 import doctest
 import unittest
 
-from tribon.util.idgen import IDGen
+from glframework.idgen import IDGen
 
 class _Base(object):
     _ID = IDGen()
@@ -54,7 +54,7 @@ if __name__ == '__main__':
     doctest.set_unittest_reportflags(doctest.REPORT_CDIFF)
 
     suite = unittest.TestSuite()
-    from tribon.util import idgen
+    from glframework import idgen
     suite.addTest(doctest.DocTestSuite(idgen))
 
     runner = unittest.TextTestRunner()
