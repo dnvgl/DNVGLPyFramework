@@ -79,6 +79,6 @@ vpath %.py $(shell $(FINDDIR)find ../src -type d|grep -v .svn)
 # mode:makefile
 # mode:flyspell
 # ispell-local-dictionary:"en"
-# compile-command:"make"
+# compile-command:"make test"
 # coding:utf-8
 # End:
