@@ -22,12 +22,8 @@ ifeq ($(USE_COMPILED),1)
 else
   BPATH=../src
 endif
-GLGEOMETRY_DIR=/data/tmp/hoel/GLGeometry
-GLGEOMETRY_PATH=$(GLGEOMETRY_DIR)/build/lib:$(GLGEOMETRY_DIR)/build/lib.$(PYPLAT)-$(PYVER)
-TRIBON_DIR=/data/tmp/hoel/tribonXML_convert
-TRIBON_PATH=$(TRIBON_DIR)/build/lib:$(TRIBON_DIR)/build/lib.$(PYPLAT)-$(PYVER)
 
-PYTHON = PYTHONPATH=$(BPATH):$(GLGEOMETRY_PATH):$(TRIBON_PATH) python #-v
+PYTHON = PYTHONPATH=$(BPATH) python #-v
 
 PYBASE = ../src
 PY = $(shell $(FINDDIR)find $(PYBASE) -name \*.py -not -name .\#\* -and -not -name config.py )
