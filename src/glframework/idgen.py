@@ -38,6 +38,8 @@ class IDGen(object):
 >>> id.set(2)
 >>> id()
 2
+>>> id()
+3
 >>> id.exclude(range(10))
 >>> id()
 10
@@ -67,6 +69,8 @@ Generator function to return the next usable ID value.
             yield self.__retval()
             if not self.__set:
                 self._ID += 1
+            else:
+                self.__set = False
 
     def set(self, val):
         """
