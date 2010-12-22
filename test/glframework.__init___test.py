@@ -1,8 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 u"""
 tests for tribon.util module
 
@@ -19,9 +17,12 @@ __docformat__ = "restructuredtext en"
 import doctest
 import unittest
 
-from tribon import util
+import glframework
 
 class Test(unittest.TestCase):
+    """
+Testing the glframework module.
+"""
 
     def setUp(self):
         pass
@@ -30,12 +31,12 @@ if __name__ == '__main__':
 
     doctest.set_unittest_reportflags(doctest.REPORT_CDIFF)
 
-    suite = unittest.TestSuite()
-    #suite.addTest(doctest.DocTestSuite(util))
+    SUITE = unittest.TestSuite()
+    SUITE.addTest(doctest.DocTestSuite(glframework))
 
-    runner = unittest.TextTestRunner()
-    runres = runner.run(suite)
-    if runres.errors or runres.failures:
+    RUNNER = unittest.TextTestRunner()
+    RUNRES = RUNNER.run(SUITE)
+    if RUNRES.errors or RUNRES.failures:
         raise Exception("failed test occured")
 
     unittest.main()

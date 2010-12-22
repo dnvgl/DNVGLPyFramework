@@ -1,8 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 u"""
 Unit tests for tx2pegasus.idgen
 
@@ -20,51 +18,58 @@ __docformat__ = "restructuredtext en"
 import doctest
 import unittest
 
-from glframework.idgen import IDGen
+from glframework import idgen
 
 class _Base(object):
-    _ID = IDGen()
+    """Base class needed for testing correct bahaviour in derived classes.
+"""
+    _ID = idgen.IDGen()
     def __call__(self):
         return self._ID()
 
 class DerivA(_Base):
-    pass
+    "First derived class"
 
 class DerivB(_Base):
-    pass
+    "second derived class"
 
 class Test(unittest.TestCase):
-
+    """
+Testing the glframework.idgen module,
+"""
     def setUp(self):
-        self.A1 = DerivA()
-        self.A2 = DerivA()
-        self.B1 = DerivB()
-        self.B2 = DerivB()
+        self.a_1 = DerivA()
+        self.a_2 = DerivA()
+        self.b_1 = DerivB()
+        self.b_2 = DerivB()
 
     def testRun(self):
-        self.assert_(self.A1() == 0)
-        self.assert_(self.B1() == 1)
-        self.assert_(self.A2() == 2)
-        self.assert_(self.B2() == 3)
-        self.assert_(self.A1() == 4)
-        self.assert_(self.B1() == 5)
+        """Testing correct behavour in derived classes.
+"""
+        self.assert_(self.a_1() == 0)
+        self.assert_(self.b_1() == 1)
+        self.assert_(self.a_2() == 2)
+        self.assert_(self.b_2() == 3)
+        self.assert_(self.a_1() == 4)
+        self.assert_(self.b_1() == 5)
 
 if __name__ == '__main__':
 
     doctest.set_unittest_reportflags(doctest.REPORT_CDIFF)
 
-    suite = unittest.TestSuite()
-    from glframework import idgen
-    suite.addTest(doctest.DocTestSuite(idgen))
+    SUITE = unittest.TestSuite()
+    SUITE.addTest(doctest.DocTestSuite(idgen))
 
-    runner = unittest.TextTestRunner()
-    runres = runner.run(suite)
-    if runres.errors or runres.failures:
+    RUNNER = unittest.TextTestRunner()
+    RUNRES = RUNNER.run(SUITE)
+    if RUNRES.errors or RUNRES.failures:
         raise Exception("failed test occured")
 
     unittest.main()
 
 # Local Variables:
 # mode:python
+# mode:flyspell
+# ispell-local-dictionary:"en"
 # compile-command:"make test"
 # End:

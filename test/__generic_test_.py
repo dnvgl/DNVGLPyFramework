@@ -1,8 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 u"""
 tests for tribon.xml.ship.material.__init__
 
@@ -10,6 +8,8 @@ tests for tribon.xml.ship.material.__init__
 :newfield project: Project
 :project: tribonXML converters
 :copyright: Copyright (C) 2010 by Germanischer Lloyd AG"""
+
+from __future__ import absolute_import
 
 #  ID: $Id$
 __date__      = u"$Date$"[5:-1]
@@ -21,22 +21,23 @@ import unittest
 import doctest
 import sys
 
-modname = sys.argv[0][:-8]
-if modname.endswith('.__init__'):
-    modname = modname[:-9]
+MODNAME = sys.argv[0][:-8]
+if MODNAME.endswith('.__init__'):
+    MODNAME = MODNAME[:-9]
 
-module = __import__(modname)
+__import__(MODNAME)
+MODULE = sys.modules[MODNAME]
 
 if __name__ == '__main__':
 
     doctest.set_unittest_reportflags(doctest.REPORT_CDIFF)
 
-    suite = unittest.TestSuite()
-    suite.addTest(doctest.DocTestSuite(module))
+    SUITE = unittest.TestSuite()
+    SUITE.addTest(doctest.DocTestSuite(MODULE))
 
-    runner = unittest.TextTestRunner()
-    runres = runner.run(suite)
-    if runres.errors or runres.failures:
+    RUNNER = unittest.TextTestRunner()
+    RUNRES = RUNNER.run(SUITE)
+    if RUNRES.errors or RUNRES.failures:
         raise Exception("failed test occured")
 
     unittest.main()

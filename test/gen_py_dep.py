@@ -1,8 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 u"""
 Generate dependecy rules for testing tribon module
 
@@ -18,10 +16,11 @@ __docformat__ = "restructuredtext en"
 
 import sys
 
-pybase = sys.argv[-1]
+PYBASE = sys.argv[-1]
 
 for filename in sys.argv[1:-1]:
-    print "%s:\t%s/%s.py" % (filename[:-3], pybase, filename[:-8].replace('.', '/'))
+    print "%s:\t%s/%s.py" % (
+        filename[:-3], PYBASE, filename[:-8].replace('.', '/'))
 
 # Local Variables:
 # mode:python

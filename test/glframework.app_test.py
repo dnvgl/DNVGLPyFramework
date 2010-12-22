@@ -1,8 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 u"""
 Unit tests for tx2pegasus.util.app
 
@@ -19,9 +17,12 @@ __docformat__ = "restructuredtext en"
 import doctest
 import unittest
 
-from glframework.app import Application
+from glframework import app
 
 class Test(unittest.TestCase):
+    """
+Testing the glframework.app module.
+"""
 
     def setUp(self):
         pass
@@ -30,13 +31,12 @@ if __name__ == '__main__':
 
     doctest.set_unittest_reportflags(doctest.REPORT_CDIFF)
 
-    suite = unittest.TestSuite()
-    from glframework import idgen
-    suite.addTest(doctest.DocTestSuite(idgen))
+    SUITE = unittest.TestSuite()
+    SUITE.addTest(doctest.DocTestSuite(app))
 
-    runner = unittest.TextTestRunner()
-    runres = runner.run(suite)
-    if runres.errors or runres.failures:
+    RUNNER = unittest.TextTestRunner()
+    RUNRES = RUNNER.run(SUITE)
+    if RUNRES.errors or RUNRES.failures:
         raise Exception("failed test occured")
 
     unittest.main()
