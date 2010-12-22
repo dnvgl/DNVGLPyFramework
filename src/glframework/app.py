@@ -75,6 +75,12 @@ program options from all parts of the program.
     def __call__(self):
         return self.main()
 
+    @staticmethod
+    def main():
+        raise NotImplementedError("""***
+method `main` main has to be overloaded by class derived from Application.
+***""")
+
 # Local Variables:
 # mode:python
 # mode:flyspell
