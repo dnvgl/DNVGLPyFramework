@@ -59,7 +59,7 @@ program options from all parts of the program.
             optparse.make_option(
                 '', '--factor', action='store', default=1./1000.,
                 metavar="FACTOR", type="float",
-                help = """Factor for length units. DEFAULT: [%default]""")
+                help = """Factor for length units. [DEFAULT: %default]""")
             ]
         parser = optparse.OptionParser(option_list=optionList,
                                        usage=self._usage,
