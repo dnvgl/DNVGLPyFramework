@@ -31,7 +31,7 @@ build:
 
 IGN = $(shell [ -n "$$(svn propget svn:ignore .)" ] && echo "$$(svn propget svn:ignore .)")
 clean:
-	[ -n "$(IGN)" ] && rm -f $(IGN) || true
+	[ -n "$(IGN)" ] && $(RM) -r $(IGN) || true
 	$(MAKE) -C test clean
 
 TAGS:
