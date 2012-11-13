@@ -11,15 +11,11 @@ Setup and install for GLPyFramework,
 """
 
 #  CVSID: $Id$
-__date__      = "$Date$"
-__version__   = "$Revision$"[10:-1]
+__date__ = "$Date$"
+__version__ = "$Revision$"[10:-1]
 __docformat__ = "restructuredtext en"
 
-from distutils.core import setup
-import distutils.sysconfig
-import glob
-import os.path
-import sys
+from setuptools import setup
 
 setup(name='GLPyFramework',
       version='0.1',
@@ -27,10 +23,9 @@ setup(name='GLPyFramework',
       author='Berthold Höllmann, Germanischer Lloyd AG',
       author_email='berthold.hoellmann@gl-group.com',
       url='http://www.gl-group.com',
-      # (cd src/;find . -type d|grep -v .svn |grep -v xsd|sed "s#^\./##g"|sed "s#^\.##g"|sed "s#/#.#g")
-      packages=[
-          'glframework',
-          ],
+      # (cd src/;find . -type d|grep -v .svn |grep -v xsd|sed "s#^\./##g"|
+      #  sed "s#^\.##g"|sed "s#/#.#g")
+      packages=['glframework', ],
       package_dir={'': 'src'},
       )
 
