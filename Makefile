@@ -23,7 +23,7 @@ doc:
 %_test: 
 	make -C test $@
 
-%: 
+%:
 	make -C test $@
 
 build:
@@ -35,13 +35,14 @@ clean:
 	$(MAKE) -C test clean
 
 TAGS:
-	find src -name \*.py 
+	find src -name \*.py
 	( set -e ;										\
-          find src -name \*.c -o -name \*.h -o -name \*.py -o -name \*.pyx -o -name \*.pxi 	\
+          find src -name \*.c -o -name \*.h -o -name \*.py -o -name \*.pyx -o -name \*.pxi	\
 	  | xargs etags )
 
 .PHONY: build
-.PHONY:	doc
+.PHONY: doc
+.PHONY: test
 
 # Local Variables:
 # compile-command:"make test"

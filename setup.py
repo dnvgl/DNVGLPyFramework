@@ -18,7 +18,7 @@ __docformat__ = "restructuredtext en"
 from setuptools import setup
 
 setup(name='GLPyFramework',
-      version='0.1',
+      version='0.2',
       description='Lightwight framwork for GL Python applications.',
       author='Berthold Höllmann, Germanischer Lloyd AG',
       author_email='berthold.hoellmann@gl-group.com',

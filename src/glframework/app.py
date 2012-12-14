@@ -13,11 +13,12 @@ A lightweight Application framwork
 from __future__ import absolute_import
 
 #  ID: $Id$
-__date__      = u"$Date$"[5:-1]
-__version__   = "$Revision$"[10:-1]
+__date__ = u"$Date$"[5:-1]
+__version__ = "$Revision$"[10:-1]
 __docformat__ = "restructuredtext en"
 
-import optparse
+import argparse
+
 
 class Application(object):
     """
@@ -28,11 +29,11 @@ program options from all parts of the program.
 
 :CVariables:
   options
-    parsed options as from `optparse.OptionParser.parse_args`
+    parsed options as from `argparse.ArgumentParser.parse_args`
   args
-    args part from `optparse.OptionParser.parse_args`
+    args part from `argparse.ArgumentParser.parse_args`
   _optionList
-    option list for creating `OptionParser` instance
+    option list for creating `ArgumentParser` instance
   _usage
     usage information
   _version
@@ -56,19 +57,20 @@ program options from all parts of the program.
 
     def __init__(self, args=None):
         optionList = (self._optionList or []) + [
-            optparse.make_option(
-                '', '--factor', action='store', default=1./1000.,
-                metavar="FACTOR", type="float",
-                help = """Factor for length units. [DEFAULT: %default]""")
-            ]
-        parser = optparse.OptionParser(option_list=optionList,
-                                       usage=self._usage,
-                                       version=self._version,
-                                       description = self._description)
+            (('', '--factor'),
+             {"action": 'store', "default": 1. / 1000.,
+              "metavar": "FACTOR", "type": "float",
+              "help": "Factor for length units. DEFAULT: [%default]"})]
+        parser = argparse.ArgumentParser(usage=self._usage,
+                                         description=self._description)
+        parser.add_argument('--version', action='version',
+                            version='%(prog)s {}'.format(self._version))
+        for (name, args) in optionList:
+            parser.add_argument(*name, **args)
         Application.options, Application.args = parser.parse_args(args)
 
-        if (len(self.args) < self._numargs or
-            (self._maxArgs and len(self.args) > self._maxArgs)):
+        if  (len(self.args) < self._numargs or
+             (self._maxArgs and len(self.args) > self._maxArgs)):
             print "self.args: ", self.args
             parser.error("incorrect number of arguments")
 
