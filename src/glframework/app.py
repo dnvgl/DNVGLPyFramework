@@ -56,11 +56,11 @@ program options from all parts of the program.
     _numargs = 1
 
     def __init__(self, args=None):
-        optionList = (self._optionList or []) + [
+        optionList = (self._optionList or []) + (
             (('', '--factor'),
              {"action": 'store', "default": 1. / 1000.,
               "metavar": "FACTOR", "type": "float",
-              "help": "Factor for length units. DEFAULT: [%default]"})]
+              "help": "Factor for length units. DEFAULT: [%default]"}))
         parser = argparse.ArgumentParser(usage=self._usage,
                                          description=self._description)
         parser.add_argument('--version', action='version',
