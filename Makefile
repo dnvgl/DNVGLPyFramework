@@ -20,7 +20,7 @@ test: build
 doc:
 	$(MAKE) -C doc html
 
-%_test: 
+%_test:
 	make -C test $@
 
 %:
@@ -36,9 +36,9 @@ clean:
 
 TAGS:
 	find src -name \*.py
-	( set -e ;										\
-          find src -name \*.c -o -name \*.h -o -name \*.py -o -name \*.pyx -o -name \*.pxi	\
-	  | xargs etags )
+	( set -e ;							\
+  find src -name \*.c -o -name \*.h -o -name \*.py -o -name \*.pyx	\
+    -o -name \*.pxi | xargs etags )
 
 .PHONY: build
 .PHONY: doc

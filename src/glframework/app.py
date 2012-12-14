@@ -51,23 +51,21 @@ program options from all parts of the program.
     _usage = None
     _version = None
     _description = None
-    _minArgs = 1
-    _maxArgs = None
-    _numargs = 1
 
     def __init__(self, args=None):
-        optionList = (self._optionList or []) + (
-            (('', '--factor'),
+        optionList = (self._optionList or ()) + ((
+            ('--factor',),
              {"action": 'store', "default": 1. / 1000.,
-              "metavar": "FACTOR", "type": "float",
-              "help": "Factor for length units. DEFAULT: [%default]"}))
+              "metavar": "FACTOR", "type": float,
+              "help": "Factor for length units. DEFAULT: %(default)s"}),)
         parser = argparse.ArgumentParser(usage=self._usage,
                                          description=self._description)
         parser.add_argument('--version', action='version',
                             version='%(prog)s {}'.format(self._version))
-        for (name, args) in optionList:
-            parser.add_argument(*name, **args)
-        Application.options, Application.args = parser.parse_args(args)
+        for (name, options) in optionList:
+            parser.add_argument(*name, **options)
+        Application.args = parser.parse_args(args)
+        print dir(Application.args)
 
         if  (len(self.args) < self._numargs or
              (self._maxArgs and len(self.args) > self._maxArgs)):
