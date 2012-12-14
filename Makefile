@@ -26,8 +26,8 @@ doc:
 %:
 	make -C test $@
 
-build:
-	python setup.py build
+build install:
+	python setup.py $@
 
 IGN = $(shell [ -n "$$(svn propget svn:ignore .)" ] && echo "$$(svn propget svn:ignore .)")
 clean:
