@@ -28,10 +28,8 @@ This class is a base class applications. It allows access to the
 program options from all parts of the program.
 
 :CVariables:
-  options
-    parsed options as from `argparse.ArgumentParser.parse_args`
   args
-    args part from `argparse.ArgumentParser.parse_args`
+    parsed options as from `argparse.ArgumentParser.parse_args`
   _optionList
     option list for creating `ArgumentParser` instance
   _usage
@@ -45,7 +43,6 @@ program options from all parts of the program.
   _maxArgs
     allowed maximum length of args
 """
-    options = None
     args = None
     _optionList = None
     _usage = None
@@ -71,6 +68,6 @@ program options from all parts of the program.
 # Local Variables:
 # mode:python
 # mode:flyspell
-# ispell-local-dictionary:"en"
+# ispell-local-dictionary:"english"
 # compile-command:"make -C ../../ test"
 # End:
