@@ -1,20 +1,23 @@
 ..
-  Task   : Documentation of GLPyFramwork library
+  Task   : Documentation of DNVGLPyFramework library
   Project: DNVGLPyFramework
 
 .. ID: $Id$
 
-========================================
- Welcome to GLPyFramwork documentation!
-========================================
+============================================
+ Welcome to DNVGLPyFramework documentation!
+============================================
 
-:Authors:
-  - Berthold Höllmann <berthold.hoellmann@gl-group.com>
-:Organization: DNV GL SE, Hamburg
-:Version:   $Revision$
-:Date:      $Date$
-:datestamp: %Y-%m-%d
-:Copyright: Copyright (C) 2009 by DNV GL SE
+Documentation of the routines found in DNVGLPyFramework.
+
+..
+  :Authors:
+     - Bertho ld Höllma nn <berthold.hoellmann@gl-group.com>
+  :Organization: DNV GL SE, Hamburg
+  :Version:   $Revision$
+  :Date:      $Date$
+  :datestamp: %Y-%m-%d
+  :Copyright: Copyright (C) 2009 by DNV GL SE
 
 
 .. DNVGLPyFramework documentation master file, created by
@@ -22,16 +25,12 @@
    file completely to your liking, but it should at least contain the
    root `toctree` directive.
 
-Contents:
-
 .. toctree::
-   :maxdepth: 2
 
-   api
+  api
 
-*************************
 :py:mod:`dnvgl_framework`
-*************************
+-------------------------
 
 .. inheritance-diagram::
     dnvgl_framework
@@ -41,9 +40,8 @@ Contents:
     :private-members:
     :special-members:
 
-*****************************
 :py:mod:`dnvgl_framework.app`
-*****************************
+-----------------------------
 
 .. inheritance-diagram::
     dnvgl_framework.app
@@ -53,9 +51,8 @@ Contents:
     :private-members:
     :special-members:
 
-******************************
 :py:mod:`dnvgl_framework.dict`
-******************************
+------------------------------
 
 .. inheritance-diagram::
     dnvgl_framework.dict
@@ -65,9 +62,8 @@ Contents:
     :private-members:
     :special-members:
 
-*******************************
 :py:mod:`dnvgl_framework.idgen`
-*******************************
+-------------------------------
 
 .. inheritance-diagram::
     dnvgl_framework.idgen
@@ -77,9 +73,8 @@ Contents:
     :private-members:
     :special-members:
 
-********************************
 :py:mod:`dnvgl_framework.logger`
-********************************
+--------------------------------
 
 .. inheritance-diagram::
     dnvgl_framework.logger
@@ -90,7 +85,7 @@ Contents:
     :special-members:
 
 Indices and tables
-==================
+------------------
 
 * :ref:`genindex`
 * :ref:`modindex`

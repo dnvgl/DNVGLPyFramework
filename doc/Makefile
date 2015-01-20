@@ -32,6 +32,9 @@ export LATEXOPTS=--shell-escape
 
 export PYTHONPATH=../../GLGeometry/src:../../tribonXML_convert/src:
 
+MV = mv
+SED = sed
+
 help:
 	@echo "Please use \`make <target>' where <target> is one of"
 	@echo "  html       to make standalone HTML files"
@@ -121,7 +124,16 @@ latex:
 latexpdf:
 	$(SPHINXBUILD) -b latex $(ALLSPHINXOPTS) $(BUILDDIR)/latex
 	@echo "Running LaTeX files through pdflatex..."
-	make -C $(BUILDDIR)/latex all-pdf
+
+	$(MV) $(BUILDDIR)/latex/Makefile $(BUILDDIR)/latex/Makefile_
+	$(SED) s/pdflatex/lualatex/g $(BUILDDIR)/latex/Makefile_ > $(BUILDDIR)/latex/Makefile
+	$(RM) $(BUILDDIR)/latex/Makefile_
+
+	$(MV) $(BUILDDIR)/latex/sphinx.sty $(BUILDDIR)/latex/sphinx.sty_
+	$(SED) s/usepackage\\[pdftex\\]/usepackage/g $(BUILDDIR)/latex/sphinx.sty_ > $(BUILDDIR)/latex/sphinx.sty
+	$(RM) $(BUILDDIR)/latex/sphinx.sty_
+
+	make -C $(BUILDDIR)/latex all-pdf LATEXOPTS=--shell-escape
 	@echo "pdflatex finished; the PDF files are in $(BUILDDIR)/latex."
 
 text:

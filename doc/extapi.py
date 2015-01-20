@@ -18,8 +18,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+# Standard libraries.
 import os.path
+
+# Third party libraries.
 from docutils import nodes
+
 
 def api_role(role, rawtext, text, lineno, inliner, options={}, content=[]):
     """
@@ -78,4 +82,3 @@ def api_role(role, rawtext, text, lineno, inliner, options={}, content=[]):
 
 def setup(app):
     app.add_role('api', api_role)
-

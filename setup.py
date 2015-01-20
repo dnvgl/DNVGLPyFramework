@@ -1,40 +1,46 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-
-"""
-Setup and install for GLPyFramework,
-
-:author: `Berthold Höllmann <hoel@GL-Group.com>`__
-:newfield project: Project
-:project: GLPyFramework
-:copyright: Copyright (C) 2010 by Germanischer Lloyd SE
+"""Setup and install for GLPyFramework.
 """
 
-#  CVSID: $Id$
-__date__ = "$Date$"
-__version__ = "$Revision$"[10:-1]
-__docformat__ = "restructuredtext en"
+from __future__ import division, print_function, absolute_import
 
 # Standard libraries.
-from setuptools import setup
+from setuptools import setup, find_packages
 
-setup(name='GLPyFramework',
-      version='0.2.1',
-      description='Lightwight framwork for GL Python applications.',
-      author='Berthold Höllmann, Germanischer Lloyd AG',
-      author_email='berthold.hoellmann@gl-group.com',
-      url='http://www.gl-group.com',
-      # (cd src/;find . -type d|grep -v .svn |grep -v xsd|sed "s#^\./##g"|
-      #  sed "s#^\.##g"|sed "s#/#.#g")
-      packages=['dnvgl_framework', ],
-      package_dir={'': 'src'},
-      )
+# Third party libraries.
+import py
 
+# DNV GL libraries.
+from my_version import Version
+
+# ID: $Id$"
+__date__ = "$Date$"[6:-1]
+__scm_version__ = "$Revision$"[10:-1]
+__author__ = "`Berthold Höllmann <berthold.hoellmann@dnvgl.com>`__"
+__copyright__ = "Copyright © 2010 by DNV GL SE"
+
+VERSION = Version()
+
+VERSION.write(py.path.local("src/dnvgl_framework/__version__.py"))
+
+if __name__ == '__main__':
+    setup(name='GLPyFramework',
+          version=VERSION(),
+          install_requires=('py'),
+          description='Lightweight framwork for GL Python applications.',
+          author='Berthold Höllmann, DNVGL SE',
+          author_email='berthold.hoellmann@dnvgl.com',
+          url='http://www.dnvgl.com',
+          package_dir={'': 'src'},
+          packages=find_packages('src', exclude=[
+              "*.__pycache__", "*.__pycache__.*", "__pycache__.*",
+              "__pycache__"]),
+          use_2to3=True)
 
 
 # Local Variables:
-# mode:python
-# mode:flyspell
-# ispell-local-dictionary:"en"
-# compile-command:"make test"
+# mode: python
+# ispell-local-dictionary: "english"
+# compile-command: "make test"
 # End:
