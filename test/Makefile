@@ -51,7 +51,7 @@ test_all:	test	$(BIG_TESTS)
 build:
 	make -C .. build
 
-PYTESTPATH=../src/glframework
+PYTESTPATH=../src/dnvgl_framework
 GEN_COV=--cov-config .coveragerc --cov $(PYTESTPATH)    \
   --cov-report term-missing --cov-report html           \
   --cov-report xml --cov-report annotate

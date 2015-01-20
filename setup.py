@@ -15,6 +15,7 @@ __date__ = "$Date$"
 __version__ = "$Revision$"[10:-1]
 __docformat__ = "restructuredtext en"
 
+# Standard libraries.
 from setuptools import setup
 
 setup(name='GLPyFramework',
@@ -25,7 +26,7 @@ setup(name='GLPyFramework',
       url='http://www.gl-group.com',
       # (cd src/;find . -type d|grep -v .svn |grep -v xsd|sed "s#^\./##g"|
       #  sed "s#^\.##g"|sed "s#/#.#g")
-      packages=['glframework', ],
+      packages=['dnvgl_framework', ],
       package_dir={'': 'src'},
       )
 
