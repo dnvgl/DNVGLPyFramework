@@ -1,75 +1,73 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-
-u"""
-Unit tests for tx2pegasus.idgen
-
-:author: `Berthold Höllmann <hoel@GL-Group.com>`__
-:newfield project: Project
-:project: tribonXML converters
-:copyright: Copyright (C) 2007 by Germanischer Lloyd AG
+"""Unit tests for `dnvgl_framework.idgen` module.
 """
 
-#  CVSID: $Id$
-__date__      = "$Date$"
-__version__   = "$Revision$"[10:-1]
-__docformat__ = "restructuredtext en"
+from __future__ import (
+    division, print_function, absolute_import, unicode_literals)
 
-import doctest
-import unittest
+# Third party libraries.
+import pytest
 
-from glframework import idgen
+from .. import idgen
+
+# ID: $Id$"
+__date__ = "$Date$"[6:-1]
+__scm_version__ = "$Revision$"[10:-1]
+__author__ = "`Berthold Höllmann <berthold.hoellmann@dnvgl.com>`__"
+__copyright__ = "Copyright © 2007 by DNV GL SE"
+
 
 class _Base(object):
     """Base class needed for testing correct bahaviour in derived classes.
 """
     _ID = idgen.IDGen()
+
     def __call__(self):
         return self._ID()
+
 
 class DerivA(_Base):
     "First derived class"
 
+
 class DerivB(_Base):
     "second derived class"
 
-class Test(unittest.TestCase):
+
+class TestIDGen(object):
     """
 Testing the glframework.idgen module,
 """
-    def setUp(self):
-        self.a_1 = DerivA()
-        self.a_2 = DerivA()
-        self.b_1 = DerivB()
-        self.b_2 = DerivB()
 
-    def testRun(self):
+    @pytest.fixture
+    def a_1(self):
+        return DerivA()
+
+    @pytest.fixture
+    def a_2(self):
+        return DerivA()
+
+    @pytest.fixture
+    def b_1(self):
+        return DerivB()
+
+    @pytest.fixture
+    def b_2(self):
+        return DerivB()
+
+    def testRun(self, a_1, a_2, b_1, b_2):
         """Testing correct behavour in derived classes.
 """
-        self.assert_(self.a_1() == 0)
-        self.assert_(self.b_1() == 1)
-        self.assert_(self.a_2() == 2)
-        self.assert_(self.b_2() == 3)
-        self.assert_(self.a_1() == 4)
-        self.assert_(self.b_1() == 5)
-
-if __name__ == '__main__':
-
-    doctest.set_unittest_reportflags(doctest.REPORT_CDIFF)
-
-    SUITE = unittest.TestSuite()
-    SUITE.addTest(doctest.DocTestSuite(idgen))
-
-    RUNNER = unittest.TextTestRunner()
-    RUNRES = RUNNER.run(SUITE)
-    if RUNRES.errors or RUNRES.failures:
-        raise Exception("failed test occured")
-
-    unittest.main()
+        assert a_1() == 0
+        assert b_1() == 1
+        assert a_2() == 2
+        assert b_2() == 3
+        assert a_1() == 4
+        assert b_1() == 5
 
 # Local Variables:
-# mode:python
-# mode:flyspell
-# ispell-local-dictionary:"en"
-# compile-command:"make test"
+# mode: python
+# ispell-local-dictionary: "english"
+# compile-command: "make -C ../../../test test"
 # End:

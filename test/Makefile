@@ -23,51 +23,51 @@ else
   BPATH=../src
 endif
 
-PYTHON = PYTHONPATH=$(BPATH) python #-v
+PYTHON = PYTHONPATH=$(BPATH) python -bb
 
 PYBASE = ../src
-PY = $(shell $(FINDDIR)find $(PYBASE) -name \*.py -not -name .\#\* -and -not -name config.py )
-UTESTS = $(subst /,.,$(subst $(PYBASE)/,,$(patsubst %.py,%_test,$(PY))))
 
 ifeq ("$GL_ARCH","")
 FINDDIR=/bin/
 endif
 
+ifeq ("$(shell uname -o)", "Cygwin")
+  U2DPATH=cygpath --mixed
+  D2UPATH=cygpath
+else
+  U2DPATH=echo
+  D2UPATH=echo
+endif
 
 TESTS  = $(UTESTS)
 
 all:
 	@true
 
-test:	py_dep build	$(TESTS)
+test: build	pytest	$(TESTS)
 
 test_all:	test	$(BIG_TESTS)
 
 build:
 	make -C .. build
 
-%_test:	%_test.py
-	$(PYTHON) $< -v
+PYTESTPATH=../src/glframework
+GEN_COV=--cov-config .coveragerc --cov $(PYTESTPATH)    \
+  --cov-report term-missing --cov-report html           \
+  --cov-report xml --cov-report annotate
+PY=$(filter-out %_flymake.py,$(shell $(D2UPATH) $(shell find $(PYTESTPATH) -name \*.py)))
+pytest: $(PY)
+	$(PYTHON) -m pytest $(GEN_COV) --pep8   \
+  --doctest-modules --capture=sys $(PYTESTPATH)
 	touch $@
-
-%_rtest:	%.py	$(PY)	validate_hcm.py
-	$(PYTHON) $<
-	touch $@
-
-py_dep: gen_py_dep.py $(addsuffix .py,$(UTESTS))
-	$(PYTHON) $^ $(PYBASE) > $@
-
-include py_dep
 
 clean:
-	rm -f $(TESTS) $(BIG_TESTS) core
-	rm -f general_information.sg2 *.glm *.hcf *.hcz
-	-find .. -name \*.pyc | xargs rm
-	svn propget svn:ignore | xargs rm -rf
-	-find . -type l -and -not -name .\#\* | xargs rm
-
-%_test.py:	__generic_test_.py
-	[ -f $@ ] || ln -s $< $@
+	[ -n "$(shell svn propget svn:ignore | head -1)" ] &&	\
+  svn propget svn:ignore |					\
+  while read d ; do						\
+    [ -n "$$d" ] && find $$d "$$d" -maxdepth 0 2> /dev/null;	\
+  done |							\
+  sort -u | tr '\n' '\000' | xargs -0 $(RM) -r || true
 
 vpath %.py $(shell $(FINDDIR)find ../src -type d|grep -v .svn)
 

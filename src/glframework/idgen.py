@@ -1,48 +1,37 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-
-u"""
-Generate unique ids. Allow for registering additional ids that are
+"""Generate unique ids. Allow for registering additional ids that are
 exclude from furter usage.
-
-:author: `Berthold Höllmann <berthold.hoellmann@GL-Group.com>`__
-:newfield project: Project
-:project: GLPyFramwork
-:copyright: Copyright © 2010 by Germanischer Lloyd SE
 """
 
-from __future__ import absolute_import
+from __future__ import (
+    division, print_function, absolute_import, unicode_literals)
 
-#  CVSID: $Id$
-__date__         = u"$Date$"
-__version__      = "$Revision$"[10:-1]
-__docformat__ = "restructuredtext en"
-
+# Standard libraries.
 import operator
+
+# ID: $Id$"
+__date__ = "$Date$"[6:-1]
+__scm_version__ = "$Revision$"[10:-1]
+__author__ = "`Berthold Höllmann <berthold.hoellmann@dnvgl.com>`__"
+__copyright__ = "Copyright © 2010 by DNV GL SE"
+
 
 class IDGen(object):
     """
 >>> id = IDGen()
->>> id()
-0
->>> id()
-1
->>> id()
-2
+>>> assert id() == 0
+>>> assert id() == 1
+>>> assert id() == 2
 >>> id.exclude(3)
->>> id()
-4
+>>> assert id() == 4
 >>> id = IDGen(10)
->>> id()
-10
+>>> assert id() == 10
 >>> id.set(2)
->>> id()
-2
->>> id()
-3
+>>> assert id() == 2
+>>> assert id() == 3
 >>> id.exclude(range(10))
->>> id()
-10
+>>> assert id() == 10
 """
     def __init__(self, start=None):
         self._excludes = []
@@ -93,8 +82,7 @@ Add a list of values `val` to be excluded from this generator.
             self._excludes.append(val)
 
 # Local Variables:
-# mode:python
-# mode:flyspell
-# ispell-local-dictionary:"en"
-# compile-command:"make -C ../../ test"
+# mode: python
+# ispell-local-dictionary: "english"
+# compile-command: "make -C ../../ test"
 # End:

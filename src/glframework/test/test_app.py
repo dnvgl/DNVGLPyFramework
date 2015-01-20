@@ -1,48 +1,21 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-
-u"""
-Unit tests for tx2pegasus.util.app
-
-:author: `Berthold Höllmann <berthold.hoellmann@gl-group.com>`__
-:newfield project: Project
-:project: tribonXML converters
-:copyright: Copyright (C) 2009 by Germanischer Lloyd AG"""
-
-#  ID: $Id$
-__date__      = u"$Date$"[5:-1]
-__version__   = "$Revision$"[10:-1]
-__docformat__ = "restructuredtext en"
-
-import doctest
-import unittest
-
-from glframework import app
-
-class Test(unittest.TestCase):
-    """
-Testing the glframework.app module.
+"""Unit tests for `dnvgl_framwork.app` module.
 """
 
-    def setUp(self):
-        pass
+from __future__ import (
+    division, print_function, absolute_import, unicode_literals)
 
-if __name__ == '__main__':
+from .. import app
 
-    doctest.set_unittest_reportflags(doctest.REPORT_CDIFF)
-
-    SUITE = unittest.TestSuite()
-    SUITE.addTest(doctest.DocTestSuite(app))
-
-    RUNNER = unittest.TextTestRunner()
-    RUNRES = RUNNER.run(SUITE)
-    if RUNRES.errors or RUNRES.failures:
-        raise Exception("failed test occured")
-
-    unittest.main()
+# ID: $Id$"
+__date__ = "$Date$"[6:-1]
+__scm_version__ = "$Revision$"[10:-1]
+__author__ = "`Berthold Höllmann <berthold.hoellmann@dnvgl.com>`__"
+__copyright__ = "Copyright © 2009 by DNV GL SE"
 
 # Local Variables:
-# mode:python
-# mode:flyspell
-# compile-command:"make test"
+# mode: python
+# ispell-local-dictionary: "english"
+# compile-command: "make -C ../../../test test"
 # End:
