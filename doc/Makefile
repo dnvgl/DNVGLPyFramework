@@ -1,14 +1,14 @@
-# Copyright (C) 2010 by DNV GL SE
+# -*- coding: utf-8 -*-
 
-# ======================================================================
-# Task      Generate documentation for DNVGLPyFramework.
-#           Makefile for Sphinx documentation
-# ----------------------------------------------------------------------
-# Author    Berthold Höllmann <hoel@GL-Group.com>
-# Project   GLPyFramwork
-# ======================================================================
+# Copyright © 2010 by DNV GL SE
 
-# CVSID: $Id$
+# Generate documentation for DNVGLPyFramework.
+# Makefile for Sphinx documentation.
+
+# ID: $Id$"
+# $Date$
+# $Revision$
+# Author Berthold Höllmann <berthold.hoellmann@dnvgl.com>
 
 SHELL = /bin/sh
 
@@ -200,8 +200,8 @@ doctest:
 .PHONY: doctest
 
 # Local Variables:
-# mode: makefile
-# ispell-local-dictionary: "english"
-# compile-command: "make html"
-# coding: utf-8
+# mode: make
+# mode: flymake
+# ispell-local-dictionary:"english"
+# compile-command:"make html"
 # End:

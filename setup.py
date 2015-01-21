@@ -34,7 +34,7 @@ if __name__ == '__main__':
           version=VERSION(),
           install_requires=('py',),
           description='Lightweight framwork for GL Python applications.',
-          author='Berthold Höllmann, DNVGL SE',
+          author='Berthold Höllmann, DNV GL SE',
           author_email='berthold.hoellmann@dnvgl.com',
           url='http://www.dnvgl.com',
           package_dir={'': 'src'},

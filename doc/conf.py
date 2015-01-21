@@ -20,15 +20,14 @@ import sys
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.append(os.path.abspath('../src'))
-sys.path.append(os.path.abspath('../'))
+sys.path.append(os.path.abspath('../setup_utils'))
 sys.path.append(os.path.abspath('.'))
 
-try:
-    import my_version
-except:
-    raise
+import version as my_version  # isort:skip
 
-
+autodoc_default_flags = [
+    'members', 'undoc-members', 'private-members', 'special-members',
+    'inherited-members', 'show-inheritance']
 
 # -- General configuration ----------------------------------------------------
 
@@ -49,8 +48,6 @@ extensions = [
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
     'sphinx.ext.inheritance_diagram',
-#'sphinxcontrib.epydoc',
-    'extapi',
     'numpydoc'
 ]
 
@@ -75,7 +72,7 @@ copyright = u'2010, DNV GL SE'
 # built documents.
 #
 # The short X.Y version.
-VERSION = my_version.Version()
+VERSION = my_version.Version('../version.txt')
 version = VERSION.base_version
 # The full version, including alpha/beta/rc tags.
 release = VERSION()
@@ -195,33 +192,43 @@ html_static_path = ['_static']
 htmlhelp_basename = 'dnvglpyframeworkdoc'
 
 
-
 # -- Options for LaTeX output --------------------------------------------------
+
 latex_elements = {
     # alles loeschen
     # The paper size ('letterpaper' or 'a4paper').
-    'papersize': 'a4paper,noscrpage',
+    'papersize': 'a4paper',
     'fontpkg': '',
+    # 'fontpkg': r'''\usepackage{dnvgl}''',
     'fncychap': '',
     # 'maketitle': '',
     # The font size ('10pt', '11pt' or '12pt').
-    'pointsize': '11pt',
-    'docclass': 'dnvglartcl',
+    'pointsize': '10pt',
     # 'releasename': "",
-    'babel': '',
-    'printindex': '',
+    # 'babel': '',
+    # 'printindex': '',
     'fontenc': '',
     'inputenc': '',
-    # 'classoptions': '',
+    'classoptions': 'cmyk,english,noscrpage',
     'utf8extra': '',
-    'footer': '\\textcopyright DNV GL SE',
+    # 'footer': '\\textcopyright DNV GL SE',
     # Additional stuff for the LaTeX preamble.
-    'preamble': ''''''}
+    'preamble': u'''\\hypersetup{%
+    pdftex,%
+    unicode=true,%
+    pdftitle={\\texttt{PyHCM}},%
+    pdfsubject={Accessing HCF files from Python.},
+    pdfauthor={Berthold Höllmann <berthold.hoellmann@dnvgl.com>},%
+    pdfkeywords={HCM,OpenHCM,PythonText},%
+    bookmarks=true}
+'''
+}
 #     A dictionary mapping 'howto' and 'manual' to names of real
 #     document classes that will be used as the base for the two
 #     Sphinx classes. Default is to use 'article' for 'howto' and
 #     'report' for 'manual'.
 latex_docclass = {'howto': 'dnvglartcl', 'manual': 'dnvglreprt'}
+# latex_docclass = {'howto': 'scrartcl', 'manual': 'scrreprt'}
 
 # \usepackage{fontspec}
 # \setmainfont[ItalicFont={Asap Italic}, BoldFont={Asap Bold}]{Asap}
@@ -242,7 +249,7 @@ latex_documents = [
 
 # For "manual" documents, if this is true, then toplevel headings are parts,
 # not chapters.
-#latex_use_parts = False
+latex_use_parts = True
 
 # If true, show page references after internal links.
 #latex_show_pagerefs = False
