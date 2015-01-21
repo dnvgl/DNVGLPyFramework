@@ -6,6 +6,7 @@
 from __future__ import division, print_function, absolute_import
 
 # Standard libraries.
+import sys
 from setuptools import setup, find_packages
 
 # Third party libraries.
@@ -24,10 +25,14 @@ VERSION = Version()
 
 VERSION.write(py.path.local("src/dnvgl_framework/__version__.py"))
 
+EXTRA = {}
+if sys.version_info >= (3,):
+    EXTRA['use_2to3'] = True
+
 if __name__ == '__main__':
     setup(name='GLPyFramework',
           version=VERSION(),
-          install_requires=('py'),
+          install_requires=('py',),
           description='Lightweight framwork for GL Python applications.',
           author='Berthold Höllmann, DNVGL SE',
           author_email='berthold.hoellmann@dnvgl.com',
@@ -36,8 +41,7 @@ if __name__ == '__main__':
           packages=find_packages('src', exclude=[
               "*.__pycache__", "*.__pycache__.*", "__pycache__.*",
               "__pycache__"]),
-          use_2to3=True)
-
+          **EXTRA)
 
 # Local Variables:
 # mode: python
