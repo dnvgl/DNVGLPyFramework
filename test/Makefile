@@ -1,13 +1,13 @@
-# Copyright (C) 2010 by Germanischer Lloyd SE
+# -*- coding: utf-8 -*-
 
-# ======================================================================
-# Task      makefile for tests for GLPyFramework library
-# ----------------------------------------------------------------------
-# Author    Berthold Höllmann <hoel@GL-Group.com>
-# Project   GPPyFramwork
-# ======================================================================
+# Copyright © 2010 by DNV GL SE
 
-# CVSID: $Id$
+# Executing tests for the DNVGLPyFramework library.
+
+# ID: $Id$"
+# $Date$
+# $Revision$
+# Author Berthold Höllmann <berthold.hoellmann@dnvgl.com>
 
 SHELL = /bin/sh
 
@@ -17,13 +17,13 @@ PYVER=$(shell python -c "import sys ; print sys.version[:3]")
 USE_COMPILED=0
 
 ifeq ($(USE_COMPILED),1)
-  export BASE_PATH=../src/tribon
+  export BASE_PATH=../src/dnvgl_framework
   BPATH=../build/lib:../build/lib.$(PYPLAT)-$(PYVER)
 else
   BPATH=../src
 endif
 
-PYTHON = PYTHONPATH=$(BPATH) python -bb
+PYTHON = PYTHONPATH=$(BPATH) python -tt
 
 PYBASE = ../src
 
@@ -39,14 +39,10 @@ else
   D2UPATH=echo
 endif
 
-TESTS  = $(UTESTS)
-
 all:
 	@true
 
-test: build	pytest	$(TESTS)
-
-test_all:	test	$(BIG_TESTS)
+test: build	pytest
 
 build:
 	make -C .. build
@@ -72,9 +68,7 @@ clean:
 vpath %.py $(shell $(FINDDIR)find ../src -type d|grep -v .svn)
 
 # Local Variables:
-# mode:makefile
-# mode:flyspell
-# ispell-local-dictionary:"en"
+# mode: flymake
+# ispell-local-dictionary:"english"
 # compile-command:"make test"
-# coding:utf-8
 # End:

@@ -12,8 +12,8 @@ from setuptools import setup, find_packages
 # Third party libraries.
 import py
 
-# DNV GL libraries.
-from my_version import Version
+sys.path.append("setup_utils")
+from version import Version  # isort:skip
 
 # ID: $Id$"
 __date__ = "$Date$"[6:-1]
@@ -21,7 +21,7 @@ __scm_version__ = "$Revision$"[10:-1]
 __author__ = "`Berthold Höllmann <berthold.hoellmann@dnvgl.com>`__"
 __copyright__ = "Copyright © 2010 by DNV GL SE"
 
-VERSION = Version()
+VERSION = Version('version.txt', release=False)
 
 VERSION.write(py.path.local("src/dnvgl_framework/__version__.py"))
 

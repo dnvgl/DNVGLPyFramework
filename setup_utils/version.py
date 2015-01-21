@@ -20,20 +20,20 @@ __scm_version__ = "$Revision$"[10:-1]
 __author__ = "`Berthold Höllmann <berthold.hoellmann@dnvgl.com>`__"
 __copyright__ = "Copyright © 2015 by DNV GL SE"
 
-RELEASE = False
-
 
 class Version(object):
 
     rev_mask = re.compile(r"Revision: (?P<revision>[\d]+)")
 
-    def __init__(self, vers_file=None):
+    def __init__(self, vers_file=None, release=False):
+        self.release = release
         if vers_file is None:
             base = py.path.local(__file__).dirpath()
             self.base_dir = base if base else py.path.local('.')
             self.vers_file = self.base_dir.join("version.txt")
         else:
             self.vers_file = py.path.local(vers_file)
+            self.base_dir = self.vers_file.dirpath()
         (self.base_version, self.svn_revision) = (
             self._base_version, self._svn_revision or "")
 
@@ -65,7 +65,7 @@ class Version(object):
     def get_version(self, ):
         """Return current source version string.
         """
-        if RELEASE:
+        if self.release:
             return str("{}".format(self.base_version))
         else:
             return str("{}.r{}".format(self.base_version, self.svn_revision))
