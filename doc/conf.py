@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
-#
+
+from __future__ import (
+    division, print_function, absolute_import, unicode_literals)
+
+# Standard libraries.
+import os
+import sys
+
 # DNVGLPyFramework documentation build configuration file, created by
 # sphinx-quickstart on Tue Feb 17 16:46:32 2009.
 #
@@ -12,9 +19,6 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-# Standard libraries.
-import os
-import sys
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -64,8 +68,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'DNVGLPyFramework'
-copyright = u'2010, DNV GL SE'
+project = 'DNVGLPyFramework'
+copyright = '2010, DNV GL SE'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -201,6 +205,7 @@ latex_elements = {
     'fontpkg': '',
     # 'fontpkg': r'''\usepackage{dnvgl}''',
     'fncychap': '',
+    'fancyhdr': '',
     # 'maketitle': '',
     # The font size ('10pt', '11pt' or '12pt').
     'pointsize': '10pt',
@@ -209,18 +214,31 @@ latex_elements = {
     # 'printindex': '',
     'fontenc': '',
     'inputenc': '',
-    'classoptions': 'cmyk,english,noscrpage',
+    'classoptions': 'cmyk,english,noscrpage',  # ,DIV=14,BCOR=2mm,headinclude=true,footinclude=false
     'utf8extra': '',
     # 'footer': '\\textcopyright DNV GL SE',
     # Additional stuff for the LaTeX preamble.
-    'preamble': u'''\\hypersetup{%
+    'preamble': '''\\hypersetup{%
     pdftex,%
     unicode=true,%
-    pdftitle={\\texttt{PyHCM}},%
-    pdfsubject={Accessing HCF files from Python.},
+    pdftitle={\\texttt{DNVGLPyFramework}},%
+    pdfsubject={Some local framework definitions.},%
     pdfauthor={Berthold Höllmann <berthold.hoellmann@dnvgl.com>},%
-    pdfkeywords={HCM,OpenHCM,PythonText},%
+    pdfkeywords={DNV GL,Python,framwork},%
     bookmarks=true}
+\\activateareas % \\usepackage{typearea}
+\\makeatletter
+\\fancypagestyle{normal}{
+  \\fancyhf{}
+  \\fancyfoot[LE,RO]{{\\py@HeaderFamily\\thepage}}
+  \\fancyfoot[LO]{{\\py@HeaderFamily\\nouppercase{\\rightmark}}}
+  \\fancyfoot[RE]{{\\py@HeaderFamily\\nouppercase{\\leftmark}}}
+  % \\fancyhead[LE,RO]{{\\py@HeaderFamily \\@title, \\py@release }}
+  \\fancyhead{} % {\\py@HeaderFamily \\@title, \\py@release }}
+  \\renewcommand{\\headrulewidth}{0.pt}
+  \\renewcommand{\\footrulewidth}{0.4pt}
+}
+\\makeatother
 '''
 }
 #     A dictionary mapping 'howto' and 'manual' to names of real
@@ -239,8 +257,8 @@ latex_docclass = {'howto': 'dnvglartcl', 'manual': 'dnvglreprt'}
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-    ('index', 'dnvglpyframwork.tex', ur'DNVGLPyFramework Documentation',
-     ur'Berthold Höllmann', 'manual'),
+    ('index', 'dnvglpyframwork.tex', 'DNVGLPyFramework Documentation',
+     'Berthold Höllmann', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -249,7 +267,7 @@ latex_documents = [
 
 # For "manual" documents, if this is true, then toplevel headings are parts,
 # not chapters.
-latex_use_parts = True
+latex_use_parts = False
 
 # If true, show page references after internal links.
 #latex_show_pagerefs = False
@@ -269,8 +287,8 @@ latex_use_parts = True
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'glpy', u'GLPy Documentation',
-     [u'Germanischer Loyd SE (Christan Cabos, Berthold Höllmann, Marc Wolken)'], 1)
+    ('index', 'dnvgl_framework', 'DNVGLPyFramework documentation',
+     ['DNV GL SE (Berthold Höllmann)'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -283,8 +301,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'GLPy', u'GLPy Documentation',
-   u'Germanischer Loyd SE (Christan Cabos, Berthold Höllmann, Marc Wilken)', 'GLPy', 'One line description of project.',
+  ('index', 'DNVGLPyFramwork', 'DNVGLPyFramework Documentation',
+   'DNV GL SE (Berthold Höllmann)', 'DNVGLPyFrameworl', 'Misc. helper for python.',
    'Miscellaneous'),
 ]
 
@@ -301,10 +319,10 @@ texinfo_documents = [
 # -- Options for Epub output ---------------------------------------------------
 
 # Bibliographic Dublin Core info.
-epub_title = u'GLPy'
-epub_author = u'Christan Cabos, Berthold Höllmann, Marc Wilken'
-epub_publisher = u'Germanischer Loyd SE'
-epub_copyright = u'2013, Germanischer Loyd SE'
+epub_title = 'DNVGLPyFamework'
+epub_author = 'Berthold Höllmann'
+epub_publisher = 'DNV GL SE'
+epub_copyright = '2013, DNV GL SE'
 
 # The language of the text. It defaults to the language option
 # or en if the language is not set.

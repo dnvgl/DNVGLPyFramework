@@ -8,8 +8,6 @@
  Welcome to DNVGLPyFramework documentation!
 ============================================
 
-Documentation of the routines found in DNVGLPyFramework.
-
 ..
   :Authors:
      - Bertho ld Höllma nn <berthold.hoellmann@gl-group.com>
@@ -27,6 +25,7 @@ Documentation of the routines found in DNVGLPyFramework.
 
 .. toctree::
 
+  intro
   api
   genindex
   modindex
