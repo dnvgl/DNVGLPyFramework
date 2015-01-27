@@ -28,16 +28,16 @@ class _Base(object):
 
 
 class DerivA(_Base):
-    "First derived class"
+    "First derived class."
 
 
 class DerivB(_Base):
-    "second derived class"
+    "Second derived class."
 
 
 class TestIDGen(object):
     """
-Testing the glframework.idgen module,
+Testing the `dnvgl_framework.idgen` module.
 """
 
     @pytest.fixture
