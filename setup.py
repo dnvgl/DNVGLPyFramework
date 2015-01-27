@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Setup and install for GLPyFramework.
+"""Setup and install for DNVGLPyFramework.
 """
 
 from __future__ import division, print_function, absolute_import
@@ -30,10 +30,10 @@ if sys.version_info >= (3,):
     EXTRA['use_2to3'] = True
 
 if __name__ == '__main__':
-    setup(name='GLPyFramework',
+    setup(name='DNVGLPyFramework',
           version=VERSION(),
           install_requires=('py',),
-          description='Lightweight framwork for GL Python applications.',
+          description='Lightweight framwork for DNV GL Python applications.',
           author='Berthold Höllmann, DNV GL SE',
           author_email='berthold.hoellmann@dnvgl.com',
           url='http://www.dnvgl.com',
