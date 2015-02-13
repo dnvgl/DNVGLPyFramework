@@ -12,8 +12,8 @@ from setuptools import setup, find_packages
 # Third party libraries.
 import py
 
-sys.path.append("setup_utils")
-from version import Version  # isort:skip
+# DNV GL libraries.
+from dnvgl.setup_utils.version import Version
 
 # ID: $Id$"
 __date__ = "$Date$"[6:-1]
@@ -23,7 +23,7 @@ __copyright__ = "Copyright © 2010 by DNV GL SE"
 
 VERSION = Version('version.txt', release=False)
 
-VERSION.write(py.path.local("src/dnvgl_framework/__version__.py"))
+VERSION.write(py.path.local("dnvgl/framework/__version__.py"))
 
 EXTRA = {}
 if sys.version_info >= (3,):
@@ -37,8 +37,9 @@ if __name__ == '__main__':
           author='Berthold Höllmann, DNV GL SE',
           author_email='berthold.hoellmann@dnvgl.com',
           url='http://www.dnvgl.com',
-          package_dir={'': 'src'},
-          packages=find_packages('src', exclude=[
+          namespace_packages = ['dnvgl'],
+          #package_dir={'': 'src'},
+          packages=find_packages('.', exclude=[
               "*.__pycache__", "*.__pycache__.*", "__pycache__.*",
               "__pycache__"]),
           **EXTRA)
