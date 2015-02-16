@@ -20,6 +20,12 @@ test: build
 doc:
 	$(MAKE) -C doc html
 
+sdist:
+	python setup.py sdist
+
+bdist_egg:
+	python setup.py bdist_egg
+
 %_test:
 	make -C test $@
 
@@ -39,6 +45,14 @@ TAGS:
 	( set -e ;							\
   find src -name \*.c -o -name \*.h -o -name \*.py -o -name \*.pyx	\
     -o -name \*.pxi | xargs etags )
+
+check_clean:
+	svn update
+	[ -z "$$(svn status -q)" ] || (echo "Working copy is not pristine, exiting.";false)
+
+dist:	check_clean sdist bdist_egg
+	devpi upload
+	devpi test DNVGLPyFramework -e py27,py34
 
 .PHONY: build
 .PHONY: doc
