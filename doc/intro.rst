@@ -12,7 +12,7 @@
   :Copyright: Copyright © 2015 by DNV GL SE
 
 ===========================================
- Introduction to :py:mod:`dnvgl_framework`
+ Introduction to :py:mod:`dnvgl.framework`
 ===========================================
 
 Documentation of the routines found in DNVGLPyFramework.
