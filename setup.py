@@ -21,9 +21,12 @@ __scm_version__ = "$Revision$"[10:-1]
 __author__ = "`Berthold Höllmann <berthold.hoellmann@dnvgl.com>`__"
 __copyright__ = "Copyright © 2010 by DNV GL SE"
 
-VERSION = Version('version.txt', release=False)
+VERSION = Version('version.txt')
 
-VERSION.write(py.path.local("dnvgl/framework/__version__.py"))
+B_PATH = py.path.local("dnvgl")
+
+VERSION.write([B_PATH.join(i).join("__version__.py") for i in
+               ("framework", "setup_utils")])
 
 EXTRA = {}
 if sys.version_info >= (3,):

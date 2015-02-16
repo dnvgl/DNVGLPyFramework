@@ -25,8 +25,7 @@ class Version(object):
 
     rev_mask = re.compile(r"Revision: (?P<revision>[\d]+)")
 
-    def __init__(self, vers_file=None, release=False):
-        self.release = release
+    def __init__(self, vers_file=None):
         if vers_file is None:
             base = py.path.local(__file__).dirpath()
             self.base_dir = base if base else py.path.local('.')
@@ -65,28 +64,29 @@ class Version(object):
     def get_version(self, ):
         """Return current source version string.
         """
-        if self.release:
+        if not self.svn_revision:
             return str("{}".format(self.base_version))
         else:
-            return str("{}.r{}".format(self.base_version, self.svn_revision))
+            return str("{}.dev{}".format(self.base_version, self.svn_revision))
 
     def __call__(self, ):
         """Returns current source version string when class instance is called.
         """
         return self.get_version
 
-    def write(self, target):
+    def write(self, targets):
         """Write a python module with the version information.
 
 Only actually writes the version info file when a "good" version
 number is avaliable.
 """
-        revision = self._svn_revision
-        if revision or not target.exists():
+        if isinstance(targets, basestring):
+            targets = [targets]
+        for target in targets:
             with target.open('w') as out:
-                out.write("""# Automatically generated version file.
+                out.write(""" # Automatically generated version file.
 
-__version__ = \"{}.{}\"\n""".format(self.base_version, self.svn_revision))
+__version__ = \"{}\"\n""".format(self.get_version))
 
 # Local Variables:
 # mode: python
