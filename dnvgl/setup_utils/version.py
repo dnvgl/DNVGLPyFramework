@@ -9,6 +9,7 @@ from __future__ import (
 # Standard libraries.
 import os
 import re
+import sys
 import subprocess
 
 # Third party libraries.
@@ -80,7 +81,8 @@ class Version(object):
 Only actually writes the version info file when a "good" version
 number is avaliable.
 """
-        if isinstance(targets, basestring):
+        if (sys.version_info < (3, 4) and isinstance(targets, basestring)) or \
+           isinstance(targets, str):
             targets = [targets]
         for target in targets:
             with target.open('w') as out:
