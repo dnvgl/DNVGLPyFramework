@@ -1,1 +1,7 @@
+include Makefile
+include tox.ini
 include version.txt
+recursive-include doc *.py
+recursive-include doc *.rst
+recursive-include doc Makefile
+recursive-include test Makefile

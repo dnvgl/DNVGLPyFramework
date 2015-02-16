@@ -27,7 +27,7 @@ sys.path.append(os.path.abspath('../src'))
 sys.path.append(os.path.abspath('../setup_utils'))
 sys.path.append(os.path.abspath('.'))
 
-import version as my_version  # isort:skip
+import dnvgl.setup_utils.version as my_version  # isort:skip
 
 autodoc_default_flags = [
     'members', 'undoc-members', 'private-members', 'special-members',

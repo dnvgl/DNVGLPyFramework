@@ -32,13 +32,13 @@ if sys.version_info >= (3,):
 if __name__ == '__main__':
     setup(name='DNVGLPyFramework',
           version=VERSION(),
-          install_requires=('py',),
+          setup_requires=['pytest', 'pytest-cov', 'pytest-pep8'],
+          install_requires=['py'],
           description='Lightweight framwork for DNV GL Python applications.',
           author='Berthold Höllmann, DNV GL SE',
           author_email='berthold.hoellmann@dnvgl.com',
           url='http://www.dnvgl.com',
-          namespace_packages = ['dnvgl'],
-          #package_dir={'': 'src'},
+          namespace_packages=['dnvgl'],
           packages=find_packages('.', exclude=[
               "*.__pycache__", "*.__pycache__.*", "__pycache__.*",
               "__pycache__"]),

@@ -17,15 +17,17 @@ PYVER=$(shell python -c "import sys ; print sys.version[:3]")
 USE_COMPILED=0
 
 ifeq ($(USE_COMPILED),1)
-  export BASE_PATH=../src/dnvgl_framework
+  export BASE_PATH=../dnvgl_framework
   BPATH=../build/lib:../build/lib.$(PYPLAT)-$(PYVER)
 else
-  BPATH=../src
+  BPATH=../
 endif
 
-PYTHON = PYTHONPATH=$(BPATH) python -tt
+_empty:=
+_space:= $(_empty) $(_empty)
+PYTHON = PYTHONPATH=$(BPATH):$(subst $(_space),:,$(shell ls -d ../.eggs/*.egg)) python -tt
 
-PYBASE = ../src
+PYBASE = ../
 
 ifeq ("$GL_ARCH","")
 FINDDIR=/bin/
@@ -47,8 +49,8 @@ test: build	pytest
 build:
 	make -C .. build
 
-PYTESTPATH=../src/dnvgl_framework
-GEN_COV=--cov-config .coveragerc --cov $(PYTESTPATH)    \
+PYTESTPATH=../dnvgl/
+GEN_COV=--cov-config .coveragerc $(patsubst %,--cov %,$(PYTESTPATH))    \
   --cov-report term-missing --cov-report html           \
   --cov-report xml --cov-report annotate
 PY=$(filter-out %_flymake.py,$(shell $(D2UPATH) $(shell find $(PYTESTPATH) -name \*.py)))
@@ -65,10 +67,10 @@ clean:
   done |							\
   sort -u | tr '\n' '\000' | xargs -0 $(RM) -r || true
 
-vpath %.py $(shell $(FINDDIR)find ../src -type d|grep -v .svn)
+vpath %.py $(shell $(FINDDIR)find .. -type d|grep -v .svn)
 
 # Local Variables:
-# mode: flymake
+# mode: make
 # ispell-local-dictionary:"english"
 # compile-command:"make test"
 # End:
