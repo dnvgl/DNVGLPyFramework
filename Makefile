@@ -51,7 +51,7 @@ check_clean:
 	[ -z "$$(svn status -q)" ] || (echo "Working copy is not pristine, exiting.";false)
 
 dist:	check_clean sdist bdist_egg
-	devpi upload
+	devpi --with-docs upload
 	devpi test DNVGLPyFramework -e py27,py34
 
 .PHONY: build
