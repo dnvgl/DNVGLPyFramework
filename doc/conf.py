@@ -24,7 +24,7 @@ import sys
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.append(os.path.abspath('../src'))
-sys.path.append(os.path.abspath('../setup_utils'))
+sys.path.append(os.path.abspath('../'))
 sys.path.append(os.path.abspath('.'))
 
 import dnvgl.setup_utils.version as my_version  # isort:skip
