@@ -1,13 +1,13 @@
-# Copyright (C) 2010 by Germanischer Lloyd SE
+# -*- coding: utf-8 -*-
 
-# ======================================================================
-# Task      makefile for GLPyFramework
-# ----------------------------------------------------------------------
-# Author    Berthold Höllmann <hoel@GL-Group.com>
-# Project   GLPyFramework converters
-# ======================================================================
+# Copyright © 2010 by DNV GL SE
 
-# CVSID: $Id$
+# Compile and distribute DNVGLPyFramework.
+
+# ID: $Id$
+# $Date$
+# $Revision$
+# Author Berthold Höllmann <berthold.hoellmann@dnvgl.com>
 
 SHELL = /bin/sh
 
@@ -21,10 +21,10 @@ doc:
 	$(MAKE) -C doc html
 
 sdist:
-	python setup.py sdist
+	python setup.py $@ --formats gztar,bztar,zip
 
-bdist_egg:
-	python setup.py bdist_egg
+bdist_egg build_sphinx:
+	python setup.py $@
 
 %_test:
 	make -C test $@
@@ -50,8 +50,8 @@ check_clean:
 	svn update
 	[ -z "$$(svn status -q)" ] || (echo "Working copy is not pristine, exiting.";false)
 
-dist:	check_clean sdist bdist_egg
-	devpi upload --with-docs
+dist:	check_clean test sdist bdist_egg build_sphinx
+	devpi upload --no-vcs --with-docs
 	devpi test DNVGLPyFramework -e py27,py34
 
 .PHONY: build
@@ -59,6 +59,7 @@ dist:	check_clean sdist bdist_egg
 .PHONY: test
 
 # Local Variables:
+# mode: makefile
+# ispell-local-dictionary:"english"
 # compile-command:"make test"
-# coding:utf-8
 # End:
