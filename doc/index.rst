@@ -10,7 +10,7 @@
 
 ..
   :Authors:
-     - Bertho ld Höllma nn <berthold.hoellmann@gl-group.com>
+     - Berthold Höllmann <berthold.hoellmann@gl-group.com>
   :Organization: DNV GL SE, Hamburg
   :Version:   $Revision$
   :Date:      $Date$
