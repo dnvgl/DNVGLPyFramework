@@ -26,7 +26,6 @@ from dnvgl.setup_utils import version
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-sys.path.append(os.path.abspath('../src'))
 sys.path.append(os.path.abspath('../'))
 sys.path.append(os.path.abspath('.'))
 
@@ -55,6 +54,7 @@ extensions = [
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
     'sphinx.ext.inheritance_diagram',
+    'sphinx.ext.autosummary',
     'numpydoc'
 ]
 
@@ -242,6 +242,8 @@ latex_elements = {
   \\renewcommand{\\footrulewidth}{0.4pt}
 }
 \\makeatother
+\\setcounter{secnumdepth}{5}
+\\setcounter{tocdepth}{5}
 '''
 }
 #     A dictionary mapping 'howto' and 'manual' to names of real
@@ -364,6 +366,7 @@ epub_copyright = '2013, DNV GL SE'
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {'http://docs.python.org/': None}
 
+autosummary_generate = True
 
 # This value selects what content will be inserted into the main body
 # of an autoclass directive. The possible values are:

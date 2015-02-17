@@ -27,9 +27,6 @@
 
   intro
   api
-  genindex
-  modindex
-  search
 
 ..
   Local Variables:
