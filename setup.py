@@ -21,7 +21,7 @@ __scm_version__ = "$Revision$"[10:-1]
 __author__ = "`Berthold Höllmann <berthold.hoellmann@dnvgl.com>`__"
 __copyright__ = "Copyright © 2010 by DNV GL SE"
 
-VERSION = Version('version.txt')
+VERSION = Version('version.txt', release=True)
 
 B_PATH = py.path.local("dnvgl")
 
