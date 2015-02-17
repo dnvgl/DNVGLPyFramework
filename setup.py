@@ -19,9 +19,9 @@ from dnvgl.setup_utils.version import Version
 __date__ = "$Date$"[6:-1]
 __scm_version__ = "$Revision$"[10:-1]
 __author__ = "`Berthold Höllmann <berthold.hoellmann@dnvgl.com>`__"
-__copyright__ = "Copyright © 2010 by DNV GL SE"
+__copyright__ = "Copyright © 2010, 2015 by DNV GL SE"
 
-VERSION = Version('version.txt')
+VERSION = Version('version.txt', release=False)
 
 B_PATH = py.path.local("dnvgl")
 
