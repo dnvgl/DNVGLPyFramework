@@ -26,7 +26,8 @@ class Version(object):
 
     rev_mask = re.compile(r"Revision: (?P<revision>[\d]+)")
 
-    def __init__(self, vers_file=None):
+    def __init__(self, vers_file=None, release=False):
+        self.release = release
         if vers_file is None:
             base = py.path.local(__file__).dirpath()
             self.base_dir = base if base else py.path.local('.')
@@ -65,7 +66,7 @@ class Version(object):
     def get_version(self, ):
         """Return current source version string.
         """
-        if not self.svn_revision:
+        if self.release:
             return str("{}".format(self.base_version))
         else:
             return str("{}.dev{}".format(self.base_version, self.svn_revision))
