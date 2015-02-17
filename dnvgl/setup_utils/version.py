@@ -51,12 +51,12 @@ class Version(object):
 
         svn_info = b''
 
-        while (len(svn_info.decode('ascii').split(':')) <= 1 and
-               len(path.parts()) > 1):
-            svn_info = subprocess.check_output(
-                ["svnversion", "-c", path.strpath],
-                stdin=subprocess.PIPE, stderr=subprocess.PIPE)
-            path = path.dirpath()
+        # while (len(svn_info.decode('ascii').split(':')) <= 1 and
+        #        len(path.parts()) > 1):
+        #     svn_info = subprocess.check_output(
+        #         ["svnversion", "-c", path.strpath],
+        #         stdin=subprocess.PIPE, stderr=subprocess.PIPE)
+        #     path = path.dirpath()
 
         return len(svn_info.decode('ascii').split(':')) > 1 and \
             (svn_info.decode('ascii').split(':')[-1]).strip()
@@ -86,7 +86,7 @@ number is avaliable.
             targets = [targets]
         for target in targets:
             with target.open('w') as out:
-                out.write(""" # Automatically generated version file.
+                out.write("""# Automatically generated version file.
 
 __version__ = \"{}\"\n""".format(self.get_version))
 
