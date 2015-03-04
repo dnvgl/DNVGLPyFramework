@@ -7,10 +7,8 @@ from __future__ import division, print_function, absolute_import
 
 # Standard libraries.
 import sys
+import os.path
 from setuptools import setup, find_packages
-
-# Third party libraries.
-import py
 
 # DNV GL libraries.
 from dnvgl.setup_utils.version import Version
@@ -23,9 +21,7 @@ __copyright__ = "Copyright © 2010, 2015 by DNV GL SE"
 
 VERSION = Version('version.txt', release=False)
 
-B_PATH = py.path.local("dnvgl")
-
-VERSION.write([B_PATH.join(i).join("__version__.py") for i in
+VERSION.write([os.path.join('dnvgl', i, '__version__.py') for i in
                ("framework", "setup_utils")])
 
 EXTRA = {}

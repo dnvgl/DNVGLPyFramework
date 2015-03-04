@@ -203,7 +203,7 @@ library:
 .PHONY: doctest
 
 # Local Variables:
-# mode: make
+# mode: makefile
 # mode: flymake
 # ispell-local-dictionary:"english"
 # compile-command:"make html"
