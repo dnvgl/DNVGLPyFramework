@@ -31,10 +31,6 @@ sys.path.append(os.path.abspath('.'))
 
 import dnvgl.setup_utils.version as my_version  # isort:skip
 
-autodoc_default_flags = [
-    'members', 'undoc-members', 'private-members', 'special-members',
-    'inherited-members', 'show-inheritance']
-
 # -- General configuration ----------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -417,7 +413,7 @@ autodoc_default_flags = [
     'members',
     'undoc-members',
     'private-members',
-    # 'special-members',
+    'special-members',
     # 'inherited-members',
     'show-inheritance']
 
