@@ -19,7 +19,7 @@ __scm_version__ = "$Revision$"[10:-1]
 __author__ = "`Berthold Höllmann <berthold.hoellmann@dnvgl.com>`__"
 __copyright__ = "Copyright © 2010, 2015 by DNV GL SE"
 
-VERSION = Version('version.txt', release=False)
+VERSION = Version('version.txt')
 
 VERSION.write([os.path.join('dnvgl', i, '__version__.py') for i in
                ("framework", "setup_utils")])

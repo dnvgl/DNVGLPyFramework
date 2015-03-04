@@ -23,8 +23,11 @@ class Version(object):
 
     rev_mask = re.compile(r"Revision: (?P<revision>[\d]+)")
 
-    def __init__(self, vers_file=None, release=False):
-        self.release = release
+    def __init__(self, vers_file=None, release=None):
+        if release is None:
+            self.release = os.getenv('RELEASE') is not None
+        else:
+            self.release = release
         if vers_file is None:
             base = os.path.dirname(__file__)
             self.base_dir = base if base else os.path.abspath('.')
