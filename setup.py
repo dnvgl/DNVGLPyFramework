@@ -6,7 +6,6 @@
 from __future__ import division, print_function, absolute_import
 
 # Standard libraries.
-import sys
 import os.path
 from setuptools import setup, find_packages
 
@@ -24,24 +23,29 @@ VERSION = Version('version.txt')
 VERSION.write([os.path.join('dnvgl', i, '__version__.py') for i in
                ("framework", "setup_utils")])
 
-EXTRA = {}
-if sys.version_info >= (3,):
-    EXTRA['use_2to3'] = True
-
 if __name__ == '__main__':
-    setup(name='DNVGLPyFramework',
-          version=VERSION(),
-          setup_requires=['pytest', 'pytest-cov', 'pytest-pep8'],
-          install_requires=['py'],
-          description='Lightweight framwork for DNV GL Python applications.',
-          author='Berthold Höllmann, DNV GL SE',
-          author_email='berthold.hoellmann@dnvgl.com',
-          url='http://www.dnvgl.com',
-          namespace_packages=['dnvgl'],
-          packages=find_packages('.', exclude=[
-              "*.__pycache__", "*.__pycache__.*", "__pycache__.*",
-              "__pycache__"]),
-          **EXTRA)
+    setup(
+        name='DNVGLPyFramework',
+        version=VERSION(),
+        setup_requires=['pytest', 'pytest-cov', 'pytest-pep8'],
+        install_requires=['py'],
+        description='Lightweight framwork for DNV GL Python applications.',
+        author='Berthold Höllmann, DNV GL SE',
+        author_email='berthold.hoellmann@dnvgl.com',
+        url='http://www.dnvgl.com',
+        namespace_packages=['dnvgl'],
+        packages=find_packages('.', exclude=[
+            "*.__pycache__", "*.__pycache__.*", "__pycache__.*",
+            "__pycache__"]),
+        classifiers=['Development Status :: 6 - Mature',
+                     'Intended Audience :: Developers',
+                     'Operating System :: POSIX',
+                     'Operating System :: Microsoft :: Windows',
+                     'Operating System :: MacOS :: MacOS X',
+                     'Topic :: Software Development :: Libraries',
+                     'Topic :: Utilities',
+                     'Programming Language :: Python',
+                     'Programming Language :: Python :: 3'])
 
 # Local Variables:
 # mode: python

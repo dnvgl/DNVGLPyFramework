@@ -19,7 +19,7 @@ __copyright__ = "Copyright © 2015 by DNV GL SE"
 class SortedDict(dict):
 
     def items(self):
-        keys = self.keys()
+        keys = list(self.keys())
         keys.sort()
         return zip(keys, [self.get(x) for x in keys])
 
@@ -29,20 +29,20 @@ class CaseInsensitiveDict(dict):
     def __init__(self, inp=None, **kw):
         # test inp for mapping
         if isinstance(inp, (collections.Mapping)):
-            for k, v in inp.iteritems():
+            for k, v in inp.items():
                 self[k] = v
         # test inp for iteratable
         elif inp is not None:
             for k, v in inp:
                 self[k] = v
         # add kw content
-        for k, v in kw.iteritems():
+        for k, v in kw.items():
             self[k] = v
 
     def update(self, inp):
         # test inp for mapping
         if isinstance(inp, (collections.Mapping)):
-            for k, v in inp.iteritems():
+            for k, v in inp.items():
                 self[k] = v
         # test inp for iteratable
         else:

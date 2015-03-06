@@ -53,15 +53,16 @@ class Version(object):
         if os.environ.get("SVN_REVISION_1"):
             return os.environ["SVN_REVISION_1"]
 
-        path = self.base_dir
+        path = os.path.abspath(self.base_dir)
 
         svn_info = b''
 
         while (len(svn_info.decode('ascii').split(':')) <= 1 and
-               len(os.path.split(path)) > 1):
+               len(os.path.split(path)[-1]) > 1):
             svn_info = subprocess.check_output(
                 ["svnversion", "-c", path],
                 stdin=subprocess.PIPE, stderr=subprocess.PIPE)
+            path = os.path.join(*os.path.split(path)[:-1])
 
         return len(svn_info.decode('ascii').split(':')) > 1 and \
             (svn_info.decode('ascii').split(':')[-1]).strip()
