@@ -181,7 +181,7 @@ doctest:	library
 	      "results in $(BUILDDIR)/doctest/output.txt."
 
 library:
-	pip install sphinx numpydoc
+	pip install --user sphinx numpydoc
 
 .PHONY: help
 .PHONY: clean
