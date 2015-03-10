@@ -41,7 +41,6 @@ if __name__ == '__main__':
                      'Intended Audience :: Developers',
                      'Operating System :: POSIX',
                      'Operating System :: Microsoft :: Windows',
-                     'Operating System :: MacOS :: MacOS X',
                      'Topic :: Software Development :: Libraries',
                      'Topic :: Utilities',
                      'Programming Language :: Python',
