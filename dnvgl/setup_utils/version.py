@@ -34,7 +34,7 @@ class Version(object):
         else:
             self.release = release
         if vers_file is None:
-            base = os.path.dirname(__file__)
+            base = os.path.dirname(sys.argv[0])
             self.base_dir = base if base else os.path.abspath('.')
             self.vers_file = os.path.join(self.base_dir, "version.txt")
         else:
