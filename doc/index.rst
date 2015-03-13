@@ -26,6 +26,7 @@
 .. toctree::
 
   intro
+  setup_utils
   api
 
 ..

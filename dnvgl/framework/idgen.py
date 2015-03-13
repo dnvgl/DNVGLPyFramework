@@ -8,7 +8,7 @@ from __future__ import (
     division, print_function, absolute_import, unicode_literals)
 
 # Standard libraries.
-import operator
+import collections
 
 # ID: $Id$"
 __date__ = "$Date$"[6:-1]
@@ -40,7 +40,7 @@ class IDGen(object):
         self.__set = False
 
     def __call__(self):
-        return self._counter.next()
+        return next(self._counter)
 
     def __retval(self):
         """
@@ -76,7 +76,7 @@ Add a list of values `val` to be excluded from this generator.
   val
     List of values to be excluded from returning.
 """
-        if operator.isSequenceType(val):
+        if isinstance(val, collections.Sequence):
             self._excludes.extend(val)
         else:
             self._excludes.append(val)

@@ -24,7 +24,7 @@ class TestSortedDict(object):
         probe = SortedDict(c=3)
         probe['b'] = 2
         probe['a'] = 1
-        assert probe.items() == [('a', 1), ('b', 2), ('c', 3)]
+        assert list(probe.items()) == [('a', 1), ('b', 2), ('c', 3)]
 
 
 class TestCaseInsensitiveDict(object):

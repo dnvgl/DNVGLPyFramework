@@ -70,7 +70,7 @@ clean:
 vpath %.py $(shell $(FINDDIR)find .. -type d|grep -v .svn)
 
 # Local Variables:
-# mode: make
+# mode: makefile
 # ispell-local-dictionary:"english"
 # compile-command:"make test"
 # End:
