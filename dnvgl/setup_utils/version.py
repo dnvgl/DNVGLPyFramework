@@ -8,7 +8,6 @@ from __future__ import (
 
 # Standard libraries.
 import os
-import re
 import sys
 import subprocess
 
@@ -22,7 +21,7 @@ __copyright__ = "Copyright © 2015 by DNV GL SE"
 class Version(object):
     """Handle Project version numbers for setup and others."""
 
-    rev_mask = re.compile(r"Revision: (?P<revision>[\d]+)")
+    postfile = ".postcnt"
 
     def __init__(self, vers_file=None, release=None):
         """
@@ -68,13 +67,32 @@ class Version(object):
             (svn_info.decode('ascii').split(':')[-1]).strip()
 
     @property
+    def postcnt(self):
+        if os.path.exists(self.postfile):
+            res = int(open(self.postfile).read())
+        else:
+            res = 1
+        with open(self.postfile, 'w') as outp:
+            outp.write("{}".format(res+1))
+        return res
+
+    @property
     def get_version(self):
         """Return current source version string.
         """
-        if self.release:
-            return str("{}".format(self.base_version))
+        svn_rev = self.svn_revision
+        if svn_rev.endswith('M'):
+            if self.release:
+                raise SystemExit("**ERROR** Attempt to generate release from "
+                                 "SVN repository that still has changes.")
+            svn_rev = "{}.post{}".format(svn_rev[:-1], self.postcnt)
         else:
-            return str("{}.dev{}".format(self.base_version, self.svn_revision))
+            os.remove(self.postfile)
+
+        if self.release:
+            return str("{}.{}".format(self.base_version, svn_rev))
+        else:
+            return str("{}.dev{}".format(self.base_version, svn_rev))
 
     def __call__(self):
         """Returns current source version string when class instance is called.
