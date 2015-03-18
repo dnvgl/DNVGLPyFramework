@@ -86,12 +86,15 @@ class Version(object):
         svn_rev = self.svn_revision
         if svn_rev.endswith('M'):
             if self.release:
-                raise SystemExit("**ERROR** Attempt to generate release from "
-                                 "SVN repository that still has changes.")
+                raise SystemExit("""
+***ERROR***
+Attempt to generate release from SVN repository that still has changes.
+""")
             return str("{}.{}.post{}".format(
                 self.base_version, svn_rev[:-1], self.postcnt))
         else:
-            os.remove(self.postfile)
+            if os.path.exists(self.postfile):
+                os.remove(self.postfile)
 
         if self.release:
             return str("{}.{}".format(self.base_version, svn_rev))
