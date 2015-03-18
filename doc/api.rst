@@ -81,8 +81,7 @@ source code.
 ..
   Local Variables:
   mode:rst
-  mode:flyspell
-  ispell-local-dictionary:"en"
+  ispell-local-dictionary:"english"
   compile-command:"make html"
   coding:utf-8
   End:
