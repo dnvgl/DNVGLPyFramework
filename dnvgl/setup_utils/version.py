@@ -11,6 +11,9 @@ import os
 import sys
 import subprocess
 
+# DNV GL libraries.
+from dnvgl.framework.cached_property import cached_property
+
 # ID: $Id$"
 __date__ = "$Date$"[6:-1]
 __scm_version__ = "$Revision$"[10:-1]
@@ -76,7 +79,7 @@ class Version(object):
             outp.write("{}".format(res+1))
         return res
 
-    @property
+    @cached_property(ttl=0)
     def get_version(self):
         """Return current source version string.
         """
@@ -85,7 +88,8 @@ class Version(object):
             if self.release:
                 raise SystemExit("**ERROR** Attempt to generate release from "
                                  "SVN repository that still has changes.")
-            svn_rev = "{}.post{}".format(svn_rev[:-1], self.postcnt)
+            return str("{}.{}.post{}".format(
+                self.base_version, svn_rev[:-1], self.postcnt))
         else:
             os.remove(self.postfile)
 
