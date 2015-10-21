@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Namespace definition for `dnvgl` namepace.
+"""Namespace definition for `dnvgl` namespace.
 """
 
 __import__('pkg_resources').declare_namespace(__name__)
