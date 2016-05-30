@@ -17,11 +17,12 @@ if [ "$(uname -o)" = "Cygwin" ] ; then
     PIPCONFPATH="$(cygpath $APPDATA)/pip"
     PIPCONFEXT=pipini
     PIPARCH=dist_WIN_64
+    cp=cygpath --dos
 else
     PIPCONFPATH=$HOME/.pip
     PIPCONF=pip.conf
     PIPARCH=dist_UBUNTU_14_04
-    alias cygpath=echo
+    alias cp=echo
 fi
 
 if [ ! -d "$PIPCONFPATH" ] ; then
@@ -38,9 +39,9 @@ pip$PYMAJOR install --index-url=$INDEX_URL --user --upgrade virtualenv
 
 VIRTDIR=$(echo "/tmp/DNVGLPyFramework_${TEAMCITY_PROJECT_NAME}_${TEAMCITY_BUILDCONF_NAME}" | sed "s-[ ;:]-_-g")
 
-if [ ! -e $(cygpath $VIRTDIR) ] ; then
+if [ ! -e $VIRTDIR ] ; then
     if [ "$(uname -o)" = "Cygwin" ] ; then
-        virtualenv $VIRTDIR --python=c:/python$PYVER/python.exe
+        virtualenv $(cp $VIRTDIR) --python=c:/python$PYVER/python.exe
     else
         virtualenv $VIRTDIR --python=python$PYMAJOR
     fi
