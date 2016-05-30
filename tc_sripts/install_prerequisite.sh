@@ -13,7 +13,7 @@ version="$Revision$"
 
 set -e
 
-if [ "$(shell uname -o)" = "Cygwin" ] ; then
+if [ "$(uname -o)" = "Cygwin" ] ; then
     PIPCONFPATH="$(cygpath $APPDATA)/pip"
     PIPCONFEXT=pipini
     PIPARCH=dist_WIN_64
