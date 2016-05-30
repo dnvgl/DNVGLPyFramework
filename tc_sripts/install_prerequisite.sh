@@ -17,7 +17,6 @@ if [ "$(uname -o)" = "Cygwin" ] ; then
     PIPCONFPATH="$(cygpath $APPDATA)/pip"
     PIPCONFEXT=pipini
     PIPARCH=dist_WIN_64
-    alias cpd="cygpath --dos"
 else
     PIPCONFPATH=$HOME/.pip
     PIPCONF=pip.conf
@@ -40,7 +39,7 @@ VIRTDIR=$(echo "/tmp/DNVGLPyFramework_${TEAMCITY_PROJECT_NAME}_${TEAMCITY_BUILDC
 
 if [ ! -e $VIRTDIR ] ; then
     if [ "$(uname -o)" = "Cygwin" ] ; then
-        virtualenv $(cpd $VIRTDIR) --python=c:/python$PYVER/python.exe
+        virtualenv $(cygpath --dos $VIRTDIR) --python=c:/python$PYVER/python.exe
     else
         virtualenv $VIRTDIR --python=python$PYMAJOR
     fi
