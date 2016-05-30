@@ -39,7 +39,7 @@ VIRTDIR=$(echo "/tmp/DNVGLPyFramework_${TEAMCITY_PROJECT_NAME}_${TEAMCITY_BUILDC
 
 if [ ! -e $VIRTDIR ] ; then
     if [ "$(uname -o)" = "Cygwin" ] ; then
-        virtualenv $(cygpath --dos $VIRTDIR) --python=c:/python$PYVER/python.exe
+        virtualenv $(cygpath --windows $VIRTDIR) --python=c:/python$PYVER/python.exe
     else
         virtualenv $VIRTDIR --python=python$PYMAJOR
     fi
