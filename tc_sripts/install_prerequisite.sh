@@ -38,7 +38,11 @@ pip$PYMAJOR install --index-url=$INDEX_URL --user --upgrade virtualenv
 VIRTDIR=$(echo "/tmp/DNVGLPyFramework_${TEAMCITY_PROJECT_NAME}_${TEAMCITY_BUILDCONF_NAME}" | sed "s-[ ;:]-_-g")
 
 if [ ! -e $VIRTDIR ] ; then
-    virtualenv $VIRTDIR --python=python$PYMAJOR
+    if [ "$(uname -o)" = "Cygwin" ] ; then
+        virtualenv $VIRTDIR --python=c:/python$PYVER/python.exe
+    else
+        virtualenv $VIRTDIR --python=python$PYMAJOR
+    fi
 fi
 
 . $VIRTDIR/bin/activate
