@@ -17,7 +17,7 @@ if [ "$(uname -o)" = "Cygwin" ] ; then
     PIPCONFPATH="$(cygpath $APPDATA)/pip"
     PIPCONFEXT=pipini
     PIPARCH=dist_WIN_64
-    alias cp=cygpath --dos
+    alias cp="cygpath --dos"
 else
     PIPCONFPATH=$HOME/.pip
     PIPCONF=pip.conf
