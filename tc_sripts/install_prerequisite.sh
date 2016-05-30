@@ -17,12 +17,11 @@ if [ "$(uname -o)" = "Cygwin" ] ; then
     PIPCONFPATH="$(cygpath $APPDATA)/pip"
     PIPCONFEXT=pipini
     PIPARCH=dist_WIN_64
-    alias cp="cygpath --dos"
+    alias cpd="cygpath --dos"
 else
     PIPCONFPATH=$HOME/.pip
     PIPCONF=pip.conf
     PIPARCH=dist_UBUNTU_14_04
-    alias cp=echo
 fi
 
 if [ ! -d "$PIPCONFPATH" ] ; then
@@ -41,13 +40,13 @@ VIRTDIR=$(echo "/tmp/DNVGLPyFramework_${TEAMCITY_PROJECT_NAME}_${TEAMCITY_BUILDC
 
 if [ ! -e $VIRTDIR ] ; then
     if [ "$(uname -o)" = "Cygwin" ] ; then
-        virtualenv $(cp $VIRTDIR) --python=c:/python$PYVER/python.exe
+        virtualenv $(cpd $VIRTDIR) --python=c:/python$PYVER/python.exe
     else
         virtualenv $VIRTDIR --python=python$PYMAJOR
     fi
 fi
 
-. $(cygpath $VIRTDIR/bin/activate)
+. $VIRTDIR/bin/activate
 
 pip$PYMAJOR install --index-url=$INDEX_URL --upgrade pytest pytest-pep8 pytest-cov
 
