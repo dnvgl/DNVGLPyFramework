@@ -45,7 +45,11 @@ if [ ! -e $VIRTDIR ] ; then
     fi
 fi
 
-. $VIRTDIR/bin/activate
+if [ "$(uname -o)" = "Cygwin" ] ; then
+    . $VIRTDIR/Scripts/activate
+else
+    . $VIRTDIR/bin/activate
+fi
 
 pip$PYMAJOR install --index-url=$INDEX_URL --upgrade pytest pytest-pep8 pytest-cov
 
