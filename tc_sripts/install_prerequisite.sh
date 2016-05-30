@@ -21,6 +21,7 @@ else
     PIPCONFPATH=$HOME/.pip
     PIPCONF=pip.conf
     PIPARCH=dist_UBUNTU_14_04
+    alias cygdrive=echo
 fi
 
 if [ ! -d "$PIPCONFPATH" ] ; then
@@ -45,7 +46,7 @@ if [ ! -e $VIRTDIR ] ; then
     fi
 fi
 
-. $VIRTDIR/bin/activate
+. $(cygdrive $VIRTDIR/bin/activate)
 
 pip$PYMAJOR install --index-url=$INDEX_URL --upgrade pytest pytest-pep8 pytest-cov
 
