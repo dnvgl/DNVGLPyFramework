@@ -21,7 +21,7 @@ else
     PIPCONFPATH=$HOME/.pip
     PIPCONF=pip.conf
     PIPARCH=dist_UBUNTU_14_04
-    alias cygdrive=echo
+    alias cygpath=echo
 fi
 
 if [ ! -d "$PIPCONFPATH" ] ; then
@@ -38,7 +38,7 @@ pip$PYMAJOR install --index-url=$INDEX_URL --user --upgrade virtualenv
 
 VIRTDIR=$(echo "/tmp/DNVGLPyFramework_${TEAMCITY_PROJECT_NAME}_${TEAMCITY_BUILDCONF_NAME}" | sed "s-[ ;:]-_-g")
 
-if [ ! -e $(cygdrive $VIRTDIR) ] ; then
+if [ ! -e $(cygpath $VIRTDIR) ] ; then
     if [ "$(uname -o)" = "Cygwin" ] ; then
         virtualenv $VIRTDIR --python=c:/python$PYVER/python.exe
     else
@@ -46,7 +46,7 @@ if [ ! -e $(cygdrive $VIRTDIR) ] ; then
     fi
 fi
 
-. $(cygdrive $VIRTDIR/bin/activate)
+. $(cygpath $VIRTDIR/bin/activate)
 
 pip$PYMAJOR install --index-url=$INDEX_URL --upgrade pytest pytest-pep8 pytest-cov
 
