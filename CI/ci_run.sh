@@ -11,7 +11,7 @@ author="$Author$"
 date="$Date$"
 version="$Revision$"
 
-set -ex
+set -e
 
 if [ "$(uname -o)" = "Cygwin" ] ; then
     PIPCONFPATH="$(cygpath $APPDATA)/pip"
