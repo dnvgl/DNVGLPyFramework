@@ -2,7 +2,7 @@
 
 # Copyright © 2016 by DNV GL SE
 
-# Task  : Install prerequisite for testing
+# Task  : Testing DNVGLPyFramework
 
 # Author: Berthold Höllmann <berthold.hoellmann@dnvgl.com>
 
@@ -11,7 +11,7 @@ author="$Author$"
 date="$Date$"
 version="$Revision$"
 
-set -e
+set -ex
 
 if [ "$(uname -o)" = "Cygwin" ] ; then
     PIPCONFPATH="$(cygpath $APPDATA)/pip"
@@ -33,6 +33,8 @@ if [ ! -e "$PIPCONFPATH/$PIPCONF" ] ; then
     echo "index_url = http://srverc.germanlloyd.org/devpi/dnvgl/$PIPARCH/+simple/" >> "$PIPCONFPATH/$PIPCONF"
 fi
 
+echo "*** Activating virtual environment"
+
 pip$PYMAJOR install --index-url=$INDEX_URL --user --upgrade virtualenv
 
 VIRTDIR=$(echo "/tmp/DNVGLPyFramework_${TEAMCITY_PROJECT_NAME}_${TEAMCITY_BUILDCONF_NAME}" | sed "s-[ ;:]-_-g")
@@ -51,9 +53,24 @@ else
     . $VIRTDIR/bin/activate
 fi
 
-pip$PYMAJOR install --index-url=$INDEX_URL --upgrade pytest pytest-pep8 pytest-cov
+echo "*** Install prequisites"
 
+pip$PYMAJOR install --index-url=$INDEX_URL --upgrade pytest pytest-pep8 pytest-cov wheel
 pip$PYMAJOR install --index-url=$INDEX_URL --upgrade --requirement=requirements.txt
+
+echo "*** Building"
+
+python$PYMAJOR setup.py build
+
+echo "*** Testing"
+
+tox -e py$PYVER
+
+echo "*** Generating binary installer"
+
+python$PYMAJOR setup.py bdist
+python$PYMAJOR setup.py bdist_egg
+pio$PYMAJOR wheel .
 
 # Local Variables:
 # mode: shell-script
