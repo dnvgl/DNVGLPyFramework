@@ -55,14 +55,14 @@ fi
 
 echo "##teamcity[blockClosed name='virtEnv']"
 
-echo "##teamcity[blockOpened name='prequisites' description='Install prequisites']"
+echo "##teamcity[blockOpened name='prequisites' description='Install prequisites' timestamp='timestamp']"
 
 pip$PYMAJOR install --index-url=$INDEX_URL --upgrade pytest pytest-pep8 pytest-cov wheel
 pip$PYMAJOR install --index-url=$INDEX_URL --upgrade --requirement=requirements.txt
 
 echo "##teamcity[blockClosed name='prequisites']"
 
-echo "##teamcity[blockOpened name='building' description='Building']"
+echo "##teamcity[blockOpened name='building' description='Building' timestamp='timestamp']"
 
 python$PYMAJOR setup.py build
 
@@ -76,9 +76,23 @@ echo "##teamcity[blockClosed name='testing']"
 
 echo "##teamcity[blockOpened name='bdist' description='Generating binary installer']"
 
+echo "##teamcity[blockOpened name='simple' description='Generating simple installer']"
+
 python$PYMAJOR setup.py bdist
+
+echo "##teamcity[blockClosed name='simple']"
+
+echo "##teamcity[blockOpened name='egg' description='Generating egg installer']"
+
 python$PYMAJOR setup.py bdist_egg
+
+echo "##teamcity[blockClosed name='egg']"
+
+echo "##teamcity[blockOpened name='wheel' description='Generating wheel installer']"
+
 pip$PYMAJOR wheel .
+
+echo "##teamcity[blockClosed name='wheel']"
 
 echo "##teamcity[blockClosed name='bdist']"
 
