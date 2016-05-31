@@ -55,14 +55,14 @@ fi
 
 echo "##teamcity[blockClosed name='virtEnv']"
 
-echo "##teamcity[blockOpened name='prequisites' description='Install prequisites' timestamp='timestamp']"
+echo "##teamcity[blockOpened name='prequisites' description='Install prequisites']"
 
 pip$PYMAJOR install --index-url=$INDEX_URL --upgrade pytest pytest-pep8 pytest-cov wheel
 pip$PYMAJOR install --index-url=$INDEX_URL --upgrade --requirement=requirements.txt
 
 echo "##teamcity[blockClosed name='prequisites']"
 
-echo "##teamcity[blockOpened name='building' description='Building' timestamp='timestamp']"
+echo "##teamcity[blockOpened name='building' description='Building']"
 
 python$PYMAJOR setup.py build
 
