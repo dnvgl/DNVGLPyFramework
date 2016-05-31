@@ -33,7 +33,7 @@ if [ ! -e "$PIPCONFPATH/$PIPCONF" ] ; then
     echo "index_url = http://srverc.germanlloyd.org/devpi/dnvgl/$PIPARCH/+simple/" >> "$PIPCONFPATH/$PIPCONF"
 fi
 
-echo "*** Activating virtual environment"
+echo "##teamcity[blockOpened name='virtEnv' description='Activating virtual environment']"
 
 pip$PYMAJOR install --index-url=$INDEX_URL --user --upgrade virtualenv
 
@@ -53,6 +53,8 @@ else
     . $VIRTDIR/bin/activate
 fi
 
+echo "##teamcity[blockClosed name='virtEnv']"
+
 echo "*** Install prequisites"
 
 pip$PYMAJOR install --index-url=$INDEX_URL --upgrade pytest pytest-pep8 pytest-cov wheel
@@ -70,7 +72,7 @@ echo "*** Generating binary installer"
 
 python$PYMAJOR setup.py bdist
 python$PYMAJOR setup.py bdist_egg
-pio$PYMAJOR wheel .
+pip$PYMAJOR wheel .
 
 # Local Variables:
 # mode: shell-script
