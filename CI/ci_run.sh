@@ -55,24 +55,32 @@ fi
 
 echo "##teamcity[blockClosed name='virtEnv']"
 
-echo "*** Install prequisites"
+echo "##teamcity[blockOpened name='prequisites' description='Install prequisites']"
 
 pip$PYMAJOR install --index-url=$INDEX_URL --upgrade pytest pytest-pep8 pytest-cov wheel
 pip$PYMAJOR install --index-url=$INDEX_URL --upgrade --requirement=requirements.txt
 
-echo "*** Building"
+echo "##teamcity[blockClosed name='prequisites']"
+
+echo "##teamcity[blockOpened name='building' description='Building']"
 
 python$PYMAJOR setup.py build
 
-echo "*** Testing"
+echo "##teamcity[blockClosed name='building']"
+
+echo "##teamcity[blockOpened name='testing' description='Testing']"
 
 tox -e py$PYVER
 
-echo "*** Generating binary installer"
+echo "##teamcity[blockClosed name='testing']"
+
+echo "##teamcity[blockOpened name='bdist' description='Generating binary installer']"
 
 python$PYMAJOR setup.py bdist
 python$PYMAJOR setup.py bdist_egg
 pip$PYMAJOR wheel .
+
+echo "##teamcity[blockClosed name='bdist']"
 
 # Local Variables:
 # mode: shell-script
