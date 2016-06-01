@@ -41,7 +41,7 @@ get_index_server () {
     echo "http://srverc.germanlloyd.org/devpi/dnvgl/dist_$PIPARCH/+simple/"
 }
 
-aif [ ! -e "$PIPCONFPATH/$PIPCONF" ] ; then
+if [ ! -e "$PIPCONFPATH/$PIPCONF" ] ; then
     echo "[global]" > "$PIPCONFPATH/$PIPCONF"
     echo "trusted_host = srverc.germanlloyd.org" >> "$PIPCONFPATH/$PIPCONF"
     echo "index_url = http://srverc.germanlloyd.org/devpi/dnvgl/$PIPARCH/+simple/" >> "$PIPCONFPATH/$PIPCONF"
@@ -87,7 +87,7 @@ py_build () {
     if [ "$(uname -o)" = "Cygwin" ] ; then
         python setup.py build
     else
-a        virtualenv $VIRTDIR --python=python$PYMAJOR
+        virtualenv $VIRTDIR --python=python$PYMAJOR
     fi
 }
 
