@@ -84,11 +84,7 @@ py_prep () {
 
 # compile source code
 py_build () {
-    if [ "$(uname -o)" = "Cygwin" ] ; then
-        python setup.py build
-    else
-        virtualenv $VIRTDIR --python=python$PYMAJOR
-    fi
+    $PYTHON setup.py build
 }
 
 # execute tests
