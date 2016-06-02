@@ -16,10 +16,12 @@ set -e
 # general definitions
 
 if [ "$(uname -o)" = "Cygwin" ] ; then
+    cd $(cygpath "$CHECKOUT_DIR")
     PIPCONFPATH="$(cygpath $APPDATA)/pip"
-    PIPCONFEXT=pipini
+    PIPCONF=pip.ini
     PYTHON=python.exe
 else
+    cd "$CHECKOUT_DIR"
     PIPCONFPATH=$HOME/.pip
     PIPCONF=pip.conf
     PYTHON=python$PYMAJOR
@@ -38,14 +40,8 @@ get_index_server () {
             PIPARCH=UBUNTU_14_04
         fi
     fi
-    echo "http://srverc.germanlloyd.org/devpi/dnvgl/dist_$PIPARCH/+simple/"
+    echo "http://srverc.germanlloyd.org/devpi/dnvgl/bdist_$PIPARCH/+simple/"
 }
-
-if [ ! -e "$PIPCONFPATH/$PIPCONF" ] ; then
-    echo "[global]" > "$PIPCONFPATH/$PIPCONF"
-    echo "trusted_host = srverc.germanlloyd.org" >> "$PIPCONFPATH/$PIPCONF"
-    echo "index_url = http://srverc.germanlloyd.org/devpi/dnvgl/$PIPARCH/+simple/" >> "$PIPCONFPATH/$PIPCONF"
-fi
 
 # ensure pip configuration file exists
 gen_pipconf () {
@@ -55,7 +51,6 @@ gen_pipconf () {
         fi
         echo "[global]" > "$PIPCONFPATH/$PIPCONF"
         echo "trusted_host = srverc.germanlloyd.org" >> "$PIPCONFPATH/$PIPCONF"
-        echo "index_url = http://srverc.germanlloyd.org/devpi/dnvgl/$PIPARCH/+simple/" >> "$PIPCONFPATH/$PIPCONF"
     fi
 }
 
@@ -77,8 +72,8 @@ virt_env () {
 # install required packages into virtual environment
 py_prep () {
     pip$PYMAJOR install --index-url=$INDEX_URL --upgrade pytest pytest-pep8 pytest-cov wheel
-    if [ -e requirements$PYMAJOR.txt ] ; then
-        pip$PYMAJOR install --index-url=$INDEX_URL --upgrade --requirement=requirements$PYMAJOR.txt
+    if [ -e requirements.txt ] ; then
+        pip$PYMAJOR install --index-url=$INDEX_URL --upgrade --requirement=requirements.txt
     fi
 }
 
@@ -104,7 +99,7 @@ py_dist_egg () {
 
 # generate binary wheel files
 py_dist_wheel () {
-    pip$PYMAJOR wheel .
+    pip$PYMAJOR wheel --wheel-dir=dist .
 }
 
 # generate different distribution files
