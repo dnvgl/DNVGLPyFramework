@@ -61,13 +61,16 @@ class Version(object):
     @property
     def sub_rev(self):
 
+        if os.environ.get("SVN_REVISION_1"):
+            return "+{}".format(os.environ["SVN_REVISION_1"])
+
         path = py.path.local(self.base_dir.strpath)
 
         svn_info = subprocess.check_output(
             ["svnversion", "-c", path.strpath],
             stdin=subprocess.PIPE, stderr=subprocess.PIPE)
-
         return "+{}".format(
+
             (svn_info.decode('ascii').split(':')[-1]).strip())
 
     @cached_property(ttl=0)
