@@ -21,7 +21,12 @@ __author__ = "`Berthold Höllmann <berthold.hoellmann@dnvgl.com>`__"
 __copyright__ = "Copyright © 2015 by DNV GL SE"
 
 
+class VersionError(Exception):
+    pass
+
+
 class Version(object):
+
     """Handle Project version numbers for setup and others."""
 
     postfile = ".postcnt"
@@ -76,7 +81,7 @@ class Version(object):
         else:
             res = 1
         with open(self.postfile, 'w') as outp:
-            outp.write("{}".format(res+1))
+            outp.write("{}".format(res + 1))
         return res
 
     @cached_property(ttl=0)
@@ -86,7 +91,7 @@ class Version(object):
         svn_rev = self.svn_revision
         if svn_rev.endswith('M'):
             if self.release:
-                raise SystemExit("""
+                raise VersionError("""
 ***ERROR***
 Attempt to generate release from SVN repository that still has changes.
 """)
