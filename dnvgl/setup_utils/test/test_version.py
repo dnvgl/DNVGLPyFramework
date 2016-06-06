@@ -23,98 +23,69 @@ __copyright__ = "Copyright © 2016 by DNV GL SE"
 
 
 @pytest.fixture(params=(
-    ("3", "1.2.3", True),
-    ("3", "1.2.dev3", False),
-    ("3M", "1.2.3.post1", False)))
+    ("0.0.1", 123, "0.0.1", True),
+    ("1.2.3", 123, "1.2.3", True),
+    ("1.2.3", "123M", "1.2.3", None),
+    ("1.2.3.dev2", 123, "1.2.3.dev2+123", False),
+    ("1.2.3.dev2", "123M", "1.2.3.dev2+123M", False),
+    ("1.2.3a1", 123, "1.2.3a1+123", False),
+    ("1.2.3b1", 123, "1.2.3b1+123", False),
+    ("1.2.3.a1", 123, "1.2.3a1+123", False),
+    ("1.2.3.b1", 123, "1.2.3b1+123", False)))
 def ver_string(request):
     return request.param
 
 
 def test_ver_explicit_path(tmpdir, monkeypatch, ver_string):
-    rev, ref, rel = ver_string
+    ver, rev, ref, rel = ver_string
     monkeypatch.setenv('SVN_REVISION_1', rev)
-    if rel:
-        monkeypatch.setenv('RELEASE', "1")
-    else:
-        monkeypatch.delenv('RELEASE', raising=False)
-    v = tmpdir.join('version.txt')
-    v.write("1.2")
-    probe = version.Version(v.strpath)
-    assert probe() == ref
-
-
-def test_ver_implicit_path(tmpdir, monkeypatch, ver_string):
-    rev, ref, rel = ver_string
-    monkeypatch.setenv('SVN_REVISION_1', rev)
-    if rel:
-        monkeypatch.setenv('RELEASE', "1")
-    else:
-        monkeypatch.delenv('RELEASE', raising=False)
-    v = tmpdir.join('version.txt')
-    v.write("1.2")
-    monkeypatch.setattr("sys.argv", (v.strpath, ))
-    with v.dirpath().as_cwd():
-        probe = version.Version()
-        assert probe() == ref
-
-
-def test_ver_call_with_release(tmpdir, monkeypatch, ver_string):
-    rev, ref, rel = ver_string
-    monkeypatch.setenv('SVN_REVISION_1', rev)
-    monkeypatch.delenv('RELEASE', raising=False)
-    v = tmpdir.join('version.txt')
-    v.write("1.2")
-    monkeypatch.setattr("sys.argv", (v.strpath, ))
-    with v.dirpath().as_cwd():
-        probe = version.Version(release=rel)
-        assert probe() == ref
-
-
-def test_svnversion(tmpdir, monkeypatch, ver_string):
-    rev, ref, rel = ver_string
-    monkeypatch.delenv('SVN_REVISION_1', raising=False)
-    monkeypatch.delenv('RELEASE', raising=False)
-    v = tmpdir.join('version.txt')
-    v.write("1.2")
-    monkeypatch.setattr("sys.argv", (v.strpath, ))
     monkeypatch.setattr("subprocess.check_output",
                         lambda x, *arg, **kw:
                         bytes("1:{}".format(rev).encode("utf-8")))
-    with v.dirpath().as_cwd():
-        probe = version.Version(release=rel)
+    v = tmpdir.join('version.txt')
+    v.write(ver)
+    probe = version.Version(v)
+    if rel is not None:
         assert probe() == ref
-
-
-def test_with_postfile(tmpdir, monkeypatch):
-    monkeypatch.setenv('SVN_REVISION_1', "3M")
-    monkeypatch.delenv('RELEASE', raising=False)
-    v = tmpdir.join('version.txt')
-    v.write("1.2")
-    p = tmpdir.join(version.Version.postfile)
-    p.write("3")
-    monkeypatch.setattr("sys.argv", (v.strpath, ))
-    with v.dirpath().as_cwd():
-        probe = version.Version()
-        assert probe() == "1.2.3.post3"
-
-
-def test_with_release_error(tmpdir, monkeypatch):
-    monkeypatch.setenv('SVN_REVISION_1', "3M")
-    monkeypatch.setenv('RELEASE', "1")
-    v = tmpdir.join('version.txt')
-    v.write("1.2")
-    monkeypatch.setattr("sys.argv", (v.strpath, ))
-    with v.dirpath().as_cwd():
-        probe = version.Version()
+    else:
         with pytest.raises(version.VersionError):
             probe()
 
 
-def test_write(tmpdir, monkeypatch):
-    monkeypatch.setenv('SVN_REVISION_1', "3")
-    monkeypatch.setenv('RELEASE', "1")
+def test_ver_implicit_path(tmpdir, monkeypatch, ver_string):
+    ver, rev, ref, rel = ver_string
     v = tmpdir.join('version.txt')
-    v.write("1.2")
+    v.write(ver)
+    monkeypatch.setenv('SVN_REVISION_1', rev)
+    monkeypatch.setattr("sys.argv", (v.strpath, ))
+    monkeypatch.setattr("subprocess.check_output",
+                        lambda x, *arg, **kw:
+                        bytes("1:{}".format(rev).encode("utf-8")))
+    probe = version.Version()
+    if rel is not None:
+        assert probe() == ref
+    else:
+        with pytest.raises(version.VersionError):
+            probe()
+
+
+def test_release(tmpdir, monkeypatch, ver_string):
+    ver, rev, ref, rel = ver_string
+    v = tmpdir.join('version.txt')
+    v.write(ver)
+    monkeypatch.setenv('SVN_REVISION_1', rev)
+    monkeypatch.setattr("sys.argv", (v.strpath, ))
+    monkeypatch.setattr("subprocess.check_output",
+                        lambda x, *arg, **kw:
+                        bytes("1:{}".format(rev).encode("utf-8")))
+    probe = version.Version()
+    if rel is not None:
+        assert probe.release == rel
+
+
+def test_write(tmpdir, monkeypatch):
+    v = tmpdir.join('version.txt')
+    v.write("1.2.3")
     monkeypatch.setattr("sys.argv", (v.strpath, ))
     with v.dirpath().as_cwd():
         probe = version.Version()
@@ -128,6 +99,5 @@ __version__ = "1.2.3"
 
 # Local Variables:
 # mode: python
-# ispell-local-dictionary: "english"
 # compile-command: "python setup.py build"
 # End:

@@ -27,8 +27,8 @@ if __name__ == '__main__':
     setup(
         name='DNVGLPyFramework',
         version=VERSION(),
-        setup_requires=['pytest', 'pytest-cov', 'pytest-pep8'],
-        install_requires=['py'],
+        setup_requires=['pytest', 'pytest-cov', 'pytest-pep8', 'packaging'],
+        install_requires=['py', 'packaging'],
         description='Lightweight framwork for DNV GL Python applications.',
         author='Berthold Höllmann, DNV GL SE',
         author_email='berthold.hoellmann@dnvgl.com',
