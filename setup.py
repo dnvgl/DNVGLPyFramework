@@ -9,8 +9,8 @@ from __future__ import division, print_function, absolute_import
 import os.path
 from setuptools import setup, find_packages
 
-# DNV GL libraries.
-from dnvgl.setup_utils.version import Version
+# Third party libraries.
+import py
 
 # ID: $Id$"
 __date__ = "$Date$"[6:-1]
@@ -18,10 +18,15 @@ __scm_version__ = "$Revision$"[10:-1]
 __author__ = "`Berthold Höllmann <berthold.hoellmann@dnvgl.com>`__"
 __copyright__ = "Copyright © 2010, 2015 by DNV GL SE"
 
-VERSION = Version('version.txt')
+VERSION = py.path.local('version.txt').read().strip
 
-VERSION.write([os.path.join('dnvgl', i, '__version__.py') for i in
-               ("framework", "setup_utils")])
+for TARGET in [py.path.local('dnvgl').join(i).join('__version__.py') for i in
+               ("framework", "setup_utils")]:
+    TARGET.write(
+        """# Automatically generated version file.
+
+__version__ = \"{}\"\n""".format(VERSION))
+
 
 if __name__ == '__main__':
     setup(

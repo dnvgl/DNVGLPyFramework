@@ -45,7 +45,6 @@ class Version(object):
             self.base_dir = base if base.isdir() else py.path.local('.')
             self.vers_file = base.join("version.txt")
         else:
-            print("vers_file: ",  vers_file)
             self.vers_file = py.path.local(vers_file)
             self.base_dir = self.vers_file.dirpath()
 
@@ -86,7 +85,7 @@ Attempt to generate release from SVN repository that still has changes.
 """)
         if self.release:
             return str("{}".format(self.base_version))
-        return str("{}{}".format(self.base_version, svn_rev))
+        return str("{}{}".format(self.base_version, svn_rev.lower()))
 
     def __call__(self):
         """Returns current source version string when class instance is called.
