@@ -1930,7 +1930,10 @@
        d="m 25,100 65,50 5,0 0,-5 -65,-50 -5,0 z"
        id="path5181"
        inkscape:connector-curvature="0"
-       transform="translate(-0.12023635,-136)" />
+       transform="translate(-0.12023635,-136)"
+       inkscape:export-xdpi="28"
+       inkscape:export-ydpi="28"
+       inkscape:export-filename="/data/tmp/berhol/DNVGLPyFramework_virt/DNVGLPyFramework/doc/DNVGLPyFramework_logo.png" />
   </g>
   <g
      inkscape:groupmode="layer"
