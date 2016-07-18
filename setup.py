@@ -25,7 +25,7 @@ for TARGET in [py.path.local('dnvgl').join(i).join('__version__.py') for i in
     TARGET.write(
         """# Automatically generated version file.
 
-__version__ = \"{}\"\n""".format(VERSION))
+__version__ = \"{}\"\n""".format(VERSION()))
 
 
 if __name__ == '__main__':

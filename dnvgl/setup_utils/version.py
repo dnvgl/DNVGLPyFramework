@@ -13,9 +13,9 @@ import subprocess
 
 # Third party libraries.
 import py
+from packaging.version import Version as pVersion
 
 # DNV GL libraries.
-from packaging.version import Version as pVersion
 from dnvgl.framework.cached_property import cached_property
 
 # ID: $Id$"
@@ -38,7 +38,6 @@ class Version(object):
     def __init__(self, vers_file=None):
         """
 :param str `vers_file`: Name of file to read version number from.
-:param bool `release`: Set to `True` for a release.
 """
         base = py.path.local(sys.argv[0]).dirpath()
         if vers_file is None:
@@ -60,8 +59,8 @@ class Version(object):
     @property
     def sub_rev(self):
 
-        if os.environ.get("SVN_REVISION_1"):
-            return "+{}".format(os.environ["SVN_REVISION_1"])
+        if os.environ.get("SVN_REVISION"):
+            return "+{}".format(os.environ["SVN_REVISION"])
 
         path = py.path.local(self.base_dir.strpath)
 
@@ -69,7 +68,6 @@ class Version(object):
             ["svnversion", "-c", path.strpath],
             stdin=subprocess.PIPE, stderr=subprocess.PIPE)
         return "+{}".format(
-
             (svn_info.decode('ascii').split(':')[-1]).strip())
 
     @cached_property(ttl=0)

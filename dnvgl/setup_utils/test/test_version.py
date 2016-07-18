@@ -53,7 +53,7 @@ def test_ver_explicit_path(tmpdir, monkeypatch, ver_string):
 
 def test_ver_explicit_path_env(tmpdir, monkeypatch, ver_string):
     ver, rev, ref, rel = ver_string
-    monkeypatch.setenv('SVN_REVISION_1', rev)
+    monkeypatch.setenv('SVN_REVISION', rev)
     monkeypatch.setattr("subprocess.check_output",
                         lambda x, *arg, **kw: bytes("1:666"))
     v = tmpdir.join('version.txt')
@@ -86,7 +86,7 @@ def test_ver_implicit_path_env(tmpdir, monkeypatch, ver_string):
     ver, rev, ref, rel = ver_string
     v = tmpdir.join('version.txt')
     v.write(ver)
-    monkeypatch.setenv('SVN_REVISION_1', rev)
+    monkeypatch.setenv('SVN_REVISION', rev)
     monkeypatch.setattr("sys.argv", (v.strpath, ))
     monkeypatch.setattr("subprocess.check_output",
                         lambda x, *arg, **kw: bytes("1:666"))
@@ -115,7 +115,7 @@ def test_release_env(tmpdir, monkeypatch, ver_string):
     ver, rev, ref, rel = ver_string
     v = tmpdir.join('version.txt')
     v.write(ver)
-    monkeypatch.setenv('SVN_REVISION_1', rev)
+    monkeypatch.setenv('SVN_REVISION', rev)
     monkeypatch.setattr("sys.argv", (v.strpath, ))
     monkeypatch.setattr("subprocess.check_output",
                         lambda x, *arg, **kw: bytes("1:666"))
