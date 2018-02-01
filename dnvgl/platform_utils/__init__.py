@@ -8,6 +8,7 @@ from __future__ import (
 
 # Standard libraries.
 import re
+import sys
 import argparse
 from os.path import isfile
 from distutils import util
@@ -59,8 +60,24 @@ def pyplat_cmd():
     print_pyplat(options.ext)
 
 
+def pyver():
+    return sys.version[:3]
+
+
+def print_pyver():
+    print(pyver())
+
+
+def pyver_cmd():
+    parser = argparse.ArgumentParser(
+        description='Get information on current python version.')
+    parser.parse_args()
+    print_pyver()
+
+
 if __name__ == "__main__":
     print_pyplat()
+    print_pyver()
 
 # Local Variables:
 # mode: python
