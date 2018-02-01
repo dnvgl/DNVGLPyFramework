@@ -6,7 +6,6 @@
 from __future__ import division, print_function, absolute_import
 
 # Standard libraries.
-import os.path
 from setuptools import setup, find_packages
 
 # Third party libraries.
@@ -20,39 +19,49 @@ __copyright__ = "Copyright © 2010, 2015 by DNV GL SE"
 
 VERSION = py.path.local('version.txt').read().strip
 
-for TARGET in [py.path.local('dnvgl').join(i).join('__version__.py') for i in
-               ("framework", "setup_utils")]:
-    TARGET.write(
+for TARGET in [py.path.local('dnvgl').join(i) for i in
+               ("framework", "platform_utils", "setup_utils")]:
+    TARGET.join('__version__.py').write(
         """# Automatically generated version file.
 
 __version__ = \"{}\"\n""".format(VERSION()))
+
+
+TESTS_REQUIRE = ['pytest', 'pytest-cov', 'pytest-pep8', 'packaging'],
 
 
 if __name__ == '__main__':
     setup(
         name='DNVGLPyFramework',
         version=VERSION(),
-        setup_requires=['pytest', 'pytest-cov', 'pytest-pep8', 'packaging'],
+        license='Other/Proprietary License',
+        keywords='DNVGL AML FMI FMU',
+        setup_requires=['tox', 'pytest-runner'],
         install_requires=['py', 'packaging'],
+        tests_require=TESTS_REQUIRE,
+        extras_require={'test': TESTS_REQUIRE},
         description='Lightweight framwork for DNV GL Python applications.',
         author='Berthold Höllmann, DNV GL SE',
         author_email='berthold.hoellmann@dnvgl.com',
         url='http://www.dnvgl.com',
         namespace_packages=['dnvgl'],
-        packages=find_packages('.', exclude=[
+        packages=find_packages('.', exclude=(
             "*.__pycache__", "*.__pycache__.*", "__pycache__.*",
-            "__pycache__"]),
-        classifiers=['Development Status :: 6 - Mature',
-                     'Intended Audience :: Developers',
-                     'Operating System :: POSIX',
-                     'Operating System :: Microsoft :: Windows',
-                     'Topic :: Software Development :: Libraries',
-                     'Topic :: Utilities',
-                     'Programming Language :: Python',
-                     'Programming Language :: Python :: 3'])
+            "__pycache__/", "flycheck*.py[cd]?")),
+        entry_points={
+            'console_scripts': [
+                'dnvgl.pyplat = dnvgl.platform_utils:pyplat_cmd']},
+        classifiers=[
+            'Development Status :: 6 - Mature',
+            'Intended Audience :: Developers',
+            'Operating System :: POSIX',
+            'Operating System :: Microsoft :: Windows',
+            'Topic :: Software Development :: Libraries',
+            'Topic :: Utilities',
+            'Programming Language :: Python',
+            'Programming Language :: Python :: 3'])
 
 # Local Variables:
 # mode: python
-# ispell-local-dictionary: "english"
-# compile-command: "make test"
+# compile-command: "python3 setup.py test"
 # End:
