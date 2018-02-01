@@ -181,7 +181,11 @@ doctest:	library
 	      "results in $(BUILDDIR)/doctest/output.txt."
 
 library:
+ifndef VIRTUAL_ENV
 	pip install --user sphinx numpydoc
+else
+	pip install sphinx numpydoc
+endif
 
 .PHONY: help
 .PHONY: clean
