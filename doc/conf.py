@@ -76,7 +76,7 @@ copyright = '2010, DNV GL SE'
 #
 # The short X.Y version.
 VERSION = my_version.Version('../version.txt')
-version = '.'.join(VERSION.base_version.split('.')[:2])
+version = '.'.join(VERSION().split('.')[:2])
 # The full version, including alpha/beta/rc tags.
 release = VERSION()
 
