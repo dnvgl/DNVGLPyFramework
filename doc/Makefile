@@ -19,7 +19,7 @@ DOC_DIR=/export/WWW-Intern/htdocs/pool/ho/software/info/DNVGLPyFramwork
 SPHINXOPTS    = -w sphinx-build.log
 SPHINXBUILD   = sphinx-build
 PAPER         = a4
-BUILDDIR      = _build
+BUILDDIR      = build
 
 # Internal variables.
 PAPEROPT_a4     = -D latex_paper_size=a4
