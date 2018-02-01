@@ -24,7 +24,7 @@ tox
 devpi use http://srverc.germanlloyd.org/devpi/dnvgl/dist
 
 # upload distribution files to devpi server.
-devpi upload dist/Fortran2CHeader-$(cat version.txt)*
+devpi upload dist/DNVGLPyFramework-$(cat version.txt)*
 
 # Local Variables:
 # mode: shell-script
