@@ -13,6 +13,8 @@ import argparse
 from os.path import isfile
 from distutils import util
 
+from .__version__ import __version__
+
 # ID: $Id$
 __date__ = "$Date::                            $"[7:-1]
 __scm_version__ = "$Revision$"[10:-1]
@@ -50,16 +52,6 @@ def print_pyplat(ext=False):
     print(pyplat(ext))
 
 
-def pyplat_cmd():
-    parser = argparse.ArgumentParser(
-        description='Get information on current computing plaform.')
-    parser.add_argument('-e', '--ext', default=False, required=False,
-                        action='store_true',
-                        help="Provide extra information.")
-    options = parser.parse_args()
-    print_pyplat(options.ext)
-
-
 def pyver():
     return sys.version[:3]
 
@@ -68,11 +60,59 @@ def print_pyver():
     print(pyver())
 
 
+class _CMD(object):
+    """Command line tool."""
+
+    def __init__(self, description, extra_arguments=[]):
+        """Initiate command line tool.
+
+        """
+        parser = argparse.ArgumentParser(
+            description=description)
+        for args, kw in extra_arguments:
+            parser.add_argument(*args, **kw)
+        parser.add_argument('--version', action='version',
+                            version='%(prog)s {}'.format(__version__))
+        self.options = parser.parse_args()
+
+
+class PyPlat_CMD(_CMD):
+    """PyPlat command line utility."""
+
+    def __init__(self):
+        """Initiate.
+        """
+        super(PyPlat_CMD, self).__init__(
+            description='Get information on current computing plaform.',
+            extra_arguments=(
+                (('-e', '--ext'),
+                 dict(default=False, required=False,
+                      action='store_true',
+                      help="Provide extra information.")),))
+
+    def __call__(self):
+        print_pyplat(self.options.ext)
+
+
+def pyplat_cmd():
+    PyPlat_CMD()()
+
+
+class PyVer_CMD(_CMD):
+    """PyPlat command line utility."""
+
+    def __init__(self):
+        """Initiate.
+        """
+        super(PyVer_CMD, self).__init__(
+            description='Get information on current python version.')
+
+    def __call__(self):
+        print_pyver()
+
+
 def pyver_cmd():
-    parser = argparse.ArgumentParser(
-        description='Get information on current python version.')
-    parser.parse_args()
-    print_pyver()
+    PyVer_CMD()()
 
 
 if __name__ == "__main__":
