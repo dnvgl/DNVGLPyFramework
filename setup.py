@@ -50,8 +50,8 @@ if __name__ == '__main__':
             "__pycache__/", "flycheck*.py[cd]?")),
         entry_points={
             'console_scripts': [
-                'dnvgl.pyplat = dnvgl.platform_utils:pyplat_cmd',
-                'dnvgl.pyver = dnvgl.platform_utils:pyver_cmd']},
+                'dnvgl_pyplat = dnvgl.platform_utils:pyplat_cmd',
+                'dnvgl_pyver = dnvgl.platform_utils:pyver_cmd']},
         classifiers=[
             'Development Status :: 6 - Mature',
             'Intended Audience :: Developers',
