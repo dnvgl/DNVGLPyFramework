@@ -56,6 +56,26 @@ For bootstrapping in the `setup.py` file one could use::
           def __call__(self):
               return "0.0.-1"
 
+Using :py:mod:`dnvgl.setup_utils.build_exe`
+===========================================
+
+This module allows to add a `build_exe` command to `setup.py` to build
+binary executables from python scripts using PyInstaller.
+
+To your `setup.py` add_argument::
+
+  from dnvgl.setup_utils.version import Version
+
+  setup(
+    ...
+    cmdclass={"build_exe": PyInstallerCommand},
+    pyinstaller_specs=("build_exe/exe_1.spec",
+                       "build_exe/exe_2.spec"),
+    ...)
+
+Now `python setup.py build_exe` will process the given `.spec` files
+using PyInstaller.
+
 ..
   Local Variables:
   mode: rst

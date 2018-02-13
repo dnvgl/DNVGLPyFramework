@@ -36,7 +36,7 @@ if __name__ == '__main__':
         version=VERSION(),
         license='Other/Proprietary License',
         keywords='DNVGL AML FMI FMU',
-        setup_requires=['tox', 'pytest-runner'],
+        setup_requires=['tox', 'pytest-runner', 'PyInstaller'],
         install_requires=['py', 'packaging'],
         tests_require=TESTS_REQUIRE,
         extras_require={'test': TESTS_REQUIRE},
