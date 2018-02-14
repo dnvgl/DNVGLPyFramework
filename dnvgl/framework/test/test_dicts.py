@@ -9,7 +9,8 @@ from __future__ import (
 # Third party libraries.
 import pytest
 
-from ..dict import SortedDict, CaseInsensitiveDict
+# DNV GL libraries.
+from dnvgl.framework.dict import SortedDict, CaseInsensitiveDict
 
 # ID: $Id$"
 __date__ = "$Date$"[6:-1]
@@ -63,6 +64,5 @@ class TestCaseInsensitiveDict(object):
 
 # Local Variables:
 # mode: python
-# ispell-local-dictionary: "english"
-# compile-command: "python setup.py build"
+# compile-command: "cd ../../..;python setup.py test"
 # End:

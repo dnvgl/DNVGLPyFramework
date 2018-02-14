@@ -9,7 +9,8 @@ from __future__ import (
 # Third party libraries.
 import pytest
 
-from .. import app
+# DNV GL libraries.
+from dnvgl.framework import app
 
 # ID: $Id$"
 __date__ = "$Date$"[6:-1]
@@ -43,6 +44,5 @@ class TestApp(object):
 
 # Local Variables:
 # mode: python
-# ispell-local-dictionary: "english"
-# compile-command: "make -C ../../../test test"
+# compile-command: "cd ../../..;python setup.py test"
 # End:

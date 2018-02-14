@@ -13,7 +13,8 @@ import sys
 # Third party libraries.
 import pytest
 
-from .. import version
+# DNV GL libraries.
+from dnvgl.setup_utils import version
 
 # ID: $Id$
 __date__ = "$Date::                            $"[7:-1]
@@ -137,8 +138,7 @@ def test_write(tmpdir, monkeypatch):
 __version__ = "1.2.3"
 '''
 
-
 # Local Variables:
 # mode: python
-# compile-command: "python setup.py build"
+# compile-command: "cd ../../..;python setup.py test"
 # End:

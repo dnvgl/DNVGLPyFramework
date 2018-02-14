@@ -33,6 +33,7 @@ class IDGen(object):
 >>> id.exclude(range(10))
 >>> assert id() == 10
 """
+
     def __init__(self, start=None):
         self._excludes = []
         self._ID = start or 0
@@ -83,6 +84,5 @@ Add a list of values `val` to be excluded from this generator.
 
 # Local Variables:
 # mode: python
-# ispell-local-dictionary: "english"
-# compile-command: "make -C ../../ test"
+# compile-command: "cd ../../;python setup.py test"
 # End:

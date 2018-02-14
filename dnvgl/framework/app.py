@@ -46,8 +46,8 @@ program options from all parts of the program.
     _description = None
 
     def __init__(self, args=None):
-        parser = argparse.ArgumentParser(usage=self._usage,
-                                         description=self._description)
+        parser = argparse.ArgumentParser(
+            usage=self._usage, description=self._description)
         parser.add_argument('--version', action='version',
                             version='%(prog)s {}'.format(self._version))
         for (name, options) in self._optionList:
@@ -63,6 +63,5 @@ program options from all parts of the program.
 
 # Local Variables:
 # mode: python
-# ispell-local-dictionary: "english"
-# compile-command: "make -C ../../ test"
+# compile-command: "cd ../../;python setup.py test"
 # End:

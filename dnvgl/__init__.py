@@ -13,6 +13,5 @@ __copyright__ = "Copyright © 2015 by DNV GL SE"
 
 # Local Variables:
 # mode: python
-# ispell-local-dictionary: "english"
-# compile-command: "cd ..;python setup.py build"
+# compile-command: "cd .. ; python setup.py test --addopts '--ff -x'"
 # End:

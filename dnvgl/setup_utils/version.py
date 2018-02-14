@@ -110,5 +110,5 @@ __version__ = \"{}\"\n""".format(self.get_version))
 
 # Local Variables:
 # mode: python
-# compile-command: "python setup.py build"
+# compile-command: "cd ../../;python setup.py test"
 # End:

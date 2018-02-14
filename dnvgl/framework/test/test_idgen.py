@@ -9,7 +9,8 @@ from __future__ import (
 # Third party libraries.
 import pytest
 
-from .. import idgen
+# DNV GL libraries.
+from dnvgl.framework import idgen
 
 # ID: $Id$"
 __date__ = "$Date$"[6:-1]
@@ -68,6 +69,5 @@ Testing the `dnvgl_framework.idgen` module.
 
 # Local Variables:
 # mode: python
-# ispell-local-dictionary: "english"
-# compile-command: "make -C ../../../test test"
+# compile-command: "cd ../../..;python setup.py test"
 # End:

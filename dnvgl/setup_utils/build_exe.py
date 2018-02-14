@@ -68,7 +68,7 @@ class PyInstallerCommand(distutils.cmd.Command):
         for spec in specs:
             pyi_args = [
                 "--noconfirm", "--onefile", "--distpath=.", "--clean",
-                spec]
+                os.path.join(PATH, spec)]
 
             with remember_cwd(EXE_BUILD_DIR):
                 run(pyi_args)
@@ -78,5 +78,5 @@ class PyInstallerCommand(distutils.cmd.Command):
 
 # Local Variables:
 # mode: python
-# compile-command: "python setup.py build"
+# compile-command: "cd ../../;python setup.py test"
 # End:

@@ -19,6 +19,5 @@ __all__ = locals().keys()
 
 # Local Variables:
 # mode: python
-# ispell-local-dictionary: "english"
-# compile-command: "make -C ../../ test"
+# compile-command: "cd ../../;python setup.py test"
 # End:

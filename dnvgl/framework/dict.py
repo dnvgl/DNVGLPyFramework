@@ -58,6 +58,5 @@ class CaseInsensitiveDict(dict):
 
 # Local Variables:
 # mode: python
-# ispell-local-dictionary: "english"
-# compile-command: "python setup.py build"
+# compile-command: "cd ../../;python setup.py test"
 # End:
