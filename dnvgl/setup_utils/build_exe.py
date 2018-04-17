@@ -19,8 +19,12 @@ import contextlib
 from distutils.dist import Distribution
 
 # Third party libraries.
-import pip
 from PyInstaller.__main__ import run
+
+try:
+    from pip import main as pip_main
+except ImportError:
+    from pip._internal import main as pip_main
 
 # ID: $Id$
 __date__ = "$Date::                            $"[7:-1]
@@ -59,7 +63,7 @@ class PyInstallerCommand(distutils.cmd.Command):
 
     def run(self):
         # install code
-        pip.main(['install', '.'])
+        pip_main(['install', '.'])
 
         specs = self.distribution.pyinstaller_specs
 
