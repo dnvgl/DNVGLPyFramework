@@ -13,6 +13,7 @@ import subprocess
 
 # Third party libraries.
 import py
+import jinja2
 from packaging.version import Version as pVersion
 
 # DNV GL libraries.
@@ -107,6 +108,21 @@ number is avaliable.
                 out.write("""# Automatically generated version file.
 
 __version__ = \"{}\"\n""".format(self.get_version))
+
+    def parse_template(self, template_name):
+        """
+        Takes jinja2 template file `<some name>.in` from
+        `template_name` and writes `<some name>` with `{{ version }}`
+        replaced by version number.
+        """
+        assert template_name.endswith(".in")
+
+        with open(template_name) as inp:
+            template = jinja2.Template(inp.read())
+        with open(template_name[:-3], 'w') as outp:
+            for l in template.generate(version=self.get_version):
+                outp.write(l)
+
 
 # Local Variables:
 # mode: python

@@ -138,6 +138,22 @@ def test_write(tmpdir, monkeypatch):
 __version__ = "1.2.3"
 '''
 
+
+def test_parse_template(tmpdir, monkeypatch):
+    v = tmpdir.join('version.txt')
+    v.write("1.2.3")
+    tmpl = tmpdir.join('parse_template_test.in')
+    tmpl.write("""Just a test
+{{ version }}
+""")
+    monkeypatch.setattr("sys.argv", (v.strpath, ))
+    with v.dirpath().as_cwd():
+        probe = version.Version()
+        probe.parse_template(str(tmpl))
+        assert tmpdir.join("parse_template_test").read() == '''\
+Just a test
+1.2.3'''
+
 # Local Variables:
 # mode: python
 # compile-command: "cd ../../..;python setup.py test"
