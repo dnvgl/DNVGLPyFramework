@@ -19,7 +19,7 @@ __copyright__ = "Copyright © 2010, 2015 by DNV GL SE"
 
 VERSION = py.path.local('version.txt').read().strip
 
-for TARGET in [py.path.local('dnvgl').join(i) for i in
+for TARGET in [py.path.local('lib/dnvgl').join(i) for i in
                ("framework", "platform_utils", "setup_utils")]:
     TARGET.join('__version__.py').write(
         """# Automatically generated version file.
@@ -45,7 +45,8 @@ if __name__ == '__main__':
         author_email='berthold.hoellmann@dnvgl.com',
         url='http://www.dnvgl.com',
         namespace_packages=['dnvgl'],
-        packages=find_packages('.', exclude=(
+        package_dir={'': 'lib'},
+        packages=find_packages('lib', exclude=(
             "*.__pycache__", "*.__pycache__.*", "__pycache__.*",
             "__pycache__/", "flycheck*.py[cd]?")),
         entry_points={
