@@ -24,10 +24,11 @@ source code.
 :py:mod:`dnvgl.framework`
 *************************
 
-.. inheritance-diagram::
-    dnvgl.framework
-
 .. automodule:: dnvgl.framework
+   :members:
+   :undoc-members:
+   :private-members:
+   :special-members:
 
 :py:mod:`dnvgl.framework.app`
 =============================
@@ -36,6 +37,10 @@ source code.
    dnvgl.framework.app
 
 .. automodule:: dnvgl.framework.app
+   :members:
+   :undoc-members:
+   :private-members:
+   :special-members:
 
 :py:mod:`dnvgl.framework.dict`
 ==============================
@@ -44,6 +49,10 @@ source code.
    dnvgl.framework.dict
 
 .. automodule:: dnvgl.framework.dict
+   :members:
+   :undoc-members:
+   :private-members:
+   :special-members:
 
 :py:mod:`dnvgl.framework.idgen`
 ===============================
@@ -52,6 +61,10 @@ source code.
    dnvgl.framework.idgen
 
 .. automodule:: dnvgl.framework.idgen
+   :members:
+   :undoc-members:
+   :private-members:
+   :special-members:
 
 :py:mod:`dnvgl.framework.logger`
 ================================
@@ -60,6 +73,22 @@ source code.
    dnvgl.framework.logger
 
 .. automodule:: dnvgl.framework.logger
+   :members:
+   :undoc-members:
+   :private-members:
+   :special-members:
+
+:py:mod:`dnvgl.framework.cached_property`
+=========================================
+
+.. inheritance-diagram::
+   dnvgl.framework.cached_property
+
+.. automodule:: dnvgl.framework.cached_property
+   :members:
+   :undoc-members:
+   :private-members:
+   :special-members:
 
 ***************************
 :py:mod:`dnvgl.setup_utils`
@@ -69,6 +98,10 @@ source code.
    dnvgl.setup_utils
 
 .. automodule:: dnvgl.setup_utils
+   :members:
+   :undoc-members:
+   :private-members:
+   :special-members:
 
 :py:mod:`dnvgl.setup_utils.version`
 ===================================
@@ -77,6 +110,35 @@ source code.
    dnvgl.setup_utils.version
 
 .. automodule:: dnvgl.setup_utils.version
+   :members:
+   :undoc-members:
+   :private-members:
+   :special-members:
+
+:py:mod:`dnvgl.setup_utils.build_exe`
+=====================================
+
+.. inheritance-diagram::
+   dnvgl.setup_utils.build_exe
+
+.. automodule:: dnvgl.setup_utils.build_exe
+   :members:
+   :undoc-members:
+   :private-members:
+   :special-members:
+
+******************************
+:py:mod:`dnvgl.platform_utils`
+******************************
+
+.. inheritance-diagram::
+   dnvgl.platform_utils
+
+.. automodule:: dnvgl.platform_utils
+   :members:
+   :undoc-members:
+   :private-members:
+   :special-members:
 
 ..
   Local Variables:
