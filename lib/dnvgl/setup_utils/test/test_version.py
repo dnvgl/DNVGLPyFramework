@@ -51,6 +51,7 @@ def get_check_output(rev):
 
 def test_ver_explicit_path(tmpdir, monkeypatch, ver_string):
     ver, rev, ref, rel = ver_string
+    monkeypatch.delenv('SVN_REVISION', False)
     monkeypatch.setattr("subprocess.check_output", get_check_output(rev))
     v = tmpdir.join('version.txt')
     v.write(ver)
@@ -60,6 +61,7 @@ def test_ver_explicit_path(tmpdir, monkeypatch, ver_string):
     else:
         with pytest.raises(version.VersionError):
             probe()
+    monkeypatch.undo()
 
 
 def test_ver_explicit_path_env(tmpdir, monkeypatch, ver_string):
@@ -74,10 +76,12 @@ def test_ver_explicit_path_env(tmpdir, monkeypatch, ver_string):
     else:
         with pytest.raises(version.VersionError):
             probe()
+    monkeypatch.undo()
 
 
 def test_ver_implicit_path(tmpdir, monkeypatch, ver_string):
     ver, rev, ref, rel = ver_string
+    monkeypatch.delenv('SVN_REVISION', False)
     v = tmpdir.join('version.txt')
     v.write(ver)
     monkeypatch.setattr("sys.argv", (v.strpath, ))
@@ -88,6 +92,7 @@ def test_ver_implicit_path(tmpdir, monkeypatch, ver_string):
     else:
         with pytest.raises(version.VersionError):
             probe()
+    monkeypatch.undo()
 
 
 def test_ver_implicit_path_env(tmpdir, monkeypatch, ver_string):
@@ -103,10 +108,12 @@ def test_ver_implicit_path_env(tmpdir, monkeypatch, ver_string):
     else:
         with pytest.raises(version.VersionError):
             probe()
+    monkeypatch.undo()
 
 
 def test_release(tmpdir, monkeypatch, ver_string):
     ver, rev, ref, rel = ver_string
+    monkeypatch.delenv('SVN_REVISION', False)
     v = tmpdir.join('version.txt')
     v.write(ver)
     monkeypatch.setattr("sys.argv", (v.strpath, ))
@@ -114,10 +121,12 @@ def test_release(tmpdir, monkeypatch, ver_string):
     probe = version.Version()
     if rel is not None:
         assert probe.release == rel
+    monkeypatch.undo()
 
 
 def test_release_env(tmpdir, monkeypatch, ver_string):
     ver, rev, ref, rel = ver_string
+    monkeypatch.delenv('SVN_REVISION', False)
     v = tmpdir.join('version.txt')
     v.write(ver)
     monkeypatch.setenv('SVN_REVISION', rev)
@@ -126,6 +135,7 @@ def test_release_env(tmpdir, monkeypatch, ver_string):
     probe = version.Version()
     if rel is not None:
         assert probe.release == rel
+    monkeypatch.undo()
 
 
 def test_write(tmpdir, monkeypatch):
@@ -140,10 +150,12 @@ def test_write(tmpdir, monkeypatch):
 
 __version__ = "1.2.3"
 '''
+    monkeypatch.undo()
 
 
 def test_parse_template(tmpdir, monkeypatch):
     v = tmpdir.join('version.txt')
+    monkeypatch.delenv('SVN_REVISION', False)
     v.write("1.2.3")
     tmpl = tmpdir.join('parse_template_test.in')
     tmpl.write("""Just a test
