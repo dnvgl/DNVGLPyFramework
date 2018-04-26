@@ -26,9 +26,7 @@ source code.
 
 .. automodule:: dnvgl.framework
    :members:
-   :undoc-members:
    :private-members:
-   :special-members:
 
 :py:mod:`dnvgl.framework.app`
 =============================
@@ -38,9 +36,7 @@ source code.
 
 .. automodule:: dnvgl.framework.app
    :members:
-   :undoc-members:
    :private-members:
-   :special-members:
 
 :py:mod:`dnvgl.framework.dict`
 ==============================
@@ -50,9 +46,7 @@ source code.
 
 .. automodule:: dnvgl.framework.dict
    :members:
-   :undoc-members:
    :private-members:
-   :special-members:
 
 :py:mod:`dnvgl.framework.idgen`
 ===============================
@@ -62,9 +56,7 @@ source code.
 
 .. automodule:: dnvgl.framework.idgen
    :members:
-   :undoc-members:
    :private-members:
-   :special-members:
 
 :py:mod:`dnvgl.framework.logger`
 ================================
@@ -74,9 +66,7 @@ source code.
 
 .. automodule:: dnvgl.framework.logger
    :members:
-   :undoc-members:
    :private-members:
-   :special-members:
 
 :py:mod:`dnvgl.framework.cached_property`
 =========================================
@@ -86,9 +76,7 @@ source code.
 
 .. automodule:: dnvgl.framework.cached_property
    :members:
-   :undoc-members:
    :private-members:
-   :special-members:
 
 ***************************
 :py:mod:`dnvgl.setup_utils`
@@ -99,9 +87,7 @@ source code.
 
 .. automodule:: dnvgl.setup_utils
    :members:
-   :undoc-members:
    :private-members:
-   :special-members:
 
 :py:mod:`dnvgl.setup_utils.version`
 ===================================
@@ -111,9 +97,7 @@ source code.
 
 .. automodule:: dnvgl.setup_utils.version
    :members:
-   :undoc-members:
    :private-members:
-   :special-members:
 
 :py:mod:`dnvgl.setup_utils.build_exe`
 =====================================
@@ -123,9 +107,7 @@ source code.
 
 .. automodule:: dnvgl.setup_utils.build_exe
    :members:
-   :undoc-members:
    :private-members:
-   :special-members:
 
 ******************************
 :py:mod:`dnvgl.platform_utils`
@@ -136,9 +118,7 @@ source code.
 
 .. automodule:: dnvgl.platform_utils
    :members:
-   :undoc-members:
    :private-members:
-   :special-members:
 
 ..
   Local Variables:
