@@ -51,7 +51,7 @@ def get_check_output(rev):
 
 def test_ver_explicit_path(tmpdir, monkeypatch, ver_string):
     ver, rev, ref, rel = ver_string
-    monkeypatch.setattr(subprocess, "check_output", get_check_output(rev))
+    monkeypatch.setattr("subprocess.check_output", get_check_output(rev))
     v = tmpdir.join('version.txt')
     v.write(ver)
     probe = version.Version(v)
@@ -65,7 +65,7 @@ def test_ver_explicit_path(tmpdir, monkeypatch, ver_string):
 def test_ver_explicit_path_env(tmpdir, monkeypatch, ver_string):
     ver, rev, ref, rel = ver_string
     monkeypatch.setenv('SVN_REVISION', rev)
-    monkeypatch.setattr(subprocess, "check_output", get_check_output("1:666"))
+    monkeypatch.setattr("subprocess.check_output", get_check_output("1:666"))
     v = tmpdir.join('version.txt')
     v.write(ver)
     probe = version.Version(v)
@@ -81,7 +81,7 @@ def test_ver_implicit_path(tmpdir, monkeypatch, ver_string):
     v = tmpdir.join('version.txt')
     v.write(ver)
     monkeypatch.setattr("sys.argv", (v.strpath, ))
-    monkeypatch.setattr(subprocess, "check_output", get_check_output(rev))
+    monkeypatch.setattr("subprocess.check_output", get_check_output(rev))
     probe = version.Version()
     if rel is not None:
         assert probe() == ref
@@ -96,7 +96,7 @@ def test_ver_implicit_path_env(tmpdir, monkeypatch, ver_string):
     v.write(ver)
     monkeypatch.setenv('SVN_REVISION', rev)
     monkeypatch.setattr("sys.argv", (v.strpath, ))
-    monkeypatch.setattr(subprocess, "check_output", get_check_output("1:666"))
+    monkeypatch.setattr("subprocess.check_output", get_check_output("1:666"))
     probe = version.Version()
     if rel is not None:
         assert probe() == ref
@@ -110,7 +110,7 @@ def test_release(tmpdir, monkeypatch, ver_string):
     v = tmpdir.join('version.txt')
     v.write(ver)
     monkeypatch.setattr("sys.argv", (v.strpath, ))
-    monkeypatch.setattr(subprocess, "check_output", get_check_output(rev))
+    monkeypatch.setattr("subprocess.check_output", get_check_output(rev))
     probe = version.Version()
     if rel is not None:
         assert probe.release == rel
@@ -122,7 +122,7 @@ def test_release_env(tmpdir, monkeypatch, ver_string):
     v.write(ver)
     monkeypatch.setenv('SVN_REVISION', rev)
     monkeypatch.setattr("sys.argv", (v.strpath, ))
-    monkeypatch.setattr(subprocess, "check_output", get_check_output("1:666"))
+    monkeypatch.setattr("subprocess.check_output", get_check_output("1:666"))
     probe = version.Version()
     if rel is not None:
         assert probe.release == rel

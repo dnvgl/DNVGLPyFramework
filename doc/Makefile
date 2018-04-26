@@ -30,7 +30,7 @@ I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 
 export LATEXOPTS=--shell-escape
 
-export PYTHONPATH=../
+export PYTHONPATH=../lib
 
 MV = mv
 SED = sed
