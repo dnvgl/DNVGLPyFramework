@@ -1,6 +1,7 @@
 include Makefile
 include tox.ini
 include *.txt
+recursive-include lib *.py
 recursive-include doc *.py
 recursive-include doc *.rst
 recursive-include doc Makefile

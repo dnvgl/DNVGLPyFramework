@@ -9,6 +9,7 @@ from __future__ import (
 # Standard libraries.
 import os
 import sys
+import subprocess
 
 # Third party libraries.
 import pytest
@@ -39,7 +40,7 @@ def ver_string(request):
 
 def test_ver_explicit_path(tmpdir, monkeypatch, ver_string):
     ver, rev, ref, rel = ver_string
-    monkeypatch.setattr("subprocess.check_output",
+    monkeypatch.setattr(subprocess, "check_output",
                         lambda x, *arg, **kw:
                         bytes("1:{}".format(rev).encode("utf-8")))
     v = tmpdir.join('version.txt')

@@ -6,6 +6,7 @@
 from __future__ import division, print_function, absolute_import
 
 # Standard libraries.
+import os
 from setuptools import setup, find_packages
 
 # Third party libraries.
@@ -26,42 +27,30 @@ for TARGET in [py.path.local('lib/dnvgl').join(i) for i in
 
 __version__ = \"{}\"\n""".format(VERSION()))
 
-
 TESTS_REQUIRE = ['pytest', 'pytest-cov', 'pytest-pep8', 'packaging'],
-
+PACKAGES = find_packages('lib', exclude=(
+    "*.__pycache__", "*.__pycache__.*", "__pycache__.*",
+    "__pycache__/", "flycheck*.py[cd]?"))
+PACKAGE_DATA = {
+    'dnvgl.framework':   [os.path.join("test", "*.py")],
+    'dnvgl.setup_utils': [os.path.join("test", "*.py")]}
 
 if __name__ == '__main__':
     setup(
         name='DNVGLPyFramework',
         version=VERSION(),
-        license='Other/Proprietary License',
-        keywords='DNVGL AML FMI FMU',
         setup_requires=['tox', 'pytest-runner'],
         install_requires=['py', 'packaging', 'PyInstaller', 'jinja2'],
         tests_require=TESTS_REQUIRE,
         extras_require={'test': TESTS_REQUIRE},
-        description='Lightweight framwork for DNV GL Python applications.',
-        author='Berthold Höllmann, DNV GL SE',
-        author_email='berthold.hoellmann@dnvgl.com',
-        url='http://www.dnvgl.com',
         namespace_packages=['dnvgl'],
         package_dir={'': 'lib'},
-        packages=find_packages('lib', exclude=(
-            "*.__pycache__", "*.__pycache__.*", "__pycache__.*",
-            "__pycache__/", "flycheck*.py[cd]?")),
+        packages=PACKAGES,
+        package_data=PACKAGE_DATA,
         entry_points={
             'console_scripts': [
                 'dnvgl_pyplat = dnvgl.platform_utils:pyplat_cmd',
-                'dnvgl_pyver = dnvgl.platform_utils:pyver_cmd']},
-        classifiers=[
-            'Development Status :: 6 - Mature',
-            'Intended Audience :: Developers',
-            'Operating System :: POSIX',
-            'Operating System :: Microsoft :: Windows',
-            'Topic :: Software Development :: Libraries',
-            'Topic :: Utilities',
-            'Programming Language :: Python',
-            'Programming Language :: Python :: 3'])
+                'dnvgl_pyver = dnvgl.platform_utils:pyver_cmd']})
 
 # Local Variables:
 # mode: python
