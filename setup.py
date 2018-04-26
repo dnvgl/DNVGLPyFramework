@@ -39,7 +39,7 @@ if __name__ == '__main__':
     setup(
         name='DNVGLPyFramework',
         version=VERSION(),
-        setup_requires=['tox'],
+        setup_requires=['tox', 'pytest'],
         install_requires=['py', 'packaging', 'PyInstaller', 'jinja2'],
         tests_require=TESTS_REQUIRE,
         extras_require={'test': TESTS_REQUIRE},
