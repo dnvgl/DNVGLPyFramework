@@ -30,12 +30,16 @@ class IDGen(object):
 >>> id.set(2)
 >>> assert id() == 2
 >>> assert id() == 3
+>>> id.set(3)
+Traceback (most recent call last):
+  ...
+ValueError: Value 3 already used or in exclude list.
 >>> id.exclude(range(10))
->>> assert id() == 10
+>>> assert id() == 11
 """
 
     def __init__(self, start=None):
-        self._excludes = []
+        self._excludes = set()
         self._ID = start or 0
         self._counter = self.__counter()
         self.__set = False
@@ -49,6 +53,7 @@ Search for next value to return by `__counter`.
 """
         while self._ID in self._excludes:
             self._ID += 1
+        self.exclude(self._ID)
         return self._ID
 
     def __counter(self):
@@ -66,6 +71,9 @@ Generator function to return the next usable ID value.
         """
 Set the next value to be returned.
 """
+        if val in self._excludes:
+            raise ValueError(
+                "Value {} already used or in exclude list.".format(val))
         self._ID = val
         self.__set = True
 
@@ -78,11 +86,11 @@ Add a list of values `val` to be excluded from this generator.
     List of values to be excluded from returning.
 """
         if isinstance(val, collections.Sequence):
-            self._excludes.extend(val)
+            self._excludes.update(val)
         else:
-            self._excludes.append(val)
+            self._excludes.add(val)
 
 # Local Variables:
 # mode: python
-# compile-command: "cd ../../;python setup.py test"
+# compile-command: "cd ../../..;python setup.py test"
 # End:
