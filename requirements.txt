@@ -1,3 +1,5 @@
 py
 packaging
 PyInstaller
+pytest_cov
+pytest_pep8
