@@ -32,7 +32,8 @@ PACKAGES = find_packages('lib', exclude=(
     "*.__pycache__", "*.__pycache__.*", "__pycache__.*",
     "__pycache__/", "flycheck*.py[cd]?"))
 PACKAGE_DATA = {
-    'dnvgl.framework':   [os.path.join("test", "*.py")],
+    'dnvgl.framework': [os.path.join("test", "*.py")],
+    'dnvgl.platform_utils': [os.path.join("test", "*.py")],
     'dnvgl.setup_utils': [os.path.join("test", "*.py")]}
 
 if __name__ == '__main__':
