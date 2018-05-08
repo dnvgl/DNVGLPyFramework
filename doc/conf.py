@@ -30,7 +30,6 @@ import py
 # serve to show the default.
 
 
-
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -144,7 +143,6 @@ html_sidebars = {
 htmlhelp_basename = 'dnvglpyframeworkdoc'
 
 
-
 # -- Options for LaTeX output ---------------------------------------------
 latex_engine = "xelatex"
 latex_elements = {
@@ -219,9 +217,9 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  (master_doc, 'DNVGLPyFramwork', 'DNVGLPyFramework Documentation',
-   author, 'DNVGLPyFrameworl', 'Misc. helper for python.',
-   'Miscellaneous'),
+    (master_doc, 'DNVGLPyFramwork', 'DNVGLPyFramework Documentation',
+     author, 'DNVGLPyFrameworl', 'Misc. helper for python.',
+     'Miscellaneous'),
 ]
 
 
@@ -251,3 +249,5 @@ inheritance_node_attrs = dict(shape='ellipse', fontsize=14, height=0.75,
                               color='dodgerblue1', style='filled')
 
 graphviz_output_format = 'svg'
+
+latex_keep_old_macro_names = False
