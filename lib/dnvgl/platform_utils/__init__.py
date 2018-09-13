@@ -100,9 +100,9 @@ class PyVer_CMD(_CMD):
     """PyPlat command line utility."""
 
     parser = argparse.ArgumentParser(
-    description='Get information on current python version.')
+        description='Get information on current python version.')
     parser.add_argument('--version', action='version',
-                            version='%(prog)s {}'.format(__version__))
+                        version='%(prog)s {}'.format(__version__))
 
     def __init__(self):
         """Initiate.
