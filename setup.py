@@ -14,9 +14,18 @@ import py
 
 # ID: $Id$"
 __date__ = "$Date$"[6:-1]
-__scm_version__ = "$Revision$"[10:-1]
-__author__ = "`Berthold Höllmann <berthold.hoellmann@dnvgl.com>`__"
+__author__ = "Berthold Höllmann"
 __copyright__ = "Copyright © 2010, 2015 by DNV GL SE"
+__credits__ = ["Berthold Höllmann"]
+__maintainer__ = "Berthold Höllmann"
+__email__ = "berthold.hoellmann@dnvgl.com"
+__scm_version__ = "$Revision$"[10:-1]
+
+with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
+    README = readme.read()
+
+# allow setup.py to be run from any path
+os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 VERSION = py.path.local('version.txt').read().strip
 
@@ -40,6 +49,13 @@ if __name__ == '__main__':
     setup(
         name='DNVGLPyFramework',
         version=VERSION(),
+        license='DNV GL proprietary',
+        description="Some commonly used helper.",
+        long_description=README,
+        url='https://www.dnvgl.com',
+        author=__author__,
+        author_email=__email__,
+        include_package_data=True,
         setup_requires=['tox', 'pytest-runner'],
         install_requires=['py', 'packaging', 'PyInstaller', 'jinja2'],
         tests_require=TESTS_REQUIRE,

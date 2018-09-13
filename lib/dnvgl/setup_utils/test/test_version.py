@@ -13,6 +13,7 @@ import functools
 import subprocess
 
 # Third party libraries.
+import py
 import pytest
 
 # DNV GL libraries.
@@ -50,6 +51,9 @@ def get_check_output(rev):
 
 
 def test_ver_explicit_path(tmpdir, monkeypatch, ver_string):
+    svn_dir = tmpdir.join(".svn")
+    if not svn_dir.isdir():
+        svn_dir.mkdir()
     ver, rev, ref, rel = ver_string
     monkeypatch.delenv('SVN_REVISION', False)
     monkeypatch.setattr("subprocess.check_output", get_check_output(rev))
@@ -80,6 +84,9 @@ def test_ver_explicit_path_env(tmpdir, monkeypatch, ver_string):
 
 
 def test_ver_implicit_path(tmpdir, monkeypatch, ver_string):
+    svn_dir = tmpdir.join(".svn")
+    if not svn_dir.isdir():
+        svn_dir.mkdir()
     ver, rev, ref, rel = ver_string
     monkeypatch.delenv('SVN_REVISION', False)
     v = tmpdir.join('version.txt')
@@ -139,6 +146,9 @@ def test_release_env(tmpdir, monkeypatch, ver_string):
 
 
 def test_write(tmpdir, monkeypatch):
+    svn_dir = tmpdir.join(".svn")
+    if not svn_dir.isdir():
+        svn_dir.mkdir()
     v = tmpdir.join('version.txt')
     v.write("1.2.3")
     monkeypatch.setattr("sys.argv", (v.strpath, ))
@@ -154,6 +164,9 @@ __version__ = "1.2.3"
 
 
 def test_parse_template(tmpdir, monkeypatch):
+    svn_dir = tmpdir.join(".svn")
+    if not svn_dir.isdir():
+        svn_dir.mkdir()
     v = tmpdir.join('version.txt')
     monkeypatch.delenv('SVN_REVISION', False)
     v.write("1.2.3")

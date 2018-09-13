@@ -9,6 +9,7 @@ from __future__ import (
 # Standard libraries.
 import re
 import sys
+import copy
 import argparse
 from os.path import isfile
 from distutils import util
@@ -63,32 +64,28 @@ def print_pyver():
 class _CMD(object):
     """Command line tool."""
 
-    def __init__(self, description, extra_arguments=[]):
+    def __init__(self):
         """Initiate command line tool.
 
         """
-        parser = argparse.ArgumentParser(
-            description=description)
-        for args, kw in extra_arguments:
-            parser.add_argument(*args, **kw)
-        parser.add_argument('--version', action='version',
-                            version='%(prog)s {}'.format(__version__))
-        self.options = parser.parse_args()
+        self.options = self.parser.parse_args()
 
 
 class PyPlat_CMD(_CMD):
     """PyPlat command line utility."""
 
+    parser = argparse.ArgumentParser(
+        description='Get information on current computing plaform.')
+    parser.add_argument('--version', action='version',
+                        version='%(prog)s {}'.format(__version__))
+    parser.add_argument('-e', '--ext', default=False, required=False,
+                        action='store_true',
+                        help="Provide extra information.")
+
     def __init__(self):
         """Initiate.
         """
-        super(PyPlat_CMD, self).__init__(
-            description='Get information on current computing plaform.',
-            extra_arguments=(
-                (('-e', '--ext'),
-                 dict(default=False, required=False,
-                      action='store_true',
-                      help="Provide extra information.")),))
+        super(PyVer_CMD, self).__init__()
 
     def __call__(self):
         print_pyplat(self.options.ext)
@@ -99,13 +96,18 @@ def pyplat_cmd():
 
 
 class PyVer_CMD(_CMD):
+
     """PyPlat command line utility."""
+
+    parser = argparse.ArgumentParser(
+    description='Get information on current python version.')
+    parser.add_argument('--version', action='version',
+                            version='%(prog)s {}'.format(__version__))
 
     def __init__(self):
         """Initiate.
         """
-        super(PyVer_CMD, self).__init__(
-            description='Get information on current python version.')
+        super(PyVer_CMD, self).__init__()
 
     def __call__(self):
         print_pyver()

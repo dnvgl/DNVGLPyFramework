@@ -13,7 +13,7 @@
  Simple Framework for DNV GL Python applications.
 ==================================================
 
-This Package provides some simple, basic functionaliry for Python
+This Package provides some simple, basic functionality for Python
 projects developed at DNV GL.
 
 For one, it is a namespace package, using the `dnvgl` namespace to be

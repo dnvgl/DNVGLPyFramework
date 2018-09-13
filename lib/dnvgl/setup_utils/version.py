@@ -19,11 +19,13 @@ from packaging.version import Version as pVersion
 # DNV GL libraries.
 from dnvgl.framework.cached_property import cached_property
 
-# ID: $Id$"
-__date__ = "$Date$"[6:-1]
-__scm_version__ = "$Revision$"[10:-1]
-__author__ = "`Berthold Höllmann <berthold.hoellmann@dnvgl.com>`__"
+__date__ = "$Date::                            $" [7:-1]
+__author__ = "Berthold Höllmann"
 __copyright__ = "Copyright © 2015 by DNV GL SE"
+__credits__ = ["Berthold Höllmann"]
+__maintainer__ = "Berthold Höllmann"
+__email__ = "berthold.hoellmann@dnvgl.com"
+__scm_version__ = "$Revision$" [10:-1]
 
 
 class VersionError(Exception):
@@ -31,10 +33,7 @@ class VersionError(Exception):
 
 
 class Version(object):
-
     """Handle Project version numbers for setup and others."""
-
-    postfile = ".postcnt"
 
     def __init__(self, vers_file=None):
         """
@@ -59,17 +58,49 @@ class Version(object):
 
     @property
     def sub_rev(self):
-
+        if os.environ.get("GIT_REVISION"):
+            return "+{}".format(os.environ["GIT_REVISION"])
         if os.environ.get("SVN_REVISION"):
             return "+{}".format(os.environ["SVN_REVISION"])
+
+        if self.base_dir.join('.svn').isdir():
+            return self.svn_ref()
+        elif self.base_dir.join('.git').isdir():
+            return self.git_ref()
+        raise NotImplementedError(
+            'library only supports git and subversion repositories.')
+
+    def svn_ref(self):
 
         path = py.path.local(self.base_dir.strpath)
 
         svn_info = subprocess.check_output(
-            ["svnversion", "-c", path.strpath],
-            stdin=subprocess.PIPE, stderr=subprocess.PIPE)
-        return "+{}".format(
-            (svn_info.decode('ascii').split(':')[-1]).strip())
+            ["svnversion", "-c"],
+            cwd=path.strpath,
+            stdin=subprocess.PIPE,
+            stderr=subprocess.PIPE)
+        return "+{}".format((svn_info.decode('ascii').split(':')[-1]).strip())
+
+    def git_ref(self):
+
+        path = py.path.local(self.base_dir.strpath)
+
+        git_info = subprocess.check_output(
+            ["git", "rev-parse", "--short", "HEAD"],
+            cwd=path.strpath,
+            stdin=subprocess.PIPE,
+            stderr=subprocess.PIPE)
+        flag_info = subprocess.check_output(
+            ["git", "status", "--short", "--untracked-files=no"],
+            cwd=path.strpath,
+            stdin=subprocess.PIPE,
+            stderr=subprocess.PIPE)
+        flag = False
+        for line in flag_info.decode().split('\n'):
+            if line.strip().startswith('M'):
+                flag = True
+                break
+        return git_info.decode('ascii') + 'M' if flag else " "
 
     @cached_property(ttl=0)
     def get_version(self):
@@ -78,10 +109,19 @@ class Version(object):
         svn_rev = self.sub_rev
         if svn_rev.endswith('M'):
             if self.release:
-                raise VersionError("""
+                text = "\n*** ERROR ***\n"
+                if self.base_dir.join('.svn').isdir():
+                    text = """
 ***ERROR***
 Attempt to generate release from SVN repository that still has changes.
-""")
+"""
+                elif self.base_dir.join('.git').isdir():
+                    text = """
+***ERROR***
+Attempt to generate release from GIT repository that still has changes.
+"""
+
+                raise VersionError(text)
         if self.release:
             return str("{}".format(self.base_version))
         return str("{}{}".format(self.base_version, svn_rev.lower()))
@@ -99,8 +139,7 @@ number is avaliable.
 
 :param list 'targets': List of version files to write.
 """
-        if (sys.version_info < (3, 4) and
-                isinstance(targets, basestring) or
+        if (sys.version_info < (3, 4) and isinstance(targets, basestring) or
                 isinstance(targets, str)):
             targets = [targets]
         for target in targets:
@@ -126,5 +165,5 @@ __version__ = \"{}\"\n""".format(self.get_version))
 
 # Local Variables:
 # mode: python
-# compile-command: "cd ../../;python setup.py test"
+# compile-command: "python ../../../setup.py test"
 # End:

@@ -27,6 +27,7 @@
 
   intro
   setup_utils
+  platform_utils
   api
 
 ..
