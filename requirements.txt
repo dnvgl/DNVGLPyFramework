@@ -6,3 +6,4 @@ pytest_pep8
 sphinx
 sphinx_bootstrap_theme
 sphinxcontrib-autoprogram
+numpydoc
