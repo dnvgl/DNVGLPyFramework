@@ -95,12 +95,13 @@ class Version(object):
             cwd=path.strpath,
             stdin=subprocess.PIPE,
             stderr=subprocess.PIPE)
-        flag = False
+        changed = False
         for line in flag_info.decode().split('\n'):
             if line.strip().startswith('M'):
-                flag = True
+                changed = True
                 break
-        return git_info.decode('ascii') + 'M' if flag else " "
+        return "_{}_{}".format(
+            git_info.decode('ascii').strip(), 'M' if changed else "")
 
     @cached_property(ttl=0)
     def get_version(self):
