@@ -49,8 +49,8 @@ class Version(object):
 
     @property
     def release(self):
-        return not (self.base_version.is_prerelease or
-                    self.base_version.is_postrelease)
+        return not (self.base_version.is_prerelease
+                    or self.base_version.is_postrelease)
 
     @property
     def base_version(self):
@@ -67,8 +67,7 @@ class Version(object):
             return self.svn_ref()
         elif self.base_dir.join('.git').isdir():
             return self.git_ref()
-        raise NotImplementedError(
-            'library only supports git and subversion repositories.')
+        return ""
 
     def svn_ref(self):
 
@@ -98,10 +97,13 @@ class Version(object):
         changed = False
         for line in flag_info.decode().split('\n'):
             if line.strip().startswith('M'):
+                print("line: !{}!".format(line))
                 changed = True
                 break
-        return "_{}_{}".format(
-            git_info.decode('ascii').strip(), 'M' if changed else "")
+        return "_{}{}{}".format(
+            git_info.decode('ascii').strip(),
+            '_' if changed else "",
+            'M' if changed else "")
 
     @cached_property(ttl=0)
     def get_version(self):
@@ -140,8 +142,8 @@ number is avaliable.
 
 :param list 'targets': List of version files to write.
 """
-        if (sys.version_info < (3, 4) and isinstance(targets, basestring) or
-                isinstance(targets, str)):
+        if (sys.version_info < (3, 4) and isinstance(targets, basestring)
+                or isinstance(targets, str)):
             targets = [targets]
         for target in targets:
             with open(target, 'w') as out:
