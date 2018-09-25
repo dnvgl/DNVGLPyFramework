@@ -49,8 +49,8 @@ class Version(object):
 
     @property
     def release(self):
-        return not (self.base_version.is_prerelease
-                    or self.base_version.is_postrelease)
+        return not (self.base_version.is_prerelease or
+                    self.base_version.is_postrelease)
 
     @property
     def base_version(self):
@@ -142,8 +142,9 @@ number is avaliable.
 
 :param list 'targets': List of version files to write.
 """
-        if (sys.version_info < (3, 4) and isinstance(targets, basestring)
-                or isinstance(targets, str)):
+        if (sys.version_info < (3, 4) and
+                isinstance(targets, basestring) or
+                isinstance(targets, str)):
             targets = [targets]
         for target in targets:
             with open(target, 'w') as out:
