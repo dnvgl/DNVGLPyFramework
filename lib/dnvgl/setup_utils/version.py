@@ -161,7 +161,9 @@ number is avaliable.
             targets = [targets]
         for target in targets:
             with codecs.open(target, 'w', encoding='utf8') as out:
-                out.write(u"""from __future__ import unicode_literals
+                out.write(u"""\
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 # Automatically generated version file.
 
 __version__ = \"{}\"\n{}""".format(self.get_version, self.copyright))
@@ -179,7 +181,6 @@ __version__ = \"{}\"\n{}""".format(self.get_version, self.copyright))
         with open(template_name[:-3], 'w') as outp:
             for l in template.generate(version=self.get_version):
                 outp.write(l)
-
 
 # Local Variables:
 # mode: python

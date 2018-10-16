@@ -9,6 +9,7 @@ from __future__ import (
 # Standard libraries.
 import os
 import sys
+import codecs
 import functools
 import subprocess
 
@@ -20,29 +21,27 @@ import pytest
 from dnvgl.setup_utils import version
 
 # ID: $Id$
-__date__ = "$Date::                            $"[7:-1]
-__scm_version__ = "$Revision$"[10:-1]
+__date__ = "$Date::                            $" [7:-1]
+__scm_version__ = "$Revision$" [10:-1]
 __author__ = "`Berthold Höllmann <berthold.hoellmann@dnvgl.com>`__"
 __copyright__ = "Copyright © 2016 by DNV GL SE"
 
 
-@pytest.fixture(params=(
-    ("0.0.1", 123, "0.0.1", True),
-    ("1.2.3", 123, "1.2.3", True),
-    ("1.2.3", "123M", "1.2.3", None),
-    ("1.2.3.dev2", 123, "1.2.3.dev2+123", False),
-    ("1.2.3.dev2", "123M", "1.2.3.dev2+123m", False),
-    ("1.2.3a1", 123, "1.2.3a1+123", False),
-    ("1.2.3b1", 123, "1.2.3b1+123", False),
-    ("1.2.3.a1", 123, "1.2.3a1+123", False),
-    ("1.2.3.b1", 123, "1.2.3b1+123", False)))
+@pytest.fixture(
+    params=(("0.0.1", 123, "0.0.1", True), ("1.2.3", 123, "1.2.3", True),
+            ("1.2.3", "123M", "1.2.3",
+             None), ("1.2.3.dev2", 123, "1.2.3.dev2+123",
+                     False), ("1.2.3.dev2", "123M", "1.2.3.dev2+123m",
+                              False), ("1.2.3a1", 123, "1.2.3a1+123", False),
+            ("1.2.3b1", 123, "1.2.3b1+123",
+             False), ("1.2.3.a1", 123, "1.2.3a1+123",
+                      False), ("1.2.3.b1", 123, "1.2.3b1+123", False)))
 def ver_string(request):
     ver, rev, ref, rel = request.param
     return ver, str(rev), ref, rel
 
 
 def get_check_output(rev):
-
     def check_output(rev, *args, **kw):
         if (isinstance(rev, str) and ':' in rev):
             return rev
@@ -157,6 +156,7 @@ def test_write(tmpdir, monkeypatch):
         probe = version.Version()
         probe.write(tmpdir.join("__version.py").strpath)
         assert tmpdir.join("__version.py").read() == '''\
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 # Automatically generated version file.
 
@@ -176,7 +176,10 @@ def test_write_copyright_1(tmpdir, monkeypatch):
         probe = version.Version()
         probe.copyright = u"© today"
         probe.write(tmpdir.join("__version.py").strpath)
-        assert tmpdir.join("__version.py").read().decode("utf-8") == u'''\
+        assert codecs.open(
+            tmpdir.join("__version.py").strpath, 'r',
+            encoding='utf8').read() == u'''\
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 # Automatically generated version file.
 
@@ -186,7 +189,7 @@ __copyright__ = """© today"""
     monkeypatch.undo()
 
 
-def test_write_2(tmpdir, monkeypatch):
+def test_write_copyright_2(tmpdir, monkeypatch):
     svn_dir = tmpdir.join(".svn")
     if not svn_dir.isdir():
         svn_dir.mkdir()
@@ -197,7 +200,10 @@ def test_write_2(tmpdir, monkeypatch):
         probe = version.Version()
         probe.copyright = u'© today and "more"'
         probe.write(tmpdir.join("__version.py").strpath)
-        assert tmpdir.join("__version.py").read().decode("utf-8") == u'''\
+        assert codecs.open(
+            tmpdir.join("__version.py").strpath, 'r',
+            encoding='utf8').read() == u'''\
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 # Automatically generated version file.
 
