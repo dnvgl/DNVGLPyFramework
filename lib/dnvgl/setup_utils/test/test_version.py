@@ -37,7 +37,8 @@ __copyright__ = "Copyright © 2016 by DNV GL SE"
     ("1.2.3.a1", 123, "1.2.3a1+123", False),
     ("1.2.3.b1", 123, "1.2.3b1+123", False)))
 def ver_string(request):
-    return request.param
+    ver, rev, ref, rel = request.param
+    return ver, str(rev), ref, rel
 
 
 def get_check_output(rev):
@@ -55,7 +56,7 @@ def test_ver_explicit_path(tmpdir, monkeypatch, ver_string):
     if not svn_dir.isdir():
         svn_dir.mkdir()
     ver, rev, ref, rel = ver_string
-    monkeypatch.delenv('SVN_REVISION', False)
+    monkeypatch.delenv(str('SVN_REVISION'), False)
     monkeypatch.setattr("subprocess.check_output", get_check_output(rev))
     v = tmpdir.join('version.txt')
     v.write(ver)
@@ -70,7 +71,7 @@ def test_ver_explicit_path(tmpdir, monkeypatch, ver_string):
 
 def test_ver_explicit_path_env(tmpdir, monkeypatch, ver_string):
     ver, rev, ref, rel = ver_string
-    monkeypatch.setenv('SVN_REVISION', rev)
+    monkeypatch.setenv(str('SVN_REVISION'), rev)
     monkeypatch.setattr("subprocess.check_output", get_check_output("1:666"))
     v = tmpdir.join('version.txt')
     v.write(ver)
@@ -88,7 +89,7 @@ def test_ver_implicit_path(tmpdir, monkeypatch, ver_string):
     if not svn_dir.isdir():
         svn_dir.mkdir()
     ver, rev, ref, rel = ver_string
-    monkeypatch.delenv('SVN_REVISION', False)
+    monkeypatch.delenv(str('SVN_REVISION'), False)
     v = tmpdir.join('version.txt')
     v.write(ver)
     monkeypatch.setattr("sys.argv", (v.strpath, ))
@@ -106,7 +107,7 @@ def test_ver_implicit_path_env(tmpdir, monkeypatch, ver_string):
     ver, rev, ref, rel = ver_string
     v = tmpdir.join('version.txt')
     v.write(ver)
-    monkeypatch.setenv('SVN_REVISION', rev)
+    monkeypatch.setenv(str('SVN_REVISION'), rev)
     monkeypatch.setattr("sys.argv", (v.strpath, ))
     monkeypatch.setattr("subprocess.check_output", get_check_output("1:666"))
     probe = version.Version()
@@ -120,7 +121,7 @@ def test_ver_implicit_path_env(tmpdir, monkeypatch, ver_string):
 
 def test_release(tmpdir, monkeypatch, ver_string):
     ver, rev, ref, rel = ver_string
-    monkeypatch.delenv('SVN_REVISION', False)
+    monkeypatch.delenv(str('SVN_REVISION'), False)
     v = tmpdir.join('version.txt')
     v.write(ver)
     monkeypatch.setattr("sys.argv", (v.strpath, ))
@@ -133,10 +134,10 @@ def test_release(tmpdir, monkeypatch, ver_string):
 
 def test_release_env(tmpdir, monkeypatch, ver_string):
     ver, rev, ref, rel = ver_string
-    monkeypatch.delenv('SVN_REVISION', False)
+    monkeypatch.delenv(str('SVN_REVISION'), False)
     v = tmpdir.join('version.txt')
     v.write(ver)
-    monkeypatch.setenv('SVN_REVISION', rev)
+    monkeypatch.setenv(str('SVN_REVISION'), rev)
     monkeypatch.setattr("sys.argv", (v.strpath, ))
     monkeypatch.setattr("subprocess.check_output", get_check_output("1:666"))
     probe = version.Version()
@@ -156,9 +157,52 @@ def test_write(tmpdir, monkeypatch):
         probe = version.Version()
         probe.write(tmpdir.join("__version.py").strpath)
         assert tmpdir.join("__version.py").read() == '''\
+from __future__ import unicode_literals
 # Automatically generated version file.
 
 __version__ = "1.2.3"
+'''
+    monkeypatch.undo()
+
+
+def test_write_copyright_1(tmpdir, monkeypatch):
+    svn_dir = tmpdir.join(".svn")
+    if not svn_dir.isdir():
+        svn_dir.mkdir()
+    v = tmpdir.join('version.txt')
+    v.write("1.2.3")
+    monkeypatch.setattr("sys.argv", (v.strpath, ))
+    with v.dirpath().as_cwd():
+        probe = version.Version()
+        probe.copyright = u"© today"
+        probe.write(tmpdir.join("__version.py").strpath)
+        assert tmpdir.join("__version.py").read().decode("utf-8") == u'''\
+from __future__ import unicode_literals
+# Automatically generated version file.
+
+__version__ = "1.2.3"
+__copyright__ = """© today"""
+'''
+    monkeypatch.undo()
+
+
+def test_write_2(tmpdir, monkeypatch):
+    svn_dir = tmpdir.join(".svn")
+    if not svn_dir.isdir():
+        svn_dir.mkdir()
+    v = tmpdir.join('version.txt')
+    v.write("1.2.3")
+    monkeypatch.setattr("sys.argv", (v.strpath, ))
+    with v.dirpath().as_cwd():
+        probe = version.Version()
+        probe.copyright = u'© today and "more"'
+        probe.write(tmpdir.join("__version.py").strpath)
+        assert tmpdir.join("__version.py").read().decode("utf-8") == u'''\
+from __future__ import unicode_literals
+# Automatically generated version file.
+
+__version__ = "1.2.3"
+__copyright__ = """© today and \\"more\\""""
 '''
     monkeypatch.undo()
 
@@ -168,7 +212,7 @@ def test_parse_template(tmpdir, monkeypatch):
     if not svn_dir.isdir():
         svn_dir.mkdir()
     v = tmpdir.join('version.txt')
-    monkeypatch.delenv('SVN_REVISION', False)
+    monkeypatch.delenv(str('SVN_REVISION'), False)
     v.write("1.2.3")
     tmpl = tmpdir.join('parse_template_test.in')
     tmpl.write("""Just a test
@@ -185,5 +229,5 @@ Just a test
 
 # Local Variables:
 # mode: python
-# compile-command: "cd ../../..;python setup.py test"
+# compile-command: "python ../../../../setup.py test"
 # End:

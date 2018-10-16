@@ -9,6 +9,7 @@ from __future__ import (
 # Standard libraries.
 import os
 import sys
+import codecs
 import subprocess
 
 # Third party libraries.
@@ -46,6 +47,18 @@ class Version(object):
         else:
             self.vers_file = py.path.local(vers_file)
             self.base_dir = self.vers_file.dirpath()
+        self._copyright = None
+
+    @property
+    def copyright(self):
+        if self._copyright is not None:
+            return u'__copyright__ = """{}"""\n'.format(
+                self._copyright.replace(u'"', u'\\"'))
+        return ""
+
+    @copyright.setter
+    def copyright(self, inp):
+        self._copyright = inp
 
     @property
     def release(self):
@@ -147,10 +160,11 @@ number is avaliable.
                 isinstance(targets, str)):
             targets = [targets]
         for target in targets:
-            with open(target, 'w') as out:
-                out.write("""# Automatically generated version file.
+            with codecs.open(target, 'w', encoding='utf8') as out:
+                out.write(u"""from __future__ import unicode_literals
+# Automatically generated version file.
 
-__version__ = \"{}\"\n""".format(self.get_version))
+__version__ = \"{}\"\n{}""".format(self.get_version, self.copyright))
 
     def parse_template(self, template_name):
         """
