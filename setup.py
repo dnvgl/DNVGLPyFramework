@@ -7,6 +7,7 @@ from __future__ import division, print_function, absolute_import
 
 # Standard libraries.
 import os
+import codecs
 from setuptools import setup, find_packages
 
 # Third party libraries.
@@ -15,7 +16,7 @@ import py
 # ID: $Id$"
 __date__ = "$Date$"[6:-1]
 __author__ = "Berthold Höllmann"
-__copyright__ = "Copyright © 2010, 2015 by DNV GL SE"
+__copyright__ = u"Copyright © 2010, 2015, 2018 by DNV GL SE"
 __credits__ = ["Berthold Höllmann"]
 __maintainer__ = "Berthold Höllmann"
 __email__ = "berthold.hoellmann@dnvgl.com"
@@ -27,28 +28,27 @@ with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
-VERSION = py.path.local('version.txt').read().strip
+VERSION = py.path.local('version.txt').read().strip()
 
 for TARGET in [py.path.local('lib/dnvgl').join(i) for i in
                ("framework", "platform_utils", "setup_utils")]:
-    TARGET.join('__version__.py').write(
-        """# Automatically generated version file.
+    with codecs.open(
+            str(TARGET.join('__version__.py')), 'w', encoding='utf8') as out:
+        out.write(u"""\
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+# Automatically generated version file.
 
-__version__ = \"{}\"\n""".format(VERSION()))
+__version__ = "{}"
+__copyright__ = "{}"
+""".format(VERSION, __copyright__))
 
 TESTS_REQUIRE = ['pytest', 'pytest-cov', 'pytest-pep8', 'packaging'],
-PACKAGES = find_packages('lib', exclude=(
-    "*.__pycache__", "*.__pycache__.*", "__pycache__.*",
-    "__pycache__/", "flycheck*.py[cd]?"))
-PACKAGE_DATA = {
-    'dnvgl.framework': [os.path.join("test", "*.py")],
-    'dnvgl.platform_utils': [os.path.join("test", "*.py")],
-    'dnvgl.setup_utils': [os.path.join("test", "*.py")]}
 
 if __name__ == '__main__':
     setup(
         name='DNVGLPyFramework',
-        version=VERSION(),
+        version=VERSION,
         license='DNV GL proprietary',
         description="Some commonly used helper.",
         long_description=README,
@@ -62,8 +62,13 @@ if __name__ == '__main__':
         extras_require={'test': TESTS_REQUIRE},
         namespace_packages=['dnvgl'],
         package_dir={'': 'lib'},
-        packages=PACKAGES,
-        package_data=PACKAGE_DATA,
+        packages=find_packages('lib', exclude=(
+            "*.__pycache__", "*.__pycache__.*", "__pycache__.*",
+            "__pycache__/", "flycheck*.py[cd]?")),
+        package_data={
+            'dnvgl.framework': [os.path.join("test", "*.py")],
+            'dnvgl.platform_utils': [os.path.join("test", "*.py")],
+            'dnvgl.setup_utils': [os.path.join("test", "*.py")]},
         entry_points={
             'console_scripts': [
                 'dnvgl_pyplat = dnvgl.platform_utils:pyplat_cmd',
