@@ -110,13 +110,11 @@ class Version(object):
         changed = False
         for line in flag_info.decode().split('\n'):
             if line.strip().startswith('M'):
-                print("line: !{}!".format(line))
                 changed = True
                 break
-        return "_{}{}{}".format(
+        return "+{}{}".format(
             git_info.decode('ascii').strip(),
-            '_' if changed else "",
-            'M' if changed else "")
+            '.m' if changed else "")
 
     @cached_property(ttl=0)
     def get_version(self):
