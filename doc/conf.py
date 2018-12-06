@@ -19,15 +19,13 @@ import os
 import sys
 
 # Third party libraries.
+import py
+import sphinx_bootstrap_theme
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#
-# import os
-# import sys
 # sys.path.insert(0, os.path.abspath('.'))
-import py
-import sphinx_bootstrap_theme
 
 # -- General configuration ------------------------------------------------
 
@@ -153,34 +151,24 @@ latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
     #
     # 'papersize': 'letterpaper',
-    'papersize':
-    'a4paper',
+    'papersize': 'a4paper',
 
-    # 'fontpkg': '',
-    'fontpkg':
-    '''\\usepackage{dnvgl}''',
-    'fncychap':
-    '',
+    'fontpkg': '''\\usepackage{dnvgl}''',
+    'fncychap': '',
     # 'maketitle': '',
     # The font size ('10pt', '11pt' or '12pt').
-    'pointsize':
-    '10pt',
+    'pointsize': '10pt',
     # 'releasename': "",
     # 'babel': '',
     # 'printindex': '',
-    'fontenc':
-    '',
-    'inputenc':
-    '',
+    'fontenc': '',
+    'inputenc': '',
     # ,DIV=14,BCOR=2mm,headinclude=true,footinclude=false
-    'classoptions':
-    'cmyk,english,noscrpage',
-    'utf8extra':
-    '',
+    'classoptions': 'cmyk,english,noscrpage',
+    'utf8extra': '',
     # 'footer': '\\textcopyright DNV GL SE',
     # Additional stuff for the LaTeX preamble.
-    'preamble':
-    '''\\hypersetup{%
+    'preamble': '''\\hypersetup{%
     pdftex,%
     unicode=true,%
     pdftitle={\\texttt{DNVGLPyFramework}},%
