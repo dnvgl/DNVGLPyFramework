@@ -10,9 +10,6 @@ import os
 import codecs
 from setuptools import setup, find_packages
 
-# Third party libraries.
-import py
-
 # ID: $Id$"
 __date__ = "$Date$"[6:-1]
 __author__ = "Berthold Höllmann"
@@ -28,12 +25,13 @@ with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
-VERSION = py.path.local('version.txt').read().strip()
+VERSION = open('version.txt').read().strip()
 
-for TARGET in [py.path.local('lib/dnvgl').join(i) for i in
+for TARGET in [os.path.abspath(os.path.join('.', 'lib', 'dnvgl', i)) for i in
                ("framework", "platform_utils", "setup_utils")]:
     with codecs.open(
-            str(TARGET.join('__version__.py')), 'w', encoding='utf8') as out:
+            str(os.path.join(TARGET, '__version__.py')),
+            'w', encoding='utf8') as out:
         out.write(u"""\
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
@@ -57,22 +55,26 @@ if __name__ == '__main__':
         author_email=__email__,
         include_package_data=True,
         setup_requires=['tox', 'pytest-runner'],
-        install_requires=['py', 'packaging', 'PyInstaller', 'jinja2'],
+        install_requires=['py', 'PyInstaller', 'jinja2', 'sphinx',
+                          'sphinx_bootstrap_theme', 'sphinxcontrib-autoprogram',
+                          'numpydoc',],
         tests_require=TESTS_REQUIRE,
         extras_require={'test': TESTS_REQUIRE},
         namespace_packages=['dnvgl'],
         package_dir={'': 'lib'},
-        packages=find_packages('lib', exclude=(
-            "*.__pycache__", "*.__pycache__.*", "__pycache__.*",
-            "__pycache__/", "flycheck*.py[cd]?")),
-        package_data={
-            'dnvgl.framework': [os.path.join("test", "*.py")],
-            'dnvgl.platform_utils': [os.path.join("test", "*.py")],
-            'dnvgl.setup_utils': [os.path.join("test", "*.py")]},
-        entry_points={
-            'console_scripts': [
-                'dnvgl_pyplat = dnvgl.platform_utils:pyplat_cmd',
-                'dnvgl_pyver = dnvgl.platform_utils:pyver_cmd']})
+        packages=find_packages(
+            'lib', exclude=(
+                "*.__pycache__", "*.__pycache__.*", "__pycache__.*",
+                "__pycache__/", "flycheck*.py[cd]?")),
+        package_data={'dnvgl.framework': [
+            os.path.join("test", "*.py")],
+            'dnvgl.platform_utils': [
+            os.path.join("test", "*.py")],
+            'dnvgl.setup_utils': [
+            os.path.join("test", "*.py")]},
+        entry_points={'console_scripts': [
+            'dnvgl_pyplat = dnvgl.platform_utils:pyplat_cmd',
+            'dnvgl_pyver = dnvgl.platform_utils:pyver_cmd']})
 
 # Local Variables:
 # mode: python
