@@ -55,9 +55,9 @@ if __name__ == '__main__':
         author_email=__email__,
         include_package_data=True,
         setup_requires=['tox', 'pytest-runner'],
-        install_requires=['py', 'PyInstaller', 'jinja2', 'sphinx',
-                          'sphinx_bootstrap_theme', 'sphinxcontrib-autoprogram',
-                          'numpydoc',],
+        install_requires=[
+            'py', 'PyInstaller', 'jinja2', 'sphinx', 'sphinx_bootstrap_theme',
+            'sphinxcontrib-autoprogram', 'numpydoc'],
         tests_require=TESTS_REQUIRE,
         extras_require={'test': TESTS_REQUIRE},
         namespace_packages=['dnvgl'],
