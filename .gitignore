@@ -1,0 +1,40 @@
+
+# /
+/*.egg
+/*.whl
+/.cache
+/.coverage
+/.eggs
+/.postcnt
+/.tox
+/DNVGLPyFramework.egg-info
+/build
+/coverage.xml
+/dist
+/htmlcov
+/pytest_main.xml
+/wheelhouse
+/.pytest_cache
+/.venv
+/.mypy_cache
+
+# /doc/
+/doc/sphinx-build.log
+/doc/build
+/doc/DNVGLPyFramework-logo-*.png
+/doc/DNVGLPyFramework-logo.svg
+
+# /lib/
+/lib/DNVGLPyFramework.egg-info
+
+# /lib/dnvgl/framework/
+/lib/dnvgl/framework/*.pyc
+/lib/dnvgl/framework/semantic.cache
+/lib/dnvgl/framework/*.png
+/lib/dnvgl/framework/__version__.py
+
+# /lib/dnvgl/platform_utils/
+/lib/dnvgl/platform_utils/__version__.py
+
+# /lib/dnvgl/setup_utils/
+/lib/dnvgl/setup_utils/__version__.py
