@@ -9,7 +9,8 @@ reused by other packages as well.
 
 The module `dnvgl.setup_utils` provides some helper functionality for
 the setup process. Currently it contains the module `version` for
-hanling version numbers in a consitent fassion.
+hanling version numbers in a consitent fassion and an extension to
+generate executables using PyInstaler.
 
 The module `dnvgl.framework` contains misc modules for application
 definition and helper functions.
