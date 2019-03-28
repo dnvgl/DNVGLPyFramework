@@ -1,17 +1,5 @@
-..
-  ID: $Id$"
-
-  :Authors:
-    - `Berthold Höllmann <berthold.hoellmann@dnvgl.com>`__
-  :Organization: DNV GL SE
-  :Version: $Revision$
-  :Date: $Date$
-  :datestamp: %Y-%m-%d
-  :Copyright: Copyright © 2015 by DNV GL SE
-
-==================================================
- Simple Framework for DNV GL Python applications.
-==================================================
+Simple Framework for DNV GL Python applications. ![logo](doc/DNVGLPyFramework_logo.svg "Logo Title Text")
+=========================================================================================================
 
 This Package provides some simple, basic functionality for Python
 projects developed at DNV GL.
@@ -26,10 +14,5 @@ hanling version numbers in a consitent fassion.
 The module `dnvgl.framework` contains misc modules for application
 definition and helper functions.
 
-..
-  Local Variables:
-  mode: rst
-  ispell-local-dictionary: "english"
-  compile-command: "make html"
-  coding: utf-8
-  End:
+The module `dnvgl.platform_utils` contains code to determine the
+python platform name for DNV GL python projects.
