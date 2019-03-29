@@ -19,7 +19,7 @@ __maintainer__ = "Berthold Höllmann"
 __email__ = "berthold.hoellmann@dnvgl.com"
 __scm_version__ = "$Revision$"[10:-1]
 
-with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
+with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
     README = readme.read()
 
 # allow setup.py to be run from any path
