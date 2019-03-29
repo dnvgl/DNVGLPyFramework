@@ -85,7 +85,7 @@ class PyPlat_CMD(_CMD):
     def __init__(self):
         """Initiate.
         """
-        super(PyPlatVer_CMD, self).__init__()
+        super(PyPlat_CMD, self).__init__()
 
     def __call__(self):
         print_pyplat(self.options.ext)
