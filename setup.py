@@ -34,8 +34,8 @@ for TARGET in [os.path.abspath(os.path.join('.', 'lib', 'dnvgl', i)) for i in
             'w', encoding='utf8') as out:
         out.write(u"""\
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 # Automatically generated version file.
+from __future__ import unicode_literals
 
 __version__ = "{}"
 __copyright__ = "{}"

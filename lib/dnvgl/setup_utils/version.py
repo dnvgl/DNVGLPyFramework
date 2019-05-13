@@ -161,8 +161,8 @@ number is avaliable.
             with codecs.open(target, 'w', encoding='utf8') as out:
                 out.write(u"""\
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 # Automatically generated version file.
+from __future__ import unicode_literals
 
 __version__ = \"{}\"\n{}""".format(self.get_version, self.copyright))
 

@@ -39,3 +39,4 @@
 # /lib/dnvgl/setup_utils/
 /lib/dnvgl/setup_utils/__version__.py
 *.pyc
+/venv

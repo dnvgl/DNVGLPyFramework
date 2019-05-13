@@ -157,8 +157,8 @@ def test_write(tmpdir, monkeypatch):
         probe.write(tmpdir.join("__version.py").strpath)
         assert tmpdir.join("__version.py").read() == '''\
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 # Automatically generated version file.
+from __future__ import unicode_literals
 
 __version__ = "1.2.3"
 '''
@@ -180,8 +180,8 @@ def test_write_copyright_1(tmpdir, monkeypatch):
             tmpdir.join("__version.py").strpath, 'r',
             encoding='utf8').read() == u'''\
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 # Automatically generated version file.
+from __future__ import unicode_literals
 
 __version__ = "1.2.3"
 __copyright__ = """© today"""
@@ -204,8 +204,8 @@ def test_write_copyright_2(tmpdir, monkeypatch):
             tmpdir.join("__version.py").strpath, 'r',
             encoding='utf8').read() == u'''\
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 # Automatically generated version file.
+from __future__ import unicode_literals
 
 __version__ = "1.2.3"
 __copyright__ = """© today and \\"more\\""""
